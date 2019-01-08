@@ -16,7 +16,7 @@ class CreateMtbIndustryTypesTable extends Migration
         Schema::create('mtb_industry_types', function (Blueprint $table) {
             $table->increments('id');
             $table->text('value');
-            $table->integer('rank_test');
+            $table->integer('rank');
 
         });
     }
