@@ -14,7 +14,7 @@ class CreateMtbAreasTable extends Migration
     public function up()
     {
         Schema::create('mtb_areas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('my_id');
             $table->timestamps();
         });
     }
