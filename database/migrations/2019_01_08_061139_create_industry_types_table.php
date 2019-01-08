@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMtbAreasTable extends Migration
+class CreateIndustryTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateMtbAreasTable extends Migration
      */
     public function up()
     {
-        Schema::create('mtb_areas', function (Blueprint $table) {
-            $table->increments('mtb_area_id');
+        Schema::create('industry_types', function (Blueprint $table) {
+            $table->increments('id');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ class CreateMtbAreasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mtb_areas');
+        Schema::dropIfExists('industry_types');
     }
 }
