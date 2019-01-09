@@ -19,7 +19,7 @@ class CreateTicketsTable extends Migration
             $table->collation = 'utf8_general_ci';
 
             $table->increments('id');
-            $table->string('code', 16);
+            $table->string('code', 16)->unique();
 
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
