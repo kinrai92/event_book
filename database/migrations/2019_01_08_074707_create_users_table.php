@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('mail');
+            $table->string('mail',100)->unique();
             $table->text('password');
             $table->text('lastname');
             $table->text('firstname');
@@ -23,10 +23,10 @@ class CreateUsersTable extends Migration
             $table->text('firstname_reading');
             $table->unsignedInteger('mtb_area_id');
             $table->text('address');
-            $table->string('phone_no');
-            $table->integer('gender_flg');
+            $table->string('phone_no',11)->unique();
+            $table->integer('gender_flg')->default('1')->comment('1:MALE 2:FEMALE');
             $table->date('birthday');
-            $table->string('nickname');
+            $table->string('nickname',100)->unique();
             $table->softDeletes();
             $table->timestamps();
 
