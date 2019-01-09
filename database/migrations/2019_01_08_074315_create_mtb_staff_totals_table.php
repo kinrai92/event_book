@@ -36,24 +36,6 @@ class CreateMtbStaffTotalsTable extends Migration
             $table->text('rank');
         });
 
-<<<<<<< HEAD
-=======
-        $staff_totals = array(
-
-         array('1~25', '小'),
-         array('25~50', '小'),
-         array('50~100', '小'),
-         array('100~150', '小'),
-         array('150~250', '中'),
-         array('250~400', '中'),
-         array('400~600', '中'),
-         array('600~800', '中'),
-         array('800~1000', '中'),
-         array('1000~2000', '大'),
-         array('2000以上', '大')
-
-
->>>>>>> cd13373befdfd3c562a454461d98d6eed0ac4da6
 
       foreach($this->staff_totals as $staff_total){
 
