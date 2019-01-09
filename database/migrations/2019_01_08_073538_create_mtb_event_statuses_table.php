@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateMtbEventStatusesTable extends Migration
 {
-  private $prefectures = array(
+    private $prefectures = array(
       array(
         'id' => '1',
         'value' => '未公開',
