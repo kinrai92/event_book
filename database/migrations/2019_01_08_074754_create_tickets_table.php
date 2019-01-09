@@ -15,9 +15,6 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
 
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_general_ci';
-
             $table->increments('id');
             $table->string('code', 16)->unique();
 
@@ -32,6 +29,7 @@ class CreateTicketsTable extends Migration
 
             $table->softDeletes();
             $table->timestamps();
+            
         });
     }
 
