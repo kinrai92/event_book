@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('phone_no',11)->unique();
             $table->integer('gender_flg')->default('1')->comment('1:MALE 2:FEMALE');
             $table->date('birthday');
-            $table->string('nickname',100)->unique();
+            $table->string('nickname',40)->unique();
             $table->softDeletes();
             $table->timestamps();
 
