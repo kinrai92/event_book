@@ -28,7 +28,7 @@ class CreateCooperationsTable extends Migration
             $table->text('representative_name');
             $table->text('rn_reading');
             $table->string('tel_number',11)->unique();
-            $table->string('fax_number');
+            $table->string('fax_number',11);
             $table->softDeletes();
             $table->timestamps();
 
