@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateMtbMunicipalitiesTable extends Migration
 {
-  private $prefectures = array(
+  private $municipalities = array(
       array(
         'id' => '1',
         'value' => '千代田区',
@@ -332,10 +332,10 @@ class CreateMtbMunicipalitiesTable extends Migration
 
         });
         DB::table('mtb_municipalities')->insert(
-            $this->prefectures
+            $this->municipalities
         );
     }
-  
+
     /**
      * Reverse the migrations.
      *
