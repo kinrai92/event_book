@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('events', function () {
-    return view('events');
+Route::get('/', function () {
+    return view('welcome');
 });
