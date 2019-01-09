@@ -6,7 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateMtbEventStatusesTable extends Migration
 {
-    private $prefectures = array(
+  private $eventstatuses = array(
       array(
         'id' => '1',
         'value' => '未公開',
@@ -36,7 +36,7 @@ class CreateMtbEventStatusesTable extends Migration
           $table->integer('rank');
         });
         DB::table('mtb_event_statuses')->insert(
-            $this->prefectures
+            $this->eventstatuses
         );
     }
 
