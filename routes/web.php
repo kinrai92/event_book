@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/tmp_register','UserController@tmpCreate')->name('tmp_user_create');
+Route::post('/tmp_register','UserController@tmpCreate')->name('tmp_user_register');
+Route::get('/register/{token}','UserController@verify')->name('get_user_create');
+Route::post('/register/{token}','UserController@create')->name('post_user_create');
