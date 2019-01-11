@@ -11,11 +11,13 @@
 |
 */
 Route::get("mailcreate", "UserController@create")->name("get_mail_create");
-Route::get("mail/confirm/{token}", "UserController@mail_confirm")->name("get_mail_confirm");
 Route::post("mailcreate", "UserController@sendmail")->name("post_mail_create");
-Route::get('register_user',"UserController@register")->name("get_user_register");
+Route::get("mail/confirm/{token}", "UserController@mail_confirm")->name("get_mail_confirm");
+Route::post('register_user',"UserController@register")->name("post_user_create");
 
-Route::get('huang',"MailController@sendmail");
+
+
+
 
 
 
