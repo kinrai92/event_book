@@ -35,14 +35,12 @@ class CreateMtbTicketStatusesTable extends Migration
     public function up()
     {
         Schema::create('mtb_ticket_statuses', function (Blueprint $table) {
-
             $table->increments('id');
             $table->text('value');
             $table->integer('rank');
         });
 
-        foreach ($this->statuses as $record)
-        {
+        foreach ($this->statuses as $record) {
           DB::table('mtb_ticket_statuses')->insert($record);
         }
 

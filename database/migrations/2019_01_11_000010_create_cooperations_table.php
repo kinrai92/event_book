@@ -15,9 +15,9 @@ class CreateCooperationsTable extends Migration
     {
         Schema::create('cooperations', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('mail');
+            $table->string('mail',100)->unique();
             $table->text('password');
-            $table->text('name');
+            $table->string('name',100)->unique();
             $table->text('reading');
             $table->unsignedInteger('mtb_area_id');
             $table->text('address');
@@ -27,8 +27,8 @@ class CreateCooperationsTable extends Migration
             $table->text('business');
             $table->text('representative_name');
             $table->text('rn_reading');
-            $table->string('tel_number');
-            $table->string('fax_number');
+            $table->string('tel_number',11)->unique();
+            $table->string('fax_number',11);
             $table->softDeletes();
             $table->timestamps();
 

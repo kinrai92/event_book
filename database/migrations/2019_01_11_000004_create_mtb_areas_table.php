@@ -300,12 +300,10 @@ class CreateMtbAreasTable extends Migration
     {
         Schema::create('mtb_areas', function (Blueprint $table) {
 
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_general_ci';
-
             $table->increments('id');
             $table->text('value');
             $table->integer('rank');
+
         });
 
         foreach ($this->areas as $record)
