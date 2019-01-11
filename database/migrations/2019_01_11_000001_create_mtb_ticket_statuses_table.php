@@ -36,9 +36,6 @@ class CreateMtbTicketStatusesTable extends Migration
     {
         Schema::create('mtb_ticket_statuses', function (Blueprint $table) {
 
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_general_ci';
-
             $table->increments('id');
             $table->text('value');
             $table->integer('rank');

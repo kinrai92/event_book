@@ -17,20 +17,12 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->text('mail');
             $table->text('password');
-            $table->text('lastname');
-            $table->text('firstname');
-            $table->text('lastname_reading');
-            $table->text('firstname_reading');
-            $table->unsignedInteger('mtb_area_id');
-            $table->text('address');
-            $table->string('phone_no');
-            $table->integer('gender_flg');
-            $table->date('birthday');
-            $table->string('nickname');
+            $table->string("token", 20)->unique();
+            $table->unsignedInteger("mtb_user_status_id");
+            $table->foreign('mtb_user_status_id')->references('id')->on('mtb_user_statuses');
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('mtb_area_id')->references('id')->on('mtb_areas');
         });
     }
 
