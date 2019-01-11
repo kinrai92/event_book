@@ -13,12 +13,23 @@ use App\Model\User\UserDetail;
 
 class UserController extends Controller
 {
+
+  /**
+   *
+   *仮登録。
+   *
+   */
   public function create(Request $request)
   {
-    return view("userlogin.usermail");
+    return view("user.create");
   }
 
-  public function sendmail(Request $request)
+  /**
+   *
+   *入力情報の正否の検証及び確認メールの送信
+   *
+   */
+  public function send_verify_mail(Request $request)
   {
 
     $validation_rules = [
@@ -57,22 +68,37 @@ class UserController extends Controller
 
     Mail::to($to)->send(new MailConfirm($text, $token));
 
-    return view("userlogin.succeed");
+    return view("user.isCreateSuccessed");
   }
 
-  public function mail_confirm(Request $request, $token)
+  /**
+   *
+   *登録状態の変更及び本登録画面への遷移。
+   *
+   */
+  public function go_to_register(Request $request,$token)
   {
-    $user = User::query()->where("token", $token)->where("mtb_user_status_id", MtbUserStatus::MAIL_NOT_CONFIRMED)->firstOrFail();
+
+    $user = User::query()->where("token", $token)->firstOrFail();
+
+    if($user->mtb_user_status_id!=MtbUserStatus::REAL_USER){
+
     $user->mtb_user_status_id = MtbUserStatus::DETAIL_NOT_INPUT;
     $user->save();
 
-
-    return view("user.mail_confirm", [
+    return view("user.register", [
       "mtb_areas" => MtbArea::all(),
-      "user_id" => $user->id
+      "user_id" => $user->id,
+      'token'=>$token
     ]);
+    }
   }
 
+  /**
+   *
+   *本登録。
+   *
+   */
   public function register(Request $request)
   {
 
@@ -93,11 +119,12 @@ class UserController extends Controller
       "nickname.required" => "ニックネームを入力してください。",
       "gender_flg.required" => "性別を入力してください。",
       "birthday.required" => "生年月日を入力してください。",
+      "mtb_area_id.required"=>"出身地を選択してください。"
     ];
 
     $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
     if($validator->fails()){
-      return redirect(route("get_user_create"))->withInput()->withErrors($validator);
+      return redirect(route('get_mail_confirm',['token'=>$request->user_token]))->withInput()->withErrors($validator);
     }
 
     $user_detail = new UserDetail;
@@ -113,11 +140,13 @@ class UserController extends Controller
     $user_detail->birthday = $request->birthday;
     $user_detail->nickname = $request->nickname;
 
-    $user_detail->mtb_user_status_id = MtbUserStatus::REAL_USER;
+    if($user_detail->save()){
 
-    $user_detail->save();
+      $user_detail->user->mtb_user_status_id=MtbUserStatus::REAL_USER;
+      $user_detail->user->save();
+    }
 
-    return view("user.register_success");
+    return view("user.registerSuccessed");
   }
 
 }

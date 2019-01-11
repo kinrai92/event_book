@@ -33,7 +33,7 @@ class MailConfirm extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.mail_confirm')
+        return $this->view('mail.mailConfirm')
                     ->subject('eventbook')
                     ->with(['message_text'=>$this->text, "token" => $this->token]);
     }
