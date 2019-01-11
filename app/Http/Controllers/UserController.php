@@ -53,7 +53,7 @@ class UserController extends Controller
     $text = "下のリンクをクリックして、メール承認してください。";
     $token = $user->token;
     $to = $user->mail;
-
+  
 
     Mail::to($to)->send(new MailConfirm($text, $token));
 
