@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\MailConfirm;
 use Validator;
 use App\Model\Master\MtbUserStatus;
-
+use App\Model\Master\MtbArea;
+use App\Model\User\UserDetail;
 
 class UserController extends Controller
 {
@@ -17,7 +18,8 @@ class UserController extends Controller
     return view("userlogin.usermail");
   }
 
-  public function sendmail(Request $request){
+  public function sendmail(Request $request)
+  {
 
     $validation_rules = [
       "mail" => "required|email|unique:users,mail",
@@ -58,18 +60,64 @@ class UserController extends Controller
     return view("userlogin.succeed");
   }
 
-  public function mail_confirm(Request $request, $token) {
-    $user = User::query()->where("token", $token)->firstOrFail();
+  public function mail_confirm(Request $request, $token)
+  {
+    $user = User::query()->where("token", $token)->where("mtb_user_status_id", MtbUserStatus::MAIL_NOT_CONFIRMED)->firstOrFail();
     $user->mtb_user_status_id = MtbUserStatus::DETAIL_NOT_INPUT;
     $user->save();
-    return view("html.register_user");
+
+
+    return view("user.mail_confirm", [
+      "mtb_areas" => MtbArea::all(),
+      "user_id" => $user->id
+    ]);
   }
 
   public function register(Request $request)
   {
 
+    $validator_rules = [
+      "lastname" => "required|max:30",
+      "lastname_reading" => "required|min:2|max:50",
+      "firstname" => "required",
+      "nickname" => "required|min:3|max:15|unique:user_details,nickname",
+      "gender_flg" => "required|integer",
+      "birthday" => "required|date_format:Y-m-d",
+      "mtb_area_id" => "required|integer",
+    ];
+    $validator_messages = [
+      "lastname.required" => "lastnameを入力してください。",
+      "lastname_reading.required" => "フリガナを入力してください。",
+      "lastname.min" => ":min文字以上入力してください。",
+      "firstname.required" => "firstnameを入力してください。",
+      "nickname.required" => "ニックネームを入力してください。",
+      "gender_flg.required" => "性別を入力してください。",
+      "birthday.required" => "生年月日を入力してください。",
+    ];
+
+    $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
+    if($validator->fails()){
+      return redirect(route("get_user_create"))->withInput()->withErrors($validator);
+    }
+
+    $user_detail = new UserDetail;
+    $user_detail->user_id = $request->user_id;
+    $user_detail->lastname = $request->lastname;
+    $user_detail->firstname = $request->firstname;
+    $user_detail->lastname_reading = $request->lastname_reading;
+    $user_detail->firstname_reading = $request->firstname_reading;
+    $user_detail->mtb_area_id = $request->mtb_area_id;
+    $user_detail->address = $request->address;
+    $user_detail->phone_no = $request->phone_no;
+    $user_detail->gender_flg = $request->gender_flg;
+    $user_detail->birthday = $request->birthday;
+    $user_detail->nickname = $request->nickname;
+
+    $user_detail->mtb_user_status_id = MtbUserStatus::REAL_USER;
+
+    $user_detail->save();
+
+    return view("user.register_success");
   }
-
-
 
 }

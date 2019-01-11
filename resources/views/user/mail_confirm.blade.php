@@ -1,25 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends("layout.layout")
 
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-    <!-- 自分のcss -->
-    <link rel="stylesheet" href="{{asset('/css/layout.css')}}">
-    <link rel="stylesheet" href="{{asset('/css/div.css')}}">
-
-    <title>register_user</title>
-
-  </head>
-
-  <body>
-    <div id="content" class="container-fluid">
-
+@section("content")
       <div class="row top36 bottom36">
         <div class="col-sm-2"></div>
 
@@ -27,16 +8,27 @@
           <div class="row">
             <div class="col-sm-2 bg-light"></div>
 
+          <div id="error-messages">
+            @if($errors->any())
+              @foreach($errors->all() as $error)
+                <p>{{ $error }}</p>
+              @endforeach
+            @endif
+          </div>
+
             <!-- 入力部分-->
             <div class="col-sm-8 bg-light">
               <form action="{{ route('post_user_create') }}" method="post">
+                @csrf
+
+                <input type="hidden" name="user_id" value="{{ $user_id }}">
 
                 <div class="row top60">
                   <div class="col-sm-6">
                     姓
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="text" name="lastname">
+                    <input type="text" name="lastname" value="{{ old('lastname') }}">
                   </div>
                 </div>
 
@@ -45,7 +37,7 @@
                     姓（フリガナ）
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="text" name="lastname_reading">
+                    <input type="text" name="lastname_reading" value="{{ old('lastname_reading') }}">
                   </div>
                 </div>
 
@@ -54,7 +46,7 @@
                     名
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="text" name="firstname">
+                    <input type="text" name="firstname" value="{{ old('firstname') }}">
                   </div>
                 </div>
 
@@ -63,7 +55,7 @@
                     名（フリガナ）
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="text" name="firstname_reading">
+                    <input type="text" name="firstname_reading" value="{{ old('firstname_reading') }}">
                   </div>
                 </div>
 
@@ -72,8 +64,16 @@
                     性別
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="radio" name="gender_flg" value="1"> 男性
-                    <input type="radio" name="gender_flg" value="2"> 女性
+                    <input type="radio" name="gender_flg" value="1"
+                      @if(old("gender_flg") && old("gender_flg") == 1)
+                        checked
+                      @endif
+                    > 男性
+                    <input type="radio" name="gender_flg" value="2"
+                      @if(old("gender_flg") && old("gender_flg") == 2)
+                        checked
+                      @endif
+                    > 女性
                   </div>
                 </div>
 
@@ -82,7 +82,7 @@
                     生年月日
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="date" style="width:173px" name="birthday">
+                    <input type="date" style="width:173px" name="birthday" value="{{ old('birthday') }}">
                   </div>
                 </div>
 
@@ -94,10 +94,17 @@
                     <div>
                       <select type="text" name="mtb_area_id">
                         <option>都道府県</option>
+                        @foreach($mtb_areas as $mtb_area)
+                          <option value="{{ $mtb_area->id }}"
+                            @if(old("mtb_area_id") && old("mtb_area_id") == $mtb_area->id)
+                              selected
+                            @endif
+                          >{{ $mtb_area->value }}</option>
+                        @endforeach
                       </select>
                     </div>
                     <div class="top6">
-                      <input type="text" name="adress">
+                      <input type="text" name="address" value="{{ old('address') }}">
                     </div>
                   </div>
                 </div>
@@ -107,7 +114,7 @@
                     電話番号
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="text" name="phone_no">
+                    <input type="text" name="phone_no" value="{{ old('phone_no') }}">
                   </div>
                 </div>
 
@@ -116,7 +123,7 @@
                     ニックネーム
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="text" name="nickname">
+                    <input type="text" name="nickname" value="{{ old('nickname') }}">
                   </div>
                 </div>
 
@@ -136,6 +143,5 @@
 
         <div class="col-sm-2"></div>
       </div>
-    </div>
-  </body>
-</html>
+
+@endsection

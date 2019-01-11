@@ -29,4 +29,9 @@ class User extends Model
     {
       return $this->belongsTo("App\Model\Master\MtbUserStatus", "mtb_user_status_id");
     }
+
+    public function user_detail()
+    {
+      return $this->hasOne("App\Model\User\UserDetail", "user_id");
+    }
 }
