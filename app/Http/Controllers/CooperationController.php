@@ -15,7 +15,7 @@ class CooperationController extends Controller
 {
   /**
    *
-   *仮登録。
+   *登録画面へ遷移する。
    *
    */
   public function create(Request $request)
@@ -89,7 +89,7 @@ class CooperationController extends Controller
 
     $cooperation = new Cooperation;
     $form=array();
-    foreach ($request->all() as $key => $value) {  
+    foreach ($request->all() as $key => $value) {
         if($key=="_token"|
            $key=="submit"|
            $key=="password_confirmation"){
