@@ -1,0 +1,31 @@
+.top6 {
+  margin-top: 6px;
+}
+
+.top12 {
+  margin-top: 12px;
+}
+
+.top24{
+  margin-top: 24px;
+}
+
+.top36 {
+  margin-top: 36px;
+}
+
+.top48 {
+  margin-top: 48px;
+}
+
+.top60 {
+  margin-top: 60px;
+}
+
+.bottom36 {
+  margin-bottom: 36px;
+}
+
+.div01 {
+  border:3px solid silver;
+}
