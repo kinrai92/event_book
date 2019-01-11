@@ -17,20 +17,8 @@ Route::get('register_user',"UserController@register")->name("get_user_register")
 
 Route::get('huang',"MailController@sendmail");
 
-
-
-
-
-
-Route::get('/', function () {
-    return view('welcome');
-});
-<<<<<<< HEAD
-
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
-=======
+
 Route::get('usermail', function () {
     return view('userlogin.usermail');
 });
@@ -49,4 +37,3 @@ Route::get('apply', function () {
 Route::get('newevent', function () {
     return view('cooperation.newevent');
 });
->>>>>>> d966c3020907128114c70e7ca38a2e6756d2ebc8
