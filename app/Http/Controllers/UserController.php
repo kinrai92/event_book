@@ -62,7 +62,7 @@ class UserController extends Controller
 
   public function mail_confirm(Request $request, $token)
   {
-    $user = User::query()->where("token", $token)->firstOrFail();
+    $user = User::query()->where("token", $token)->where("mtb_user_status_id", MtbUserStatus::MAIL_NOT_CONFIRMED)->firstOrFail();
     $user->mtb_user_status_id = MtbUserStatus::DETAIL_NOT_INPUT;
     $user->save();
 
@@ -112,6 +112,8 @@ class UserController extends Controller
     $user_detail->gender_flg = $request->gender_flg;
     $user_detail->birthday = $request->birthday;
     $user_detail->nickname = $request->nickname;
+
+    $user_detail->mtb_user_status_id = MtbUserStatus::REAL_USER;
 
     $user_detail->save();
 
