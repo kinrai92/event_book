@@ -18,14 +18,17 @@ div.current {
     <div class="col-sm-8">
 
       <div class="row text-center">
-        <div class="col-sm-4 {{ ($current_page=='all') ? 'current' : '' }}">
+        <div class="col-sm-3 {{ ($current_page=='all') ? 'current' : '' }}">
           <a href="/event/all">すべて</a>
         </div>
-        <div class="col-sm-4 {{ ($current_page=='opening') ? 'current' : '' }}">
+        <div class="col-sm-3 {{ ($current_page=='opening') ? 'current' : '' }}">
           <a href="/event/all/opening">未開催</a>
         </div>
-        <div class="col-sm-4 {{ ($current_page=='held') ? 'current' : '' }}">
+        <div class="col-sm-3 {{ ($current_page=='held') ? 'current' : '' }}">
           <a href="/event/all/held">開催済み</a>
+        </div>
+        <div class="col-sm-3 {{ ($current_page=='canceled') ? 'current' : '' }}">
+          <a href="/event/all/canceled">キャンセル済み</a>
         </div>
       </div>
 
@@ -55,7 +58,14 @@ div.current {
             </div>
             <div class="row top6">
               <div class="col-sm-4 text-left">開催状態</div>
-              <div class="col-sm-8 text-right">{{ $event->start_at >= \Carbon\Carbon::now() ? "未開催" : "開催済" }}</div>
+              <div class="col-sm-8 text-right">
+                @if ($event->mtb_event_status_id = 3)
+                @elseif ($event->start_at >= \Carbon\Carbon::now())
+                未開催
+                @elseif ($event->start_at < \Carbon\Carbon::now())
+                開催済
+                @endif
+              </div>
             </div>
             <div class="row top6">
               <div class="col-sm-4 text-left">主催者</div>

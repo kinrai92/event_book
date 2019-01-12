@@ -23,6 +23,9 @@ class EventController extends Controller
       } elseif($status == "held") {
         $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", "<", Carbon::now())->get();
         $current_page = "held";
+      } elseif($status == "canceled") {
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::CANCEL)->get();
+        $current_page = "canceled";
       }
 
       return view("event.event_all", ["events" => $events,"current_page" => $current_page]);
