@@ -29,3 +29,10 @@
 .div01 {
   border:3px solid silver;
 }
+
+#ul_errors_message{
+
+  background-color:red;
+  padding-left:25px;
+  padding-top:20px;
+}

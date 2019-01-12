@@ -10,10 +10,10 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
     <!-- 自分のcss -->
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/div.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/div.css">
 
-    <title>register_cooperation</title>
+    <title>register_user</title>
 
   </head>
 
@@ -25,31 +25,80 @@
 
         <div class="col-sm-8 div01">
           <div class="row">
-            <div class="col-sm-1 bg-light"></div>
+            <div class="col-sm-2 bg-light"></div>
 
             <!-- 入力部分-->
-            <div class="col-sm-10 bg-light">
-              <form action="" method="post">
+            <div class="col-sm-8 bg-light">
+              <form action="{{route('post_user_create',['token'=>$token])}}" method="post">
+                <div>
+                　@if ($errors->any())
+                  　<div class="alert alert-danger">
+                      　<ul>
+                      　    @foreach ($errors->all() as $error)
+                          　    <li>{{ $error }}</li>
+                        　  @endforeach
+                    　  </ul>
+                  　</div>
+              　  @endif
 
+                </div>
+                @csrf
                 <div class="row top60">
                   <div class="col-sm-6">
-                    会社名
+                    姓
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="text" name="name">
+                    <input type="text" name="lastname">
                   </div>
                 </div>
 
                 <div class="row top6">
                   <div class="col-sm-6">
-                    会社名（フリガナ）
+                    姓（フリガナ）
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="text" name="reading">
+                    <input type="text" name="lastname_reading">
+                  </div>
+                </div>
+
+                <div class="row top6">
+                  <div class="col-sm-6">
+                    名
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <input type="text" name="firstname">
+                  </div>
+                </div>
+
+                <div class="row top6">
+                  <div class="col-sm-6">
+                    名（フリガナ）
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <input type="text" name="firstname_reading">
                   </div>
                 </div>
 
                 <div class="row top36">
+                  <div class="col-sm-6">
+                    性別
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <input type="radio" name="gender_flg" value="1"> 男性
+                    <input type="radio" name="gender_flg" value="2"> 女性
+                  </div>
+                </div>
+
+                <div class="row top6">
+                  <div class="col-sm-6">
+                    生年月日
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <input type="date" style="width:173px" name="birthday">
+                  </div>
+                </div>
+
+                <div class="row top6">
                   <div class="col-sm-6">
                     住所
                   </div>
@@ -70,74 +119,16 @@
                     電話番号
                   </div>
                   <div class="col-sm-6 text-right">
-                    <input type="text" name="tel_number">
-                  </div>
-                </div>
-
-                <div class="row top6">
-                  <div class="col-sm-6">
-                    FAX
-                  </div>
-                  <div class="col-sm-6 text-right">
-                    <input type="text" name="fax_number">
-                  </div>
-                </div>
-
-                <div class="row top6">
-                  <div class="col-sm-6">
-                    代表者氏名
-                  </div>
-                  <div class="col-sm-6 text-right">
-                    <input type="text" name="representative_name">
-                  </div>
-                </div>
-
-                <div class="row top6">
-                  <div class="col-sm-6">
-                    代表者氏名（フリガナ）
-                  </div>
-                  <div class="col-sm-6 text-right">
-                    <input type="text" name="rn_reading">
+                    <input type="text" name="phone_no">
                   </div>
                 </div>
 
                 <div class="row top36">
                   <div class="col-sm-6">
-                    業種
+                    ニックネーム
                   </div>
                   <div class="col-sm-6 text-right">
-                    <select type="text" name="mtb_industry_tpye_id">
-                      <option>業種選択</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="row top6">
-                  <div class="col-sm-6">
-                    事業内容
-                  </div>
-                  <div class="col-sm-6 text-right">
-                    <input type="text" name="business">
-                  </div>
-                </div>
-
-                <div class="row top6">
-                  <div class="col-sm-6">
-                    従業員数
-                  </div>
-                  <div class="col-sm-6 text-right">
-                    <select type="text" name="mtb_staff_total_id">
-                      <option>従業員数</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="row top6">
-                  <div class="col-sm-6">
-                    設立時間
-                  </div>
-                  <div class="col-sm-6 text-right">
-                    <input type="date" style="width:173px" name="established_at">
+                    <input type="text" name="nickname">
                   </div>
                 </div>
 
@@ -148,11 +139,10 @@
                   </div>
                   <div class="col-sm-4"></div>
                 </div>
-
               </form>
             </div>
 
-            <div class="col-sm-1 bg-light"></div>
+            <div class="col-sm-2 bg-light"></div>
           </div>
         </div>
 

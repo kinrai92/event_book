@@ -4,44 +4,125 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
-use Validator;
-use App\Model\Master\Mtbmunicipality;
+use App\Model\Master\MtbMunicipality;
 use App\Model\Master\MtbEventStatus;
-use App\Model\User\UserDetail;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
-  public function update(Request $request)
-  {
+    public function events(Request $requests, $status = null) {
 
-   $event = Event::find($request->id);
+      $events = null;
+      $current_page = "all";
 
-   $event->cooperation_id = $request->cooperation_id;
-   $event->mtb_event_status_id = $request->mtb_event_status_id;
-   $event->mtb_municipality_id = $request->mtb_municipality_id;
-   $event->title = $request->title;
-   $event->start_at = $request->start_at;
-   $event->maximum = $request->maximum;
-   $event->minimum = $request->minimum;
-   $event->cost = $request->cost;
-   $event->detail = $request->detail;
-   $event->picture1 = 123;
-   $event->picture2 = 123;
-   $event->picture3 = 123;
+      if(!$status) {
+        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH,MtbEventStatus::CANCEL])->get();
+      } elseif($status == "opening") {
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now())->get();
+        $current_page = "opening";
+      } elseif($status == "held") {
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", "<", Carbon::now())->get();
+        $current_page = "held";
+      }
 
-   $event->save();
-   return view('userlogin.checkmail');
-  }
+      return view("event.event_all", ["events" => $events,"current_page" => $current_page]);
+    }
 
-  public function updateevent(Request $request, $id)
-  {
-    $event=Event::find($id);
+    public function get_one_event(Request $request, $id) {
+      return view("event.event_detail", ["id" => $id]);
+    }
 
-   return view('cooperation.updateevent', [
-     'data' => $event,
-     "mtb_event_status" =>MtbEventStatus::all(),
-     "mtb_municipality" =>Mtbmunicipality::all()
-    ]);
 
-  }
+    public function create(Request $request)
+    {
+      if($request->isMethod("POST")){
+
+        $validator_rules = [
+          "mtb_municipality_id" => "required|integer",
+          "mtb_event_status_id" => "required|integer",
+          "title" => "required",
+          "start_at" => "required",
+          "maximum" => "required|integer",
+          "minimum" => "required|integer",
+          "cost" => "required|integer",
+          "detail" => "required",
+        ];
+        $validator_messages = [
+          "mtb_municipality_id.required" => "開催地域を入力してください。",
+          "mtb_event_status_id.required" => "開催状態を入力してください。",
+          "title.required" => "主題を入力してください。",
+          "start_at" => "開催時間を入力してください。",
+          "maximum.requierd" => "最大人数を入力してください。",
+          "minimum.required" => "最小人数を入力してください。",
+          "cost.required" => "参加費を入力してください。",
+          "detail.required" => "内容の詳細を入力してください。",
+        ];
+
+        $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
+        if($validator->fails()){
+          return redirect(route("get_event_create"))->withInput()->withErrors($validator);
+        }
+
+        $event = new Event;
+        $event->cooperation_id = $request->cooperation_id;
+        $event->mtb_municipality_id = $request->mtb_municipality_id;
+        $event->mtb_event_status_id = $request->mtb_event_status_id;
+        $event->title = $request->title;
+        $event->start_at = $request->start_at;
+        $event->maximum = $request->maximum;
+        $event->minimum = $request->minimum;
+        $event->cost = $request->cost;
+        $event->detail = $request->detail;
+        $event->picture1 = "aaa";
+        $event->picture2 = $request->picture2;
+        $event->picture3 = $request->picture3;
+
+        $event->save();
+
+        return view("userlogin.checkmail");
+      }
+
+      // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
+      $cooperation = Cooperation::find(1);
+
+      return view('cooperation.newevent', [
+        "cooperation"=>$cooperation,
+        "mtbmuncipality"=>MtbMunicipality::all(),
+        "mtbeventstatu"=>MtbEventStatus::get_create_statuses(),
+      ]);
+    }
+
+    public function update(Request $request)
+    {
+
+     $event = Event::find($request->id);
+
+     $event->cooperation_id = $request->cooperation_id;
+     $event->mtb_event_status_id = $request->mtb_event_status_id;
+     $event->mtb_municipality_id = $request->mtb_municipality_id;
+     $event->title = $request->title;
+     $event->start_at = $request->start_at;
+     $event->maximum = $request->maximum;
+     $event->minimum = $request->minimum;
+     $event->cost = $request->cost;
+     $event->detail = $request->detail;
+     $event->picture1 = 123;
+     $event->picture2 = 123;
+     $event->picture3 = 123;
+
+     $event->save();
+     return view('userlogin.checkmail');
+    }
+
+    public function updateevent(Request $request, $id)
+    {
+      $event=Event::find($id);
+
+     return view('cooperation.updateevent', [
+       'data' => $event,
+       "mtb_event_status" =>MtbEventStatus::all(),
+       "mtb_municipality" =>Mtbmunicipality::all()
+      ]);
+
+    }
 }

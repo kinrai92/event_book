@@ -7,23 +7,18 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MailConfirm extends Mailable
+class SampleNotification extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $text;
-    public $token;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($text, $token)
+    public function __construct()
     {
-
-        $this->text=$text;
-        $this->token = $token;
+        //
     }
 
     /**
@@ -33,8 +28,6 @@ class MailConfirm extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.mailConfirm')
-                    ->subject('eventbook')
-                    ->with(['message_text'=>$this->text, "token" => $this->token]);
+        return $this->view('view.name');
     }
 }
