@@ -1,62 +1,6 @@
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends("layout.layout")
 
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
-    <style>
-    #logo {
-      width:150px;
-    }
-
-    font{
-      display:block;margin:0 auto;width:700px;
-      margin-top: 40px;
-      text-align: center;
-      font-size: 3em;
-    }
-
-    #row1{
-      text-align: center;
-    }
-
-
-
-    #content {
-      display: block;
-      margin: 0 auto;
-      width: 900px;
-    }
-    .cool{
-      border:3px solid silver;
-    }
-
-    .socool{
-      padding-top: 50px;
-      padding-bottom: 30px;
-      font-size: 1.3em;
-    }
-    .padding1{
-      padding-top: 20px;
-    }
-    .padding2{
-      padding-top: 20px;
-      text-align: center;
-    }
-
-    .top100{
-      padding-top: 20px;
-    }
-    </style>
-
-    <title>newevent</title>
-  </head>
-
-  <body>
-    <div id="content" class="container-fluid">
+@section("content")
       <div>
         <font size="5" color="darkgrey">イベントを開催しましょう。</font>
       </div>
@@ -68,31 +12,58 @@
             <div class="col-sm-1 bg-light"></div>
             <!-- 入力部分 -->
             <div class="col-sm-10 bg-light socool">
-              <form action="" method="post">
-                <div class="row top100">
-                  <div id="row1" class="col-sm-6">
-                    法人
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="text">
-                  </div>
-                </div>
-
+              <div>
+                @if($errors->any())
+                  @foreach($errors->all() as $error)
+                    <p>{{ $error }}</p >
+                  @endforeach
+                @endif
+              </div>
+              <form action="{{ route('post_event_create') }}" method="post">
+                @csrf
+                <input type="hidden" name="cooperation_id" value="{{ $cooperation->id }}">
                 <div class="row top100">
                   <div id="row1" class="col-sm-6">
                     開催地域
                   </div>
                   <div class="col-sm-6">
-                    <input type="text">
+                    <select type="text" name="mtb_municipality_id">
+                      <option>開催地域を選択してください。</option>
+                      @foreach($mtbmuncipality as $mtbmuncipalite)
+                        <option value="{{ $mtbmuncipalite->id }}"
+                          @if(old("mtb_municipality_id") && old("mtb_municipality_id") == $mtbmuncipalite->id)
+                            selected
+                          @endif
+                          >{{ $mtbmuncipalite->value }}</option>
+                      @endforeach
+                    </select>
                   </div>
                 </div>
+
+                <div class="row top100">
+                 <div id="row1" class="col-sm-6">
+                   開催状態
+                 </div>
+                 <div class="col-sm-6">
+                   <select type="text" name="mtb_event_status_id">
+                     <option>開催地域を選択してください。</option>
+                     @foreach($mtbeventstatu as $mtb_event_status)
+                       <option value="{{ $mtb_event_status->id }}"
+                         @if(old("mtb_event_status_id") && old("mtb_event_status_id") == $mtb_event_status->id)
+                           selected
+                         @endif
+                         >{{ $mtb_event_status->value }}</option>
+                     @endforeach
+                   </select>
+                 </div>
+               </div>
 
                 <div class="row top100">
                   <div id="row1" class="col-sm-6">
                     主題
                   </div>
                   <div class="col-sm-6">
-                    <input type="text">
+                    <input type="text" name="title" value="{{ old('title') }}">
                   </div>
                 </div>
 
@@ -101,7 +72,7 @@
                     開催時間
                   </div>
                   <div class="col-sm-6">
-                    <input type="date">
+                    <input type="date" name="start_at" value="{{ old('start_at') }}">
                   </div>
                 </div>
 
@@ -110,7 +81,7 @@
                     最大人数
                   </div>
                   <div class="col-sm-6">
-                    <input type="text">
+                    <input type="number" name="maximum" value="{{ old('maximum') }}">
                   </div>
                 </div>
 
@@ -119,7 +90,7 @@
                     最小人数
                   </div>
                   <div class="col-sm-6">
-                    <input type="text">
+                    <input type="number" name="minimum" value="{{ old('minimum') }}">
                   </div>
                 </div>
 
@@ -128,7 +99,7 @@
                     参加費
                   </div>
                   <div class="col-sm-6">
-                    <input type="text">
+                    <input type="number" name="cost" value="{{ old('cost') }}">
                   </div>
                 </div>
 
@@ -137,7 +108,7 @@
                     内容の詳細
                   </div>
                   <div class="col-sm-6">
-                    <input type="text">
+                    <input type="text" name="detail" value="{{ old('detail') }}">
                   </div>
                 </div>
 
@@ -146,7 +117,7 @@
                     写真1
                   </div>
                   <div class="col-sm-6">
-                    <input type="file">
+                    <input type="file" name="picture1">
                   </div>
                 </div>
 
@@ -155,7 +126,7 @@
                     写真2
                   </div>
                   <div class="col-sm-6">
-                    <input type="file">
+                    <input type="file" name="picture2">
                   </div>
                 </div>
 
@@ -164,7 +135,7 @@
                     写真3
                   </div>
                   <div class="col-sm-6">
-                    <input type="file">
+                    <input type="file" name="picture3">
                   </div>
                 </div>
                 <div class="padding2">
@@ -189,6 +160,4 @@
           <p>Copyright@2018 Event</p>
         </div>
       </div>
-    </div>
-  </body>
-</html>
+@endsection
