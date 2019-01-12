@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
+use App\Model\Cooperation\Cooperation;
 use App\Model\Master\MtbMunicipality;
 use App\Model\Master\MtbEventStatus;
 use Carbon\Carbon;
+use Validator;
 
 class EventController extends Controller
 {
@@ -82,7 +84,7 @@ class EventController extends Controller
 
         $event->save();
 
-        return view("userlogin.checkmail");
+        return view("welcome");
       }
 
       // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
