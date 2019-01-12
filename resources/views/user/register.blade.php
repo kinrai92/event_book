@@ -8,16 +8,17 @@
           <div class="row">
             <div class="col-sm-2 bg-light"></div>
 
-          <div id="error-messages">
-            @if($errors->any())
-              @foreach($errors->all() as $error)
-                <p>{{ $error }}</p>
-              @endforeach
-            @endif
-          </div>
-
             <!-- 入力部分-->
             <div class="col-sm-8 bg-light">
+              <div>
+                @if($errors->any())
+                    <ul id="ul_errors_message" style="padding-top:20px">
+                    @foreach($errors->all() as $error)
+                      <li>{{$error}}</li>
+                    @endforeach
+                   </ul>
+                @endif
+              </div>
               <form action="{{ route('post_user_register') }}" method="post">
                 @csrf
                 <input type="hidden" name="user_id" value="{{ $user_id }}">
@@ -63,7 +64,7 @@
                   <div class="col-sm-6">
                     性別
                   </div>
-                  <div class="col-sm-6 text-right">
+                  <div class="col-sm-6">
                     <input type="radio" name="gender_flg" value="1"
                       @if(old("gender_flg") && old("gender_flg") == 1)
                         checked
@@ -90,7 +91,7 @@
                   <div class="col-sm-6">
                     住所
                   </div>
-                  <div class="col-sm-6 text-right">
+                  <div class="col-sm-6">
                     <div>
                       <select type="text" name="mtb_area_id">
                         <option>都道府県</option>

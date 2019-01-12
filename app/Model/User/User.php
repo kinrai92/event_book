@@ -24,7 +24,6 @@ class User extends Model
       $this->token = $token;
     }
 
-
     public function mtb_user_status()
     {
       return $this->belongsTo("App\Model\Master\MtbUserStatus", "mtb_user_status_id");
