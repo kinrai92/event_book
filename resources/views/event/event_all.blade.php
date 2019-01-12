@@ -55,7 +55,7 @@ div.current {
             </div>
             <div class="row top6">
               <div class="col-sm-4 text-left">開催状態</div>
-              <div class="col-sm-8 text-right">{{ $event->mtb_event_status->value }}</div>
+              <div class="col-sm-8 text-right">{{ $event->start_at >= \Carbon\Carbon::now() ? "未開催" : "開催済" }}</div>
             </div>
             <div class="row top6">
               <div class="col-sm-4 text-left">主催者</div>

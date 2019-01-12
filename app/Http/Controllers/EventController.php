@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\Event\Event;
 use App\Model\Master\MtbMunicipality;
 use App\Model\Master\MtbEventStatus;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -15,12 +16,12 @@ class EventController extends Controller
       $current_page = "all";
 
       if(!$status) {
-        $events = Event::all();
+        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH,MtbEventStatus::CANCEL])->get();
       } elseif($status == "opening") {
-        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::OPENING)->get();
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now())->get();
         $current_page = "opening";
       } elseif($status == "held") {
-        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::HELD)->get();
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", "<", Carbon::now())->get();
         $current_page = "held";
       }
 
