@@ -1,6 +1,6 @@
 <?php
 
-namespace App\model\Cooperation;
+namespace App\Model\Cooperation;
 
 use Illuminate\Database\Eloquent\Model;
 
