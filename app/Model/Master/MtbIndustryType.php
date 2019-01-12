@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class MtbIndustryType extends Model
 {
-    protected $table = "mtb_induxtry_types";
+    protected $table = "mtb_industry_types";
 }
