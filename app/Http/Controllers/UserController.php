@@ -80,17 +80,17 @@ class UserController extends Controller
 
     $user = User::query()->where("token", $token)->firstOrFail();
 
-    if($user->mtb_user_status_id!=MtbUserStatus::REAL_USER){
+    if($user->mtb_user_status_id != MtbUserStatus::REAL_USER){
 
-    $user->mtb_user_status_id = MtbUserStatus::DETAIL_NOT_INPUT;
-    $user->save();
+      $user->mtb_user_status_id = MtbUserStatus::DETAIL_NOT_INPUT;
+      $user->save();
 
-    return view("user.register", [
-      "mtb_areas" => MtbArea::all(),
-      "user_id" => $user->id,
-      'token'=>$token
-    ]);
-    }
+      return view("user.register", [
+        "mtb_areas" => MtbArea::all(),
+        "user_id" => $user->id,
+        'token'=>$token
+      ]);
+      }
   }
 
   /**
@@ -103,22 +103,32 @@ class UserController extends Controller
 
     $validator_rules = [
       "lastname" => "required|max:30",
-      "lastname_reading" => "required|min:2|max:50",
-      "firstname" => "required",
-      "nickname" => "required|min:3|max:15|unique:user_details,nickname",
+      "lastname_reading" => "required|max:50",
+      "firstname" => "required|max:30",
+      "firstname_reading" => "required|max:50",
+      "nickname" => "required|unique:user_details,nickname",
       "gender_flg" => "required|integer",
       "birthday" => "required|date_format:Y-m-d",
       "mtb_area_id" => "required|integer",
     ];
     $validator_messages = [
-      "lastname.required" => "lastnameを入力してください。",
-      "lastname_reading.required" => "フリガナを入力してください。",
-      "lastname.min" => ":min文字以上入力してください。",
-      "firstname.required" => "firstnameを入力してください。",
+      "lastname.required" => "姓を入力してください。",
+      "lastname.max" => "姓を:max文字以内で入力してください。",
+      "lastname_reading.required" => "姓(フリガナ)を入力してください。",
+      "lastname_reading.max" => "姓(フリガナ)を:max文字以内で入力してください。",
+      "firstname.required" => "名を入力してください。",
+      "firstname.max" => "名を:max文字以内で入力してください。",
+      "firstname_reading.required" => "名(フリガナ)を入力してください。",
+      "firstname_reading.max" => "名(フリガナ)を:max文字以内で入力してください。",
       "nickname.required" => "ニックネームを入力してください。",
-      "gender_flg.required" => "性別を入力してください。",
+      "nickname.unique" => "このニックネームは既に存在しています。",
+      "gender_flg.required" => "性別を選択してください。",
+      "gender_fig.integer" => "性別を選択してください。",
       "birthday.required" => "生年月日を入力してください。",
-      "mtb_area_id.required"=>"出身地を選択してください。"
+      "birthday.date_format" => "生年月日の形式が間違っています。",
+      "mtb_area_id.required" => "出身地を選択してください。",
+      "mtb_area_id.integer" => "出身地を選択してください。"
+
     ];
 
     $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
@@ -144,6 +154,7 @@ class UserController extends Controller
       $user_detail->user->save();
     }
 
-    return view("user.registerSuccessed");
-  }
+     return view("user.registerSuccessed");
+
+    }
 }
