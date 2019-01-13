@@ -7,6 +7,8 @@ use App\Model\Event\Event;
 use App\Model\Cooperation\Cooperation;
 use App\Model\Master\MtbMunicipality;
 use App\Model\Master\MtbEventStatus;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EventNotification;
 use Carbon\Carbon;
 use Validator;
 
@@ -69,7 +71,7 @@ class EventController extends Controller
         }
 
         $event = new Event;
-        $event->cooperation_id = $request->cooperation_id;
+        $event->cooperation_id = "1";//$request->cooperation_id;
         $event->mtb_municipality_id = $request->mtb_municipality_id;
         $event->mtb_event_status_id = $request->mtb_event_status_id;
         $event->title = $request->title;
@@ -83,6 +85,12 @@ class EventController extends Controller
         $event->picture3 = $request->picture3;
 
         $event->save();
+
+        $event_id = $event->id;
+        $event_title = $event->title;
+        $event_sup = $event->cooperation->name;
+
+        Mail::to($event->cooperation->mail)->send(new EventNotification($event_id, $event_title, $event_sup));
 
         return view("welcome");
       }
