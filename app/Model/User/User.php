@@ -4,9 +4,11 @@ namespace App\Model\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Auth\Authenticatable;
 
-class User extends Model
+class User extends Model implements Authenticatable
 {
+
     public function set_password($password) {
       $this->password = Hash::make($password);
     }
@@ -33,4 +35,21 @@ class User extends Model
     {
       return $this->hasOne("App\Model\User\UserDetail", "user_id");
     }
+
+    public function getAuthIdentifierName(){
+
+      return $this->primaryKey;
+    }
+    public function getAuthIdentifier(){
+
+      return $this->id;
+    }
+    public function getAuthPassword()
+    {
+      return $this->password;
+    }
+    public function getRememberToken(){}
+    public function setRememberToken($value){}
+    public function getRememberTokenName(){}
+
 }

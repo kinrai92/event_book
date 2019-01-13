@@ -41,6 +41,9 @@
                      <li><a id="a" href="?value=?">未使用</a></li>
                      <li><a href="#">使用済み</a></li>
                      <li><a id="a" href="#">キャンセル済み</a></li>
+                     @auth('user')
+                       <li><a href="#">{{auth('user')->user()->user_detail->nickname}}</li>
+                     @endauth
                   </ul>
               </div>
             </div>
@@ -85,6 +88,7 @@
               </div>
           </div>
 
+         @auth('user')
           <div class="row borderln" style="margin-top:50px">
              <div class="col-md-4">
              <img src="img/Events002.jpg" width="300px" height="250px" style="padding:20px">
@@ -123,6 +127,8 @@
                </table>
              </div>
          </div>
+        @endauth
+
         </div>
       </div>
     </div>

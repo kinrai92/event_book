@@ -6,16 +6,88 @@ use Illuminate\Http\Request;
 use App\Model\User\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailConfirm;
-use Validator;
 use App\Model\Master\MtbUserStatus;
 use App\Model\Master\MtbArea;
 use App\Model\User\UserDetail;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class UserController extends Controller
 {
+
+
   /**
    *
-   *仮登録。
+   *ホームページ画面。
+   *
+   */
+  public function index(Request $request)
+  {
+    return view('welcome');
+  }
+
+  /**
+   *
+   *ログイン画面。
+   *
+   */
+
+  public function ready_to_login(Request $request)
+  {
+    if(Auth::guard('user')->check()){
+      return redirect(route('index'));
+    }
+    return view('user.login');
+  }
+  /**
+   *
+   *ログイン機能。
+   *
+   */
+  public function do_login(Request $request)
+  {
+    $validator_rules = [
+      "mail" => "required|email",
+      "password" => "required"
+    ];
+
+    $validator_messages = [
+      "mail.required" => "メールを入力してください。",
+      "mail.email" => "メールの形式が正しくありません。",
+      "password.required" => "パスワードを入力してください。",
+    ];
+
+    $validator = Validator::make($request->all(),$validator_rules,$validator_messages);
+    if($validator->fails()){
+
+      return redirect(route('get_user_login'))->withInput()->withErrors($validator);
+    }
+
+   //ここからユーザーのログイン認証を行う。
+    $user = $request->only('mail', 'password');
+
+    if(Auth::guard('user')->attempt($user)){
+
+      return redirect(route('index'));
+    }
+  }
+
+  /**
+   *
+   *ログアウト処理。
+   *
+   */
+
+   public function logout(Request $request)
+   {
+     Auth::guard('user')->logout();
+     return view('welcome');
+   }
+
+
+  /**
+   *
+   *仮登録画面。
    *
    */
   public function create(Request $request)
@@ -156,5 +228,10 @@ class UserController extends Controller
 
      return view("user.registerSuccessed");
 
+    }
+
+    public function show_user_tickets_page(Request $request)
+    {
+      return view('others.tmp_blade.tickets');
     }
 }
