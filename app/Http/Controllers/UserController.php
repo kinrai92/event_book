@@ -14,8 +14,6 @@ use Validator;
 
 class UserController extends Controller
 {
-
-
   /**
    *
    *ホームページ画面。
@@ -31,7 +29,6 @@ class UserController extends Controller
    *ログイン画面。
    *
    */
-
   public function ready_to_login(Request $request)
   {
     if(Auth::guard('user')->check()){
@@ -67,7 +64,6 @@ class UserController extends Controller
     $user = $request->only('mail', 'password');
 
     if(Auth::guard('user')->attempt($user)){
-
       return redirect(route('index'));
     }
   }
@@ -77,13 +73,11 @@ class UserController extends Controller
    *ログアウト処理。
    *
    */
-
    public function logout(Request $request)
    {
      Auth::guard('user')->logout();
      return view('welcome');
    }
-
 
   /**
    *
@@ -135,35 +129,45 @@ class UserController extends Controller
     $text = "下のリンクをクリックして、メール承認してください。";
     $token = $user->token;
     $to = $user->mail;
+    $login = ['mail' => $user->mail,'password' => $request->password];
 
+    if(Auth::guard('user')->attempt($login)){
 
-    Mail::to($to)->send(new MailConfirm($text, $token));
+      Mail::to($to)->send(new MailConfirm($text, $token));
+      return view("user.isCreateSuccessed");
+    }
 
-    return view("user.isCreateSuccessed");
   }
 
   /**
    *
-   *登録状態の変更及び本登録画面への遷移。
+   *ユーザー状態の更新及び本登録画面への遷移。
    *
    */
   public function go_to_register(Request $request,$token)
   {
 
-    $user = User::query()->where("token", $token)->firstOrFail();
-
-    if($user->mtb_user_status_id != MtbUserStatus::REAL_USER){
-
+    $user = User::query()->where("token", $token)->where("mtb_user_status_id",MtbUserStatus::MAIL_NOT_CONFIRMED)->first();
+    if($user){
       $user->mtb_user_status_id = MtbUserStatus::DETAIL_NOT_INPUT;
       $user->save();
-
       return view("user.register", [
         "mtb_areas" => MtbArea::all(),
         "user_id" => $user->id,
         'token'=>$token
       ]);
-      }
-  }
+   }
+
+   //Validactionを通過しなかった場合の処理。
+    $logged_in = Auth::guard('user')->user();
+    if($logged_in){
+      return view("user.register", [
+        "mtb_areas" => MtbArea::all(),
+        "user_id" => $logged_in->id,
+        'token'=>$token
+      ]);
+   }
+}
 
   /**
    *
@@ -225,13 +229,26 @@ class UserController extends Controller
       $user_detail->user->mtb_user_status_id=MtbUserStatus::REAL_USER;
       $user_detail->user->save();
     }
-
      return view("user.registerSuccessed");
+  }
 
-    }
+  /**
+   *
+   *ユーザー情報の更新。
+   *
+   */
+  public function update(Request $request)
+  {
 
-    public function show_user_tickets_page(Request $request)
-    {
-      return view('others.tmp_blade.tickets');
-    }
+  }
+
+  /**
+   *
+   *チケット一覧画面。
+   *
+   */
+  public function show_user_tickets_page(Request $request)
+  {
+    return view('others.tmp_blade.tickets');
+  }
 }
