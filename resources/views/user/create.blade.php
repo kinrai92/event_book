@@ -1,59 +1,8 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <html lang="en" dir="ltr">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layout.layout')
 
-        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
-        <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
-        <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
-        <style>
-        #logo {
-          width:150px;
-        }
+@section('title','UserCreate')
 
-        font{
-          display:block;margin:0 auto;width:500px;
-          margin-top: 150px;
-        }
-
-        #row1{
-          text-align: center;
-
-        }
-
-        #div_register{
-          margin-top: 20px;
-        }
-
-        .cool{
-          padding-top: 50px;
-        }
-        .socool{
-          padding-top: 50px;
-        }
-        .top15{
-          margin-bottom: 50px;
-          margin-top: 20px;
-        }
-        .top1{
-          border:3px solid silver;
-        }
-        .row{
-          margin-top: 30px;
-        }
-        .top30{
-          margin-top: 40px;
-        }
-        </style>
-
-        <title>honngasuki</title>
-
-      </head>
+@section('content')
 
       <body>
         <div class="container-fluid" >
@@ -127,6 +76,4 @@
               <p>Copyright@Event 2019</p>
             </div>
           </div>
-        </div>
-      </body>
-    </html>
+@endsection

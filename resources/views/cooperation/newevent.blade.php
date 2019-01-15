@@ -19,7 +19,7 @@
                   @endforeach
                 @endif
               </div>
-              <form action="{{ route('post_event_create') }}" method="post">
+              <form action="{{ route('post_event_create') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="cooperation_id" value="{{ $cooperation->id }}">
                 <div class="row top100">

@@ -65,19 +65,16 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
                 <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                    <!-- @auth('user')
+                        <a href="{{ url('/home') }}">{{auth('user')->user()->user_detail->nickname}}</a>
+                        <a href="{{ route('get_user_logout') }}">Logout</a>
+                        <a href="{{ route('show_user_tickets_page') }}">ticktets</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
+                        <a href="{{ route('get_user_login') }}">Login</a>
+                        <a href="{{ route('get_user_create') }}">Register</a>
+                    @endauth -->
                 </div>
-            @endif
 
             <div class="content">
                 <div class="title m-b-md">
