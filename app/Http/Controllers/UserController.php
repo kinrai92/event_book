@@ -31,6 +31,10 @@ class UserController extends Controller
    */
   public function ready_to_login(Request $request)
   {
+    if(Auth::guard('user')->check()){
+
+      return redirect(route('get_after_login'));
+    }
     return view('user.login');
   }
   /**
@@ -64,7 +68,7 @@ class UserController extends Controller
      "mtb_user_status_id" => MtbUserStatus::REAL_USER
    ];
 
-    if(Auth::attempt($arr)){
+    if (Auth::guard("user")->attempt($arr)){
       return redirect(route("get_after_login"));
     } else {
       return redirect(route('get_user_login'))->withInput()->withErrors($validator);
@@ -89,7 +93,10 @@ class UserController extends Controller
    */
   public function create(Request $request)
   {
-    session(['admin'=>0]);
+    if(Auth::guard('user')->check()){
+
+      return redirect(route('get_after_login'));
+    }
     return view("user.create");
   }
 
@@ -161,7 +168,6 @@ class UserController extends Controller
         'token'=>$token
       ]);
    }
-
    //Validactionを通過しなかった場合の処理。
     $logged_in = Auth::guard('user')->user();
     if($logged_in){

@@ -1,68 +1,58 @@
-@extends('layout.layout')
+@extends("layout.layout")
 
-@section('title', 'UserLogin')
+@section("content")
+      <div class="row top36 bottom36">
+        <div class="col-sm-2"></div>
 
-@section('content')
+        <div class="col-sm-8 div01">
+          <div class="row">
+            <div class="col-sm-2 bg-light"></div>
 
-<font size="5" color="darkgrey">好きなイベントを一緒に参加しましょう。</font>
+            <!-- 入力部分-->
+            <div class="col-sm-8 bg-light">
+              <div>
+                @if($errors->any())
+                    <ul id="ul_errors_message" style="padding-top:20px">
+                    @foreach($errors->all() as $error)
+                      <li>{{$error}}</li>
+                    @endforeach
+                   </ul>
+                @endif
+              </div>
+              <form action="{{ route('post_user_login') }}" method="post">
+                @csrf
+                <div class="row top60">
+                  <div class="col-sm-6">
+                    メールアドレス
+                  </div>
+                  <div class="col-sm-6">
+                    <input id="width" type="text" name="mail" value="{{ old('mail') }}" style="width:180px">
+                  </div>
+                </div>
 
-<!-- ログインウィンドウ -->
-<div class="row top60">
-  <div class="col-sm-3"></div>
+                <div class="row top6">
+                  <div class="col-sm-6">
+                    パスワード
+                  </div>
+                  <div class="col-sm-6">
+                    <input id="width" type="password" name="password" value="{{ old('password') }}" style="width:180px">
+                  </div>
+                </div>
+                <div class="row top36 bottom36">
+                  <div class="col-sm-4"></div>
+                  <div class="col-sm-4 text-center">
+                    <input type="submit" class="" value="送信">
+                  </div>
+                  <div class="col-sm-4"></div>
+                </div>
+              </form>
+            </div>
 
-  <div id="div_register" class="col-sm-6 top1 bg-light div_register_login">
-
-    <div>
-    　@if ($errors->any())
-      　<div class="alert alert-danger">
-          　<ul>
-          　    @foreach ($errors->all() as $error)
-              　    <li>{{ $error }}</li>
-            　  @endforeach
-        　  </ul>
-      　</div>
-  　  @endif
-
-    </div>
-
-    <form action="{{ route('post_user_login') }}" method="post">
-      @csrf
-      <div class="row">
-        <div id="row1" class="cool col-sm-6">
-          メールアドレス
+            <div class="col-sm-2 bg-light"></div>
+          </div>
         </div>
-        <div class="socool col-sm-6">
-          <input type="text" name="mail" value="{{ old('mail') }}">
-        </div>
+
+        <div class="col-sm-2"></div>
       </div>
-
-      <div class="row">
-        <div id="row1" class="col-sm-6">
-          パスワード
-        </div>
-        <div class="col-sm-6">
-          <input type="password" name="password">
-        </div>
-      </div>
-
-      <div class="top30 text-center">
-        <input type="submit" value="送信">
-      </div>
-      <div class="top15 text-center">
-        <a href="index.html">戻る</a>
-      </div>
-    </form>
-  </div>
-
-  <div class="col-sm-3"></div>
-</div>
-
-
-<!-- ここからフッター-->
-<div class="row top60">
-  <div class="col-sm text-center">
-    <p>Copyright@Event 2019</p>
-  </div>
-</div>
 
 @endsection
