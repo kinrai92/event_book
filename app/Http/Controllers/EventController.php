@@ -148,14 +148,14 @@ class EventController extends Controller
       }
 
       // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
-      $cooperation = Cooperation::find(1);
+      /*$cooperation = Cooperation::find(1);
 
       return view('cooperation.newevent', [
         "cooperation"=>$cooperation,
         "mtbmuncipality"=>MtbMunicipality::all(),
         "mtbeventstatu"=>MtbEventStatus::get_create_statuses(),
-      ]);
-    }
+      ]);*/
+
 
     public function update(Request $request)
     {
@@ -190,36 +190,4 @@ class EventController extends Controller
       ]);
 
     }
-<<<<<<< HEAD
-//イベントの更新画面
-    public function event0()
-    {
-      return view('others.index.index');
-    }
-    public function event1()
-    {
-      return view('others.index.cooperationindex');
-    }
-=======
-//
-//     public function upload(Request $request)
-//     {
-//       if($request->isMethod('POST')){
-//
-//         $file = $request->file('source');
-//
-//         if($file->isValid()){
-//           $originaName = $file->getClientOriginaName();
-//           $ext = $file->getClientOriginaName();
-//           $type = $file->getClientMimeType();
-//           $realPath = $file->getRealPath();
-//
-//           $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . '.' . $ext;
-//           $bool = Storage::disk('uploads')->put($filename,file_get_contents($realPath));
-//         }
-//         exit;
-//       }
-//       return view('cooperation.newevent');
-//     }
->>>>>>> 0d6587b5a04e9495f4fd5b7d32df70286cc0a997
 }
