@@ -31,9 +31,6 @@ class UserController extends Controller
    */
   public function ready_to_login(Request $request)
   {
-    if(Auth::guard('user')->check()){
-      return redirect(route('index'));
-    }
     return view('user.login');
   }
   /**
@@ -61,10 +58,16 @@ class UserController extends Controller
     }
 
    //ここからユーザーのログイン認証を行う。
-    $user = $request->only('mail', 'password');
+   $arr = [
+     "mail" => $request->mail,
+     "password" => $request->password,
+     "mtb_user_status_id" => MtbUserStatus::REAL_USER
+   ];
 
-    if(Auth::guard('user')->attempt($user)){
-      return redirect(route('index'));
+    if(Auth::attempt($arr)){
+      return redirect(route("get_after_login"));
+    } else {
+      return redirect(route('get_user_login'))->withInput()->withErrors($validator);
     }
   }
 
@@ -86,6 +89,7 @@ class UserController extends Controller
    */
   public function create(Request $request)
   {
+    session(['admin'=>0]);
     return view("user.create");
   }
 
@@ -251,4 +255,5 @@ class UserController extends Controller
   {
     return view('others.tmp_blade.tickets');
   }
+
 }

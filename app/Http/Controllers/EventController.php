@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
 use App\Model\Cooperation\Cooperation;
+use App\Model\Ticket\Ticket;
 use App\Model\Master\MtbMunicipality;
 use App\Model\Master\MtbEventStatus;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EventNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
 use Validator;
+
 
 class EventController extends Controller
 {
@@ -20,7 +24,7 @@ class EventController extends Controller
       $current_page = "all";
 
       if(!$status) {
-        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH,MtbEventStatus::CANCEL])->get();
+        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH, MtbEventStatus::CANCEL])->get();
       } elseif($status == "opening") {
         $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now())->get();
         $current_page = "opening";
@@ -36,7 +40,12 @@ class EventController extends Controller
     }
 
     public function get_one_event(Request $request, $id) {
-      return view("event.event_detail", ["id" => $id]);
+      $event = null;
+      $event = Event::find($id);
+      $tickets = Event::find($id)->tickets;
+      $num_tickets = $tickets->count();
+
+      return view("event.event_detail", ["event" => $event, "num_tickets" => $num_tickets]);
     }
 
 
@@ -80,20 +89,67 @@ class EventController extends Controller
         $event->minimum = $request->minimum;
         $event->cost = $request->cost;
         $event->detail = $request->detail;
-        $event->picture1 = "aaa";
-        $event->picture2 = $request->picture2;
-        $event->picture3 = $request->picture3;
+        $picture1 = $request->file('picture1');
+        if($picture1) {
 
+          $realPath = $picture1->getRealPath();
+          $ext = $picture1->getClientOriginalExtension();
+          $filename = date('YmdHis') . '-' . uniqid(). '.' . $ext;
+          Storage::disk('public')->put($filename, file_get_contents($realPath));
+          $event->picture1 = $filename;
+        }
+
+        $picture2 = $request->file('picture2');
+        if($picture2) {
+
+          $realPath = $picture2->getRealPath();
+          $ext = $picture2->getClientOriginalExtension();
+          $filename = date('YmdHis') . '-' . uniqid(). '.' . $ext;
+          Storage::disk('public')->put($filename, file_get_contents($realPath));
+          $event->picture2 = $filename;
+        }
+
+        $picture3 = $request->file('picture3');
+        if($picture3) {
+
+          $realPath = $picture3->getRealPath();
+          $ext = $picture3->getClientOriginalExtension();
+          $filename = date('YmdHis') . '-' . uniqid(). '.' . $ext;
+          Storage::disk('public')->put($filename, file_get_contents($realPath));
+          $event->picture3 = $filename;
+        }
+
+
+
+        // foreach ($picture as $key => $value) {
+        //   if (!empty($value)) {
+        //     if($value->isValid()) {
+        //     $originaName = $value->getClientOriginalName();
+        //     $ext = $value->getClientOriginalExtension();
+        //     $type = $value->getClientMimeType();
+        //     $realPath = $value->getRealPath();
+        //     $filename = md5(date('YmdHis') . '-' . uniqid()). '.' . $ext;
+        //     Storage::disk('public')->put($filename, file_get_contents($realPath));
+        //     $obj = 'picture'.($key+1);
+        //     $event->$obj = $filename;
+        //     }
+        //   }
+        // }
         $event->save();
-
+        return view("tmp_blade.successed");
+      }
         $event_id = $event->id;
         $event_title = $event->title;
         $event_sup = $event->cooperation->name;
 
         Mail::to($event->cooperation->mail)->send(new EventNotification($event_id, $event_title, $event_sup));
 
-        return view("welcome");
+        return view("event.register_event_finish");
       }
+
+
+
+
 
       // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
       $cooperation = Cooperation::find(1);
@@ -119,12 +175,12 @@ class EventController extends Controller
      $event->minimum = $request->minimum;
      $event->cost = $request->cost;
      $event->detail = $request->detail;
-     $event->picture1 = 123;
-     $event->picture2 = 123;
-     $event->picture3 = 123;
+     $event->picture1 = $request->file('picture1');
+     $event->picture2 = $request->file('picture2');
+     $event->picture3 = $request->file('picture3');
 
      $event->save();
-     return view('userlogin.checkmail');
+     return view('tmp_blade.successed');
     }
 
     public function updateevent(Request $request, $id)
@@ -138,4 +194,36 @@ class EventController extends Controller
       ]);
 
     }
+<<<<<<< HEAD
+//イベントの更新画面
+    public function event0()
+    {
+      return view('others.index.index');
+    }
+    public function event1()
+    {
+      return view('others.index.cooperationindex');
+    }
+=======
+//
+//     public function upload(Request $request)
+//     {
+//       if($request->isMethod('POST')){
+//
+//         $file = $request->file('source');
+//
+//         if($file->isValid()){
+//           $originaName = $file->getClientOriginaName();
+//           $ext = $file->getClientOriginaName();
+//           $type = $file->getClientMimeType();
+//           $realPath = $file->getRealPath();
+//
+//           $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . '.' . $ext;
+//           $bool = Storage::disk('uploads')->put($filename,file_get_contents($realPath));
+//         }
+//         exit;
+//       }
+//       return view('cooperation.newevent');
+//     }
+>>>>>>> 0d6587b5a04e9495f4fd5b7d32df70286cc0a997
 }

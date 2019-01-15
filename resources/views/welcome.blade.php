@@ -66,14 +66,14 @@
     <body>
         <div class="flex-center position-ref full-height">
                 <div class="top-right links">
-                    @auth('user')
+                    <!-- @auth('user')
                         <a href="{{ url('/home') }}">{{auth('user')->user()->user_detail->nickname}}</a>
                         <a href="{{ route('get_user_logout') }}">Logout</a>
                         <a href="{{ route('show_user_tickets_page') }}">ticktets</a>
-                      @else
+                    @else
                         <a href="{{ route('get_user_login') }}">Login</a>
                         <a href="{{ route('get_user_create') }}">Register</a>
-                    @endauth
+                    @endauth -->
                 </div>
 
             <div class="content">
