@@ -40,15 +40,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
-        "cooperation" => [
-          "driver" => "session",
-          "provider" => "cooperations",
-        ],
-
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
+        ],
+        'cooperation' => [
+            'cooperation' => 'session',
+            'provider' => 'cooperations',
         ],
     ],
 
@@ -75,14 +73,9 @@ return [
             'model' => App\Model\User\User::class,
         ],
         "cooperations" => [
-          "driver" => "eloquent",
-          "model" => App\Model\Cooperation\Cooperation::class,
+          'driver' => 'eloquent',
+          'model' => App\Model\Cooperation\Cooperation::class,
         ]
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

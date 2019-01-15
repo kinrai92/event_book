@@ -18,6 +18,7 @@ div.current {
     <div class="col-sm-8">
 
       <div class="row text-center">
+        <!-- 三元运算 -->
         <div class="col-sm-3 {{ ($current_page=='all') ? 'current' : '' }}">
           <a href="/event/all">すべて</a>
         </div>

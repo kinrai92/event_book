@@ -137,7 +137,8 @@ class EventController extends Controller
         //   }
         // }
         $event->save();
-
+        return view("tmp_blade.successed");
+      }
         $event_id = $event->id;
         $event_title = $event->title;
         $event_sup = $event->cooperation->name;
@@ -180,7 +181,7 @@ class EventController extends Controller
      $event->picture3 = $request->file('picture3');
 
      $event->save();
-     return view('userlogin.checkmail');
+     return view('tmp_blade.successed');
     }
 
     public function updateevent(Request $request, $id)
@@ -194,6 +195,17 @@ class EventController extends Controller
       ]);
 
     }
+<<<<<<< HEAD
+//イベントの更新画面
+    public function event0()
+    {
+      return view('others.index.index');
+    }
+    public function event1()
+    {
+      return view('others.index.cooperationindex');
+    }
+=======
 //
 //     public function upload(Request $request)
 //     {
@@ -214,4 +226,5 @@ class EventController extends Controller
 //       }
 //       return view('cooperation.newevent');
 //     }
+>>>>>>> 0d6587b5a04e9495f4fd5b7d32df70286cc0a997
 }

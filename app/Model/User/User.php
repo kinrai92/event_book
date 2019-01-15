@@ -5,8 +5,9 @@ namespace App\Model\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Foundation\Auth\User as AuthenticationUser;
 
-class User extends Model implements Authenticatable
+class User extends AuthenticationUser
 {
 
     public function set_password($password) {
@@ -41,18 +42,5 @@ class User extends Model implements Authenticatable
       return $this->hasMany("App\Model\Ticket\Ticket", "user_id");
     }
 
-    public function getAuthIdentifierName(){
 
-      return $this->primaryKey;
-    }
-    public function getAuthIdentifier(){
-
-      return $this->id;
-    }
-    public function getAuthPassword()
-    {
-      return $this->password;
-    }
-    public function getRememberToken(){}
-    public function setRememberToken($value){}
-    public function getRememberTokenName(){}
+}
