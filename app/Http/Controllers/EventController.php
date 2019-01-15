@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
 use App\Model\Cooperation\Cooperation;
+use App\Model\Ticket\Ticket;
 use App\Model\Master\MtbMunicipality;
 use App\Model\Master\MtbEventStatus;
 use Illuminate\Support\Facades\Mail;
@@ -20,7 +21,7 @@ class EventController extends Controller
       $current_page = "all";
 
       if(!$status) {
-        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH,MtbEventStatus::CANCEL])->get();
+        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH, MtbEventStatus::CANCEL])->get();
       } elseif($status == "opening") {
         $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now())->get();
         $current_page = "opening";
@@ -36,7 +37,12 @@ class EventController extends Controller
     }
 
     public function get_one_event(Request $request, $id) {
-      return view("event.event_detail", ["id" => $id]);
+      $event = null;
+      $event = Event::find($id);
+      $tickets = Event::find($id)->tickets;
+      $num_tickets = $tickets->count();
+
+      return view("event.event_detail", ["event" => $event, "num_tickets" => $num_tickets]);
     }
 
 

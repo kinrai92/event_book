@@ -21,7 +21,7 @@ Route::post("cooperation_register", "CooperationController@register")->name("pos
 //jin
 //Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware("auth::users");
 Route::get("event/all/{status?}", "EventController@events")->name("get_events");
-Route::get("event/find/{id}", "EventController@oneevent")->name("get_one_event");
+Route::get("event/find/{id}", "EventController@get_one_event")->name("get_one_event");
 
 // tao
 Route::get("register_event", "EventController@create")->name("get_event_create");

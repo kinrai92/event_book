@@ -27,4 +27,9 @@ class Event extends Model
     {
       return $this->belongsTo("App\Model\Master\MtbEventStatus", "mtb_event_status_id");
     }
+
+    public function tickets()
+    {
+      return $this->hasMany("App\Model\Ticket\Ticket", "event_id");
+    }
 }

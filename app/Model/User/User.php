@@ -33,4 +33,9 @@ class User extends Model
     {
       return $this->hasOne("App\Model\User\UserDetail", "user_id");
     }
+
+    public function tickets()
+    {
+      return $this->hasMany("App\Model\Ticket\Ticket", "user_id");
+    }
 }
