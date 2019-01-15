@@ -142,13 +142,11 @@ class UserController extends Controller
     $text = "下のリンクをクリックして、メール承認してください。";
     $token = $user->token;
     $to = $user->mail;
-    $login = ['mail' => $user->mail,'password' => $request->password];
 
-    if(Auth::guard('user')->attempt($login)){
 
-      Mail::to($to)->send(new MailConfirm($text, $token));
-      return view("user.isCreateSuccessed");
-    }
+    Mail::to($to)->send(new MailConfirm($text, $token));
+    return view("user.isCreateSuccessed");
+
 
   }
 
@@ -160,7 +158,8 @@ class UserController extends Controller
   public function go_to_register(Request $request,$token)
   {
 
-    $user = User::query()->where("token", $token)->where("mtb_user_status_id",MtbUserStatus::MAIL_NOT_CONFIRMED)->first();
+    $user = User::query()->where("token", $token)->whereIn("mtb_user_status_id",[MtbUserStatus::MAIL_NOT_CONFIRMED,
+                                                                                 MtbUserStatus::DETAIL_NOT_INPUT])->first();
     if($user){
       $user->mtb_user_status_id = MtbUserStatus::DETAIL_NOT_INPUT;
       $user->save();
@@ -266,8 +265,8 @@ class UserController extends Controller
 
     if(!$status) {
       $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
-                                                                MtbTicketStatus::USED,
-                                                                MtbTicketStatus::CANCELLED])->get();
+                                                                   MtbTicketStatus::USED,
+                                                                   MtbTicketStatus::CANCELLED])->get();
     } elseif($status == "not_used") {
       $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::NOT_USED)->get();
       $current_page = "not_used";
