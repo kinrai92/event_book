@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\MailConfirm;
 use App\Model\Master\MtbUserStatus;
 use App\Model\Master\MtbArea;
+use App\Model\Master\MtbTicketStatus;
 use App\Model\User\UserDetail;
+use App\Model\Ticket\Ticket;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -31,6 +33,10 @@ class UserController extends Controller
    */
   public function ready_to_login(Request $request)
   {
+    if(Auth::guard('user')->check()){
+
+      return redirect(route('get_after_login'));
+    }
     return view('user.login');
   }
   /**
@@ -64,7 +70,7 @@ class UserController extends Controller
      "mtb_user_status_id" => MtbUserStatus::REAL_USER
    ];
 
-    if(Auth::attempt($arr)){
+    if (Auth::guard("user")->attempt($arr)){
       return redirect(route("get_after_login"));
     } else {
       return redirect(route('get_user_login'))->withInput()->withErrors($validator);
@@ -89,7 +95,10 @@ class UserController extends Controller
    */
   public function create(Request $request)
   {
-    session(['admin'=>0]);
+    if(Auth::guard('user')->check()){
+
+      return redirect(route('get_after_login'));
+    }
     return view("user.create");
   }
 
@@ -161,7 +170,6 @@ class UserController extends Controller
         'token'=>$token
       ]);
    }
-
    //Validactionを通過しなかった場合の処理。
     $logged_in = Auth::guard('user')->user();
     if($logged_in){
@@ -251,9 +259,27 @@ class UserController extends Controller
    *チケット一覧画面。
    *
    */
-  public function show_user_tickets_page(Request $request)
+  public function show_user_tickets_page(Request $request,$status=null)
   {
-    return view('others.tmp_blade.tickets');
+    $tickets = null;
+    $current_page = "all";
+
+    if(!$status) {
+      $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
+                                                                MtbTicketStatus::USED,
+                                                                MtbTicketStatus::CANCELLED])->get();
+    } elseif($status == "not_used") {
+      $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::NOT_USED)->get();
+      $current_page = "not_used";
+    } elseif($status == "used") {
+      $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::USED)->get();
+      $current_page = "used";
+    } elseif($status == "cancelled") {
+      $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->get();
+      $current_page = "cancelled";
+    }
+
+    return view("others.tmp_blade.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
   }
 
 }

@@ -10,7 +10,6 @@ use App\Model\Master\MtbIndustryType;
 use App\Model\Master\MtbStaffTotal;
 use Illuminate\Support\Facades\Auth;
 
-
 use Validator;
 
 class CooperationController extends Controller
@@ -165,6 +164,45 @@ class CooperationController extends Controller
      return view("cooperation.registerSuccessed");
   }
 
+  public function login_menu(Request $request)
+  {
+    return view('cooperation.login');
+  }
 
+  public function login_coop(Request $request)
+  {
+    $validator_rules = [
+      "mail" => "required|email",
+      "password" => "required"
+    ];
 
+    $validator_messages = [
+
+    ];
+
+    $validator = Validator::make($request->all(), $validator_rules, $validator_messages);
+    if ($validator->fails()) {
+      return redirect(route('cooperation_login_menu'))->withInput()->withErrors($validator);
+    }
+
+    $arr = [
+      "mail" => $request->mail,
+      "password" => $request->password,
+    ];
+    if (Auth::guard("cooperation")->attempt($arr)) {
+      return redirect()->route('cooperation_loggedin');
+    } return redirect()->route('cooperation_login_menu');
+
+  }
+
+  public function logout_coop(Request $request)
+  {
+    Auth::guard('cooperation')->logout();
+    return view('welcome_coop');
+  }
+
+  public function index(Request $request)
+  {
+    return view('welcome_coop');
+  }
 }

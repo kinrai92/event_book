@@ -121,6 +121,11 @@ class EventController extends Controller
       }
       return view("cooperation.newevent", ["mtb_event_statuses" => MtbEventStatus::get_create_statuses(), "mtb_municipalities" =>MtbMunicipality::all(),]);
     }
+
+
+
+
+
     //   // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
     //   $cooperation = Cooperation::find(1);
     //
@@ -130,6 +135,7 @@ class EventController extends Controller
     //     "mtbeventstatu"=>MtbEventStatus::get_create_statuses(),
     //   ]);
     // }
+
     public function update(Request $request)
     {
      $event = Event::find($request->id);

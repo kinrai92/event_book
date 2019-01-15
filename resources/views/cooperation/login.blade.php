@@ -19,7 +19,7 @@
                    </ul>
                 @endif
               </div>
-              <form action="{{ route('post_user_login') }}" method="post">
+              <form action="{{ route('cooperation_login') }}" method="post">
                 @csrf
                 <div class="row top60">
                   <div class="col-sm-6">
