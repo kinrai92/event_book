@@ -84,7 +84,7 @@ class EventController extends Controller
 
         $event->save();
 
-        return view("welcome");
+        return view("tmp_blade.successed");
       }
 
       // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
@@ -116,7 +116,7 @@ class EventController extends Controller
      $event->picture3 = 123;
 
      $event->save();
-     return view('userlogin.checkmail');
+     return view('tmp_blade.successed');
     }
 
     public function updateevent(Request $request, $id)
@@ -129,5 +129,14 @@ class EventController extends Controller
        "mtb_municipality" =>Mtbmunicipality::all()
       ]);
 
+    }
+//イベントの更新画面
+    public function event0()
+    {
+      return view('others.index.index');
+    }
+    public function event1()
+    {
+      return view('others.index.cooperationindex');
     }
 }

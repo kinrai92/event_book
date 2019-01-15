@@ -20,6 +20,7 @@ class UserController extends Controller
    */
   public function create(Request $request)
   {
+    session(['admin'=>0]);
     return view("user.create");
   }
 
@@ -146,4 +147,5 @@ class UserController extends Controller
 
     return view("user.registerSuccessed");
   }
+
 }
