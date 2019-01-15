@@ -12,6 +12,8 @@ div.current {
     <p>EVENT一覧</p>
   </div>
 
+
+
   <div class="media row top36 bottom36">
     <div class="col-sm-2"></div>
 
