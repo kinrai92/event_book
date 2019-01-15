@@ -89,6 +89,7 @@ class EventController extends Controller
         $event->minimum = $request->minimum;
         $event->cost = $request->cost;
         $event->detail = $request->detail;
+
         $picture1 = $request->file('picture1');
         if($picture1) {
 
@@ -120,7 +121,7 @@ class EventController extends Controller
         }
 
 
-        
+
         // foreach ($picture as $key => $value) {
         //   if (!empty($value)) {
         //     if($value->isValid()) {
