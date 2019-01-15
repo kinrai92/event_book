@@ -21,7 +21,7 @@
               </div>
               <form action="{{ route('post_event_create') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="cooperation_id" value="{{ $cooperation->id }}">
+                <input type="hidden" name="cooperation_id" value="{{ auth('cooperation')->user()->id }}">
                 <div class="row top100">
                   <div id="row1" class="col-sm-6">
                     開催地域
@@ -29,12 +29,12 @@
                   <div class="col-sm-6">
                     <select type="text" name="mtb_municipality_id">
                       <option>開催地域を選択してください。</option>
-                      @foreach($mtbmuncipality as $mtbmuncipalite)
-                        <option value="{{ $mtbmuncipalite->id }}"
-                          @if(old("mtb_municipality_id") && old("mtb_municipality_id") == $mtbmuncipalite->id)
+                      @foreach($mtb_municipalities as $mtb_municipality)
+                        <option value="{{ $mtb_municipality->id }}"
+                          @if(old("mtb_municipality_id") && old("mtb_municipality_id") == $mtb_municipality->id)
                             selected
                           @endif
-                          >{{ $mtbmuncipalite->value }}</option>
+                          >{{ $mtb_municipality->value }}</option>
                       @endforeach
                     </select>
                   </div>
@@ -46,8 +46,8 @@
                  </div>
                  <div class="col-sm-6">
                    <select type="text" name="mtb_event_status_id">
-                     <option>開催地域を選択してください。</option>
-                     @foreach($mtbeventstatu as $mtb_event_status)
+                     <option>開催状態を選択してください。</option>
+                     @foreach($mtb_event_statuses as $mtb_event_status)
                        <option value="{{ $mtb_event_status->id }}"
                          @if(old("mtb_event_status_id") && old("mtb_event_status_id") == $mtb_event_status->id)
                            selected
