@@ -89,21 +89,52 @@ class EventController extends Controller
         $event->minimum = $request->minimum;
         $event->cost = $request->cost;
         $event->detail = $request->detail;
-        $picture = $request->file('picture');
-        foreach ($picture as $key => $value) {
-          if (!empty($value)) {
-            if($value->isValid()) {
-            $originaName = $value->getClientOriginalName();
-            $ext = $value->getClientOriginalExtension();
-            $type = $value->getClientMimeType();
-            $realPath = $value->getRealPath();
-            $filename = md5(date('YmdHis') . '-' . uniqid()). '.' . $ext;
-            Storage::disk('public')->put($filename, file_get_contents($realPath));
-            $obj = 'picture'.($key+1);
-            $event->$obj = $filename;
-            }
-          }
+        $picture1 = $request->file('picture1');
+        if($picture1) {
+
+          $realPath = $picture1->getRealPath();
+          $ext = $picture1->getClientOriginalExtension();
+          $filename = date('YmdHis') . '-' . uniqid(). '.' . $ext;
+          Storage::disk('public')->put($filename, file_get_contents($realPath));
+          $event->picture1 = $filename;
         }
+
+        $picture2 = $request->file('picture2');
+        if($picture2) {
+
+          $realPath = $picture2->getRealPath();
+          $ext = $picture2->getClientOriginalExtension();
+          $filename = date('YmdHis') . '-' . uniqid(). '.' . $ext;
+          Storage::disk('public')->put($filename, file_get_contents($realPath));
+          $event->picture2 = $filename;
+        }
+
+        $picture3 = $request->file('picture3');
+        if($picture3) {
+
+          $realPath = $picture3->getRealPath();
+          $ext = $picture3->getClientOriginalExtension();
+          $filename = date('YmdHis') . '-' . uniqid(). '.' . $ext;
+          Storage::disk('public')->put($filename, file_get_contents($realPath));
+          $event->picture3 = $filename;
+        }
+
+
+        
+        // foreach ($picture as $key => $value) {
+        //   if (!empty($value)) {
+        //     if($value->isValid()) {
+        //     $originaName = $value->getClientOriginalName();
+        //     $ext = $value->getClientOriginalExtension();
+        //     $type = $value->getClientMimeType();
+        //     $realPath = $value->getRealPath();
+        //     $filename = md5(date('YmdHis') . '-' . uniqid()). '.' . $ext;
+        //     Storage::disk('public')->put($filename, file_get_contents($realPath));
+        //     $obj = 'picture'.($key+1);
+        //     $event->$obj = $filename;
+        //     }
+        //   }
+        // }
         $event->save();
 
         $event_id = $event->id;
