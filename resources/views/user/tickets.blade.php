@@ -10,7 +10,7 @@
     <div class="col-sm-2"></div>
 
     <div class="col-sm-8">
-        <nav class="navbar navbar-expand-sm bg-light">
+        <nav class="navbar navbar-expand-sm">
             <ul class="navbar-nav">
                 <li id="interval" class="nav-item {{ ($current_page=='all') ? 'current' : '' }}"><a class="nav-link navbar-brand" href="/user_tickets">すべて</a></li>
                 <li id="interval" class="nav-item {{ ($current_page=='not_used') ? 'current' : '' }}"><a class="nav-link navbar-brand" href="/user_tickets/not_used">未使用</a></li>
@@ -40,19 +40,15 @@
          <div class="col-md-8">
            <table class="table">
              <tr>
-               <td>チケットの番号:</td>
+               <td>QRコード:</td>
                <td id="qrcode"></td>
                <script type="text/javascript">
                 new QRCode(document.getElementById("qrcode"), {
-               	text: "{{$ticket->code}}",
-               	width: 100,
-               	height: 100
+                 text: "{{$ticket->code}}",
+                 width: 100,
+                 height: 100
                });
                </script>
-             </tr>
-             <tr>
-               <td>QRコード:</td>
-               <td id="qrcode">{{$ticket->code}}</td>
              </tr>
              <tr>
                <td>イベント:</td>

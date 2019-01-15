@@ -145,7 +145,7 @@ class UserController extends Controller
 
 
     Mail::to($to)->send(new MailConfirm($text, $token));
-    return view("user.isCreateSuccessed");
+    return view("user.create_successed");
 
 
   }
@@ -240,7 +240,7 @@ class UserController extends Controller
       $user_detail->user->mtb_user_status_id=MtbUserStatus::REAL_USER;
       $user_detail->user->save();
     }
-     return view("user.registerSuccessed");
+     return view("user.register_successed");
   }
 
   /**
