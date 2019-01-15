@@ -64,7 +64,7 @@ class UserController extends Controller
      "mtb_user_status_id" => MtbUserStatus::REAL_USER
    ];
 
-    if(Auth::attempt($arr)){
+    if (Auth::guard("user")->attempt($arr)){
       return redirect(route("get_after_login"));
     } else {
       return redirect(route('get_user_login'))->withInput()->withErrors($validator);
