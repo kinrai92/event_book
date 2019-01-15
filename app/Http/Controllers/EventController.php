@@ -98,7 +98,7 @@ class EventController extends Controller
 
         Mail::to($event->cooperation->mail)->send(new EventNotification($event_id, $event_title, $event_sup));
 
-        return view("welcome");
+        return view("event.register_event_finish");
       }
 
       // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
