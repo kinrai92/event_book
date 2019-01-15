@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{asset('/css/layout.css')}}">
     <link rel="stylesheet" href="{{asset('/css/div.css')}}">
 
-    <title>register_user</title>
+    <title>@yield('title')</title>
 
   </head>
 
