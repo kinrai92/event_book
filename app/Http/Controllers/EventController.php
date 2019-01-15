@@ -8,7 +8,10 @@ use App\Model\Cooperation\Cooperation;
 use App\Model\Master\MtbMunicipality;
 use App\Model\Master\MtbEventStatus;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
 use Validator;
+
 
 class EventController extends Controller
 {
@@ -78,14 +81,29 @@ class EventController extends Controller
         $event->minimum = $request->minimum;
         $event->cost = $request->cost;
         $event->detail = $request->detail;
-        $event->picture1 = "aaa";
-        $event->picture2 = $request->picture2;
-        $event->picture3 = $request->picture3;
-
+        $picture = $request->file('picture');
+        foreach ($picture as $key => $value) {
+          if (!empty($value)) {
+            if($value->isValid()) {
+            $originaName = $value->getClientOriginalName();
+            $ext = $value->getClientOriginalExtension();
+            $type = $value->getClientMimeType();
+            $realPath = $value->getRealPath();
+            $filename = md5(date('YmdHis') . '-' . uniqid()). '.' . $ext;
+            Storage::disk('public')->put($filename, file_get_contents($realPath));
+            $obj = 'picture'.($key+1);
+            $event->$obj = $filename;
+            }
+          }
+        }
         $event->save();
-
-        return view("welcome");
+      
+        return view("tmp_blade.successed");
       }
+
+
+
+
 
       // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
       $cooperation = Cooperation::find(1);
@@ -111,9 +129,9 @@ class EventController extends Controller
      $event->minimum = $request->minimum;
      $event->cost = $request->cost;
      $event->detail = $request->detail;
-     $event->picture1 = 123;
-     $event->picture2 = 123;
-     $event->picture3 = 123;
+     $event->picture1 = $request->file('picture1');
+     $event->picture2 = $request->file('picture2');
+     $event->picture3 = $request->file('picture3');
 
      $event->save();
      return view('userlogin.checkmail');
@@ -130,4 +148,24 @@ class EventController extends Controller
       ]);
 
     }
+//
+//     public function upload(Request $request)
+//     {
+//       if($request->isMethod('POST')){
+//
+//         $file = $request->file('source');
+//
+//         if($file->isValid()){
+//           $originaName = $file->getClientOriginaName();
+//           $ext = $file->getClientOriginaName();
+//           $type = $file->getClientMimeType();
+//           $realPath = $file->getRealPath();
+//
+//           $filename = date('Y-m-d-H-i-s') . '-' . uniqid() . '.' . $ext;
+//           $bool = Storage::disk('uploads')->put($filename,file_get_contents($realPath));
+//         }
+//         exit;
+//       }
+//       return view('cooperation.newevent');
+//     }
 }

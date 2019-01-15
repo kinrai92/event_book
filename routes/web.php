@@ -25,6 +25,7 @@ Route::get("event/find/{id}", "EventController@oneevent")->name("get_one_event")
 // tao
 Route::get("register_event", "EventController@create")->name("get_event_create");
 Route::post("register_event","EventController@create")->name("post_event_create");
+// Route::any('upload',"EventController@upload");
 
 // liang
 Route::get('updateevent/{id}', "EventController@updateevent")->name("get_event_update");

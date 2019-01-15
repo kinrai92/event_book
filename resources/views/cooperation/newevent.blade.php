@@ -19,7 +19,7 @@
                   @endforeach
                 @endif
               </div>
-              <form action="{{ route('post_event_create') }}" method="post">
+              <form action="{{ route('post_event_create') }}" method="post"  enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="cooperation_id" value="{{ $cooperation->id }}">
                 <div class="row top100">
@@ -117,7 +117,7 @@
                     写真1
                   </div>
                   <div class="col-sm-6">
-                    <input type="file" name="picture1">
+                    <input type="file" name="picture[]">
                   </div>
                 </div>
 
@@ -126,7 +126,7 @@
                     写真2
                   </div>
                   <div class="col-sm-6">
-                    <input type="file" name="picture2">
+                    <input type="file" name="picture[]">
                   </div>
                 </div>
 
@@ -135,7 +135,7 @@
                     写真3
                   </div>
                   <div class="col-sm-6">
-                    <input type="file" name="picture3">
+                    <input type="file" name="picture[]">
                   </div>
                 </div>
                 <div class="padding2">
