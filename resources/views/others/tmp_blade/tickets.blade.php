@@ -45,23 +45,23 @@ div.current {
              </tr>
              <tr>
                <td>イベント:</td>
-               <td>$ticket->event->name</td>
+               <td>{{$ticket->event->name}}</td>
              </tr>
              <tr>
                <td>チケット状態:</td>
-               <td>$ticket->mtb_ticket_status</td>
+               <td>{{$ticket->mtb_ticket_status}}</td>
              </tr>
             <tr>
               <td>イベント開催日時:</td>
-              <td>$ticket->event->start_at</td>
+              <td>{{$ticket->event->start_at}}</td>
             </tr>
             <tr>
               <td>イベント開催場所:</td>
-              <td>$ticket->event->mtb_municipality->value</td>
+              <td>{{$ticket->event->mtb_municipality->value}}</td>
             </tr>
             <tr>
               <td>イベント主催者:</td>
-              <td>$ticket->event->cooperation->name</td>
+              <td>{{$ticket->event->cooperation->name}}</td>
             </tr>
             <tr>
               <td>キャンセル:</td>
