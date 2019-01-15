@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
 use App\Model\Cooperation\Cooperation;
+use App\Model\Ticket\Ticket;
 use App\Model\Master\MtbMunicipality;
 use App\Model\Master\MtbEventStatus;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EventNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,7 +24,7 @@ class EventController extends Controller
       $current_page = "all";
 
       if(!$status) {
-        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH,MtbEventStatus::CANCEL])->get();
+        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH, MtbEventStatus::CANCEL])->get();
       } elseif($status == "opening") {
         $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now())->get();
         $current_page = "opening";
@@ -37,7 +40,12 @@ class EventController extends Controller
     }
 
     public function get_one_event(Request $request, $id) {
-      return view("event.event_detail", ["id" => $id]);
+      $event = null;
+      $event = Event::find($id);
+      $tickets = Event::find($id)->tickets;
+      $num_tickets = $tickets->count();
+
+      return view("event.event_detail", ["event" => $event, "num_tickets" => $num_tickets]);
     }
 
 
@@ -72,7 +80,7 @@ class EventController extends Controller
         }
 
         $event = new Event;
-        $event->cooperation_id = $request->cooperation_id;
+        $event->cooperation_id = "1";//$request->cooperation_id;
         $event->mtb_municipality_id = $request->mtb_municipality_id;
         $event->mtb_event_status_id = $request->mtb_event_status_id;
         $event->title = $request->title;
@@ -97,8 +105,14 @@ class EventController extends Controller
           }
         }
         $event->save();
-      
-        return view("tmp_blade.successed");
+
+        $event_id = $event->id;
+        $event_title = $event->title;
+        $event_sup = $event->cooperation->name;
+
+        Mail::to($event->cooperation->mail)->send(new EventNotification($event_id, $event_title, $event_sup));
+
+        return view("event.register_event_finish");
       }
 
 

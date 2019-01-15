@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'user',
         'passwords' => 'users',
     ],
 
@@ -36,9 +36,14 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'user' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+
+        "cooperation" => [
+          "driver" => "session",
+          "provider" => "cooperations",
         ],
 
         'api' => [
@@ -67,8 +72,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Model\User\User::class,
         ],
+        "cooperations" => [
+          "driver" => "eloquent",
+          "model" => App\Model\Cooperation\Cooperation::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

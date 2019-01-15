@@ -41,6 +41,9 @@
                      <li><a id="a" href="?value=?">未使用</a></li>
                      <li><a href="#">使用済み</a></li>
                      <li><a id="a" href="#">キャンセル済み</a></li>
+                     @auth('user')
+                       <li><a href="#">{{auth('user')->user()->user_detail->nickname}}</li>
+                     @endauth
                   </ul>
               </div>
             </div>
@@ -48,58 +51,84 @@
 
            <div class="row borderln">
               <div class="col-md-4">
-              <img src="img/Events001.jpg" width="200px" height="100px" style="padding:20px">
+              <img src="img/Events001.jpg" width="300px" height="230px" style="padding:20px">
               </div>
 
               <div class="col-md-8">
                 <table class="table">
                   <tr>
+                    <td>チケットの番号:</td>
+                    <td>190109</td>
+                  </tr>
+                  <tr>
                     <td>イベント:</td>
                     <td>明日の凧</td>
                   </tr>
                   <tr>
-                    <td>応募済みユーザー数:</td>
-                    <td>100人</td>
+                    <td>チケット状態:</td>
+                    <td>未使用</td>
                   </tr>
-                  <tr>
-                    <td>残り応募可能人数:</td>
-                    <td>100人</td>
-                  </tr>
+                 <tr>
+                   <td>イベント開催日時:</td>
+                   <td>2019/2/27</td>
+                 </tr>
                  <tr>
                    <td>イベント開催場所:</td>
                    <td>東京都港区</td>
                  </tr>
+                 <tr>
+                   <td>イベント主催者:</td>
+                   <td>EventBook株式会社</td>
+                 </tr>
+                 <tr>
+                   <td>キャンセル:</td>
+                   <td><a href="cancell.php">キャンセル</a></td>
+                 </tr>
                 </table>
               </div>
-            </div>
+          </div>
 
+         @auth('user')
           <div class="row borderln" style="margin-top:50px">
              <div class="col-md-4">
-             <img src="img/Events002.jpg" width="200px" height="100px" style="padding:20px">
+             <img src="img/Events002.jpg" width="300px" height="250px" style="padding:20px">
              </div>
 
              <div class="col-md-8">
                <table class="table">
                  <tr>
+                   <td>チケットの番号:</td>
+                   <td>190109</td>
+                 </tr>
+                 <tr>
                    <td>イベント:</td>
                    <td>明日の凧</td>
                  </tr>
                  <tr>
-                   <td>応募済みユーザー数:</td>
-                   <td>100人</td>
+                   <td>チケット状態:</td>
+                   <td>未使用</td>
                  </tr>
-                 <tr>
-                   <td>残り応募可能人数:</td>
-                   <td>100人</td>
-                 </tr>
+                <tr>
+                  <td>イベント開催日時:</td>
+                  <td>2019/2/27</td>
+                </tr>
                 <tr>
                   <td>イベント開催場所:</td>
                   <td>東京都港区</td>
                 </tr>
+                <tr>
+                  <td>イベント主催者:</td>
+                  <td>EventBook株式会社</td>
+                </tr>
+                <tr>
+                  <td>キャンセル:</td>
+                  <td><a href="cancell.php">キャンセル</a></td>
+                </tr>
                </table>
              </div>
-           </div>
          </div>
+        @endauth
+
         </div>
       </div>
     </div>
