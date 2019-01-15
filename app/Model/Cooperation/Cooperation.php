@@ -4,9 +4,10 @@ namespace App\Model\Cooperation;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\User as AuthenticationCooperation;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Cooperation extends Model
+class Cooperation extends AuthenticationCooperation
 {
 
     use SoftDeletes;
