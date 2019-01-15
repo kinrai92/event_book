@@ -8,7 +8,6 @@ use App\Model\Cooperation\Cooperation;
 use App\Model\Master\MtbArea;
 use App\Model\Master\MtbIndustryType;
 use App\Model\Master\MtbStaffTotal;
-
 use Validator;
 
 class CooperationController extends Controller

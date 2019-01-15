@@ -157,7 +157,7 @@ class EventController extends Controller
 
       return view('cooperation.newevent', [
         "cooperation"=>$cooperation,
-        "mtbmuncipality"=>MtbMunicipality::all(),
+        "mtbmunicipality"=>MtbMunicipality::all(),
         "mtbeventstatu"=>MtbEventStatus::get_create_statuses(),
       ]);
     }
