@@ -151,15 +151,15 @@ class EventController extends Controller
 
 
 
-      // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
-      $cooperation = Cooperation::find(1);
-
-      return view('cooperation.newevent', [
-        "cooperation"=>$cooperation,
-        "mtbmuncipality"=>MtbMunicipality::all(),
-        "mtbeventstatu"=>MtbEventStatus::get_create_statuses(),
-      ]);
-    }
+    //   // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
+    //   $cooperation = Cooperation::find(1);
+    //
+    //   return view('cooperation.newevent', [
+    //     "cooperation"=>$cooperation,
+    //     "mtbmuncipality"=>MtbMunicipality::all(),
+    //     "mtbeventstatu"=>MtbEventStatus::get_create_statuses(),
+    //   ]);
+    // }
 
     public function update(Request $request)
     {
@@ -194,3 +194,4 @@ class EventController extends Controller
       ]);
 
     }
+  }
