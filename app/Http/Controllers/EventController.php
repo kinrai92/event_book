@@ -147,10 +147,6 @@ class EventController extends Controller
         return view("event.register_event_finish");
       }
 
-
-
-
-
       // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
       $cooperation = Cooperation::find(1);
 
