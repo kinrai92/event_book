@@ -19,9 +19,12 @@ Route::post('user_register',"UserController@register")->name("post_user_register
 Route::get('user_login','UserController@ready_to_login')->name('get_user_login');
 Route::post('user_login','UserController@do_login')->name('post_user_login');
 Route::get('user_logout','UserController@logout')->name('get_user_logout');
-Route::get('user_tickets','UserController@show_user_tickets_page')->name('show_user_tickets_page')->middleware('auth:user');
+Route::get('user_tickets/{status?}','UserController@show_user_tickets_page')->name('show_user_tickets_page')->middleware('auth:user');
 Route::get("cooperation_register", "CooperationController@create")->name("get_cooperation_register");
 Route::post("cooperation_register", "CooperationController@register")->name("post_cooperation_register");
+//huang use for test
+Route::get("tmp_tickets",function(){return view('others.tmp_blade.tmp_tickets');});
+//
 
 //jin
 //Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware("auth:users");

@@ -68,8 +68,9 @@
                 <div class="top-right links">
                     @auth('user')
                         <a href="{{ url('/after_login') }}">{{auth('user')->user()->user_detail->nickname}}</a>
-                        <a href="{{ route('get_user_logout') }}">Logout</a>
+                        <a href="{{ route('get_events') }}">Events</a>
                         <a href="{{ route('show_user_tickets_page') }}">ticktets</a>
+                        <a href="{{ route('get_user_logout') }}">Logout</a>
                     @else
                         <a href="{{ route('get_user_login') }}">Login</a>
                         <a href="{{ url('/user_create') }}">Register</a>
