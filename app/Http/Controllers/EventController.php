@@ -119,25 +119,8 @@ class EventController extends Controller
           $event->picture3 = $filename;
         }
 
-
-
-        // foreach ($picture as $key => $value) {
-        //   if (!empty($value)) {
-        //     if($value->isValid()) {
-        //     $originaName = $value->getClientOriginalName();
-        //     $ext = $value->getClientOriginalExtension();
-        //     $type = $value->getClientMimeType();
-        //     $realPath = $value->getRealPath();
-        //     $filename = md5(date('YmdHis') . '-' . uniqid()). '.' . $ext;
-        //     Storage::disk('public')->put($filename, file_get_contents($realPath));
-        //     $obj = 'picture'.($key+1);
-        //     $event->$obj = $filename;
-        //     }
-        //   }
-        // }
         $event->save();
-        return view("tmp_blade.successed");
-      }
+
         $event_id = $event->id;
         $event_title = $event->title;
         $event_sup = $event->cooperation->name;
@@ -146,6 +129,8 @@ class EventController extends Controller
 
         return view("event.register_event_finish");
       }
+      return view("cooperation.newevent", ["mtb_event_statuses" => MtbEventStatus::get_create_statuses(), "mtb_municipalities" =>MtbMunicipality::all(),]);
+    }
 
 
 
