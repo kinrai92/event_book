@@ -45,9 +45,9 @@ return [
             'provider' => 'users',
         ],
         'cooperation' => [
-            'cooperation' => 'session',
-            'provider' => 'cooperations',
-        ],
+             'driver' => 'session',
+             'provider' => 'cooperations',
+         ],
     ],
 
     /*

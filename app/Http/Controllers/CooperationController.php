@@ -8,11 +8,70 @@ use App\Model\Cooperation\Cooperation;
 use App\Model\Master\MtbArea;
 use App\Model\Master\MtbIndustryType;
 use App\Model\Master\MtbStaffTotal;
+use Illuminate\Support\Facades\Auth;
+
 
 use Validator;
 
 class CooperationController extends Controller
 {
+  /**
+   *
+   *ホームページ画面。
+   *
+   */
+  public function index(Request $request)
+  {
+    return view('others.index.cooperationindex');
+  }
+  /**
+   *
+   *ログイン画面。
+   *
+   */
+  public function ready_to_login(Request $request)
+  {
+    return view('cooperation.cooperlogin');
+  }
+  /**
+   *
+   *ログイン機能。
+   *
+   */
+  public function cooper_login(Request $request){
+
+    $validator_rules = [
+      "mail" => "required|email",
+      "password" => "required"
+    ];
+
+    $validator_messages = [
+      "mail.required" => "メールを入力してください。",
+      "mail.email" => "メールの形式が正しくありません。",
+      "password.required" => "パスワードを入力してください。",
+    ];
+    $validator = Validator::make($request->all(),$validator_rules,$validator_messages);
+    if($validator->fails()){
+
+      return redirect(route('get_cooperation_login'))->withInput()->withErrors($validator);
+    }
+    $arr = [
+      "mail" => $request->mail,
+      "password" => $request->password,
+    ];
+
+     if(Auth::attempt($arr)){
+       return redirect(route("get_after_cooperlogin"));
+     } else {
+       return redirect(route('get_cooperation_login'))->withInput()->withErrors($validator);
+     }
+   }
+
+   public function logout(Request $request)
+   {
+     Auth::guard('cooperation')->logout();
+     return view('');
+   }
   /**
    *
    *登録画面へ遷移する。
@@ -105,4 +164,7 @@ class CooperationController extends Controller
 
      return view("cooperation.registerSuccessed");
   }
+
+
+
 }

@@ -21,7 +21,7 @@ class UserController extends Controller
    */
   public function index(Request $request)
   {
-    return view('welcome');
+    return view('others.index.index');
   }
 
   /**
@@ -79,7 +79,7 @@ class UserController extends Controller
    public function logout(Request $request)
    {
      Auth::guard('user')->logout();
-     return view('welcome');
+     return view('user.login');
    }
 
   /**

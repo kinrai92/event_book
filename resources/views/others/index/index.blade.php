@@ -58,23 +58,14 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">ホームページ
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">法人登録</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">ログイン</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">新規登録</a>
-            </li>
-          </ul>
+        <div class="top-right links">
+            @auth('user')
+                <a href="{{ url('/after_login') }}">{{auth('user')->user()->user_detail->nickname}}</a>
+                <a href="{{ route('get_user_logout') }}">Logout</a>
+            @else
+                <a href="{{ route('get_user_login') }}">Login</a>
+                <a href="{{ url('/user_create') }}">Register</a>
+            @endauth
         </div>
       </div>
     </nav>
@@ -92,7 +83,7 @@
           </h1>
 
           <div class="row1">
-            <a class="btn btn-primary" href="#">イベントを全て見る</a>
+            <a class="btn btn-primary" href="{{ route('get_events') }}">イベントを全て見る</a>
           </div>
           <!-- Blog Post -->
           <div class="card mb-4">
@@ -174,7 +165,7 @@
               </span>
             </div>
             <div class="top_list top1">
-              <a href="https://www.kyoai.ac.jp/?cat=3">&raquo; 一覧ページへ</a>
+              <a href="{{ route('show_user_tickets_page') }}">&raquo; 一覧ページへ</a>
             </div>
 
           </div>

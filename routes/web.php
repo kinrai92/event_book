@@ -36,6 +36,12 @@ Route::post("register_event","EventController@create")->name("post_event_create"
 // liang
 Route::get('updateevent/{id}', "EventController@updateevent")->name("get_event_update");
 Route::post('updateevent', "EventController@update")->name("post_event_update");
+Route::get('cooper_login','CooperationController@ready_to_login')->name('get_cooperation_login');
+Route::post('cooper_login','CooperationController@cooper_login')->name('post_cooperation_login');
+Route::get('after_cooperlogin','CooperationController@index')->name('get_after_cooperlogin');
+Route::get('cooper_logout','CooperationController@cooper_logout')->name('get_cooperation_logout');
+
+
 
 //是否登陆，如果没有重定向回登陆页面
 Route::get("user_create", "UserController@create");
@@ -44,9 +50,9 @@ Route::group(['middleware' => ['web','admin.login']],function(){
 
 });
 //根据时间不同，跳转不同页面
-Route::any('event0','EventController@event0');
+Route::get('event0','EventController@event0');
 Route::group(['middleware' =>['event']],function(){
-  Route::any('event1',"EventController@event1");
+  Route::get('event1',"EventController@event1");
 });
 
 Auth::routes();
