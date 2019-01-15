@@ -3,8 +3,6 @@
 @section('title','UserCreate')
 
 @section('content')
-
-      <body>
         <div class="container-fluid" >
           <!-- へーダー -->
           <font size="5" color="darkgrey">好きなイベントを一緒に参加しましょう。</font>
