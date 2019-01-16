@@ -1,7 +1,6 @@
 @extends("layout.layout")
 @section('title','Tickets')
 @section("content")
- <script src="{{asset('/js/qrcode.js')}}"></script>
 <style>
 div.current {
   background: gray;
@@ -44,14 +43,8 @@ div.current {
           </div>
           <div class="row top36">
             <div class="col-sm-4 text-left">QRコード:</div>
-            <div id="{{$ticket->id}}" class="col-sm-8 text-right margin" type="text/javascript">
-              <script type="text/javascript">
-              new QRCode(document.getElementById("{{$ticket->id}}"), {
-                 text: "1234567890123456",
-                 width: 128,
-                 height:128,
-                });
-              </script>
+            <div  class="col-sm-8 text-right margin">
+            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(100)->generate('{{$ticket->code}}')) !!} ">
             </div>
           </div>
           <div class="row top6">

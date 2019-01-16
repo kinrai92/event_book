@@ -16,7 +16,7 @@
     <title>@yield('title')</title>
     <style>
     .margin{
-      margin-left: 650px;
+      margin-left: 270px;
     }
 
     </style>
