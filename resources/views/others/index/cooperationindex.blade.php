@@ -76,7 +76,7 @@
           </h1>
 
           <div class="row1">
-            <a class="btn btn-primary" href="{{ route('get_events') }}">イベントを全て見る</a>
+            <a class="btn btn-primary" href="{{ route('get_events_cooperation') }}">イベントを全て見る</a>
           </div>
           <!-- Blog Post -->
           <div class="card mb-4">
