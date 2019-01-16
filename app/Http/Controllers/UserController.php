@@ -246,11 +246,4 @@ class UserController extends Controller
 
   }
 
-  public function test(Request $request)
-  {
-    $png=QrCode::format('png')->size(100)->generate('QrCode as PNG image!');
-    $qrcode=base64_encode($png);
-
-    return view('others.tmp_blade.tmp_qrcode',['qrcode' => $qrcode]);
-  }
 }
