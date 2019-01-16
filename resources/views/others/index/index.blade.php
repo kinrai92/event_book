@@ -50,7 +50,7 @@
   </head>
 
   <body>
-
+  <p>{{auth('user')->user()->user_detail->user_id}}</p>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">

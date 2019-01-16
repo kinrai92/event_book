@@ -30,6 +30,7 @@ class EventController extends Controller
       }
       return view("event.event_all", ["events" => $events,"current_page" => $current_page]);
     }
+
     public function get_one_event(Request $request, $id) {
       $event = null;
       $event = Event::find($id);
@@ -37,6 +38,7 @@ class EventController extends Controller
       $num_tickets = $tickets->count();
       return view("event.event_detail", ["event" => $event, "num_tickets" => $num_tickets]);
     }
+
     public function create(Request $request)
     {
       if($request->isMethod("POST")){

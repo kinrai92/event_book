@@ -25,7 +25,7 @@ div.current {
         <div class="col-sm-3 {{ ($current_page=='not_used') ? 'current' : '' }}">
           <a href="/user_tickets/not_used">未使用</a>
         </div>
-        <div class="col-sm-3 {{ ($current_page=='held') ? 'current' : '' }}">
+        <div class="col-sm-3 {{ ($current_page=='used') ? 'current' : '' }}">
           <a href="/user_tickets/used">使用済み</a>
         </div>
         <div class="col-sm-3 {{ ($current_page=='cancelled') ? 'current' : '' }}">
@@ -34,9 +34,7 @@ div.current {
       </div>
       @foreach($tickets as $ticket)
       <div class="row borderln">
-         <div class="col-md-4">
-         <img src="{{asset('/storage/'.$ticket->event->picture1)}}" width="300px" height="230px" style="padding:20px">
-         </div>
+
          <div class="col-md-8">
            <table class="table">
              <tr>
@@ -45,24 +43,16 @@ div.current {
              </tr>
              <tr>
                <td>イベント:</td>
-               <td>{{$ticket->event->name}}</td>
+               <td>{{$ticket->event->title}}</td>
              </tr>
              <tr>
                <td>チケット状態:</td>
-               <td>{{$ticket->mtb_ticket_status}}</td>
+               <td>{{$ticket->mtb_ticket_status->value}}</td>
              </tr>
-            <tr>
-              <td>イベント開催日時:</td>
-              <td>{{$ticket->event->start_at}}</td>
-            </tr>
-            <tr>
-              <td>イベント開催場所:</td>
-              <td>{{$ticket->event->mtb_municipality->value}}</td>
-            </tr>
-            <tr>
-              <td>イベント主催者:</td>
-              <td>{{$ticket->event->cooperation->name}}</td>
-            </tr>
+             <tr>
+               <td>user:</td>
+               <td>{{$ticket->user->nickname}}</td>
+             </tr>
             <tr>
               <td>キャンセル:</td>
               <td><a href="#">キャンセル</a></td>
