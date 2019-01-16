@@ -9,6 +9,7 @@ use App\Model\Master\MtbEventStatus;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EventNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Validator;
 class EventController extends Controller
@@ -28,7 +29,8 @@ class EventController extends Controller
         $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::CANCEL)->get();
         $current_page = "canceled";
       }
-      return view("event.event_all", ["events" => $events,"current_page" => $current_page]);
+
+      return view("event.event_all", ["events" => $events, "current_page" => $current_page,]);
     }
 
     public function get_one_event(Request $request, $id) {
@@ -38,6 +40,56 @@ class EventController extends Controller
       $num_tickets = $tickets->count();
       return view("event.event_detail", ["event" => $event, "num_tickets" => $num_tickets]);
     }
+
+    public function events_cooperation(Request $requests, $status = null) {
+
+      $events = null;
+      $current_page = "all";
+
+      if(!$status) {
+        $events = Event::query()->where("cooperation_id", auth('cooperation')->user()->id)->get();
+      } elseif($status == "opening") {
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now())->where("cooperation_id", auth('cooperation')->user()->id)->get();
+        $current_page = "opening";
+      } elseif($status == "held") {
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", "<", Carbon::now())->where("cooperation_id", auth('cooperation')->user()->id)->get();
+        $current_page = "held";
+      } elseif($status == "not_publish") {
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::NOT_PUBLISH)->where("cooperation_id", auth('cooperation')->user()->id)->get();
+        $current_page = "not_publish";
+      } elseif($status == "canceled") {
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::CANCEL)->where("cooperation_id", auth('cooperation')->user()->id)->get();
+        $current_page = "canceled";
+      }
+
+      $mtb_municipalities = MtbMunicipality::all();
+      return view("event.event_all_cooperation", ["events" => $events, "current_page" => $current_page, "mtb_municipalities" => $mtb_municipalities]);
+    }
+
+    public function search_event_coop(Request $request)
+    {
+      $mtb_municipalities = MtbMunicipality::all();
+
+      $events = [];
+
+      $event_title = $request->event_title;
+      $event_area_id = $request->mtb_municipality_id;
+
+      if ($event_title && $event_area_id == 'none')
+      {
+        $events = Event::query()->where("title", "like", "%$event_title%")->where("cooperation_id", auth('cooperation')->user()->id)->get();
+      }
+      elseif ($event_title  && $event_area_id != 'none')
+      {
+        $events = Event::query()->where("title", "like", "%$event_title%")->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
+      }
+      elseif (empty($event_title) && $event_area_id != 'none')
+      {
+        $events = Event::query()->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
+      }
+    return view("event.event_all_cooperation", ["events" => $events, "mtb_municipalities" => $mtb_municipalities, "current_page" => null, /*"search_title" => $event_title*/]);
+    }
+
 
     public function create(Request $request)
     {
@@ -67,7 +119,7 @@ class EventController extends Controller
           return redirect(route("get_event_create"))->withInput()->withErrors($validator);
         }
         $event = new Event;
-        $event->cooperation_id = "1";//$request->cooperation_id;
+        $event->cooperation_id = $request->cooperation_id;
         $event->mtb_municipality_id = $request->mtb_municipality_id;
         $event->mtb_event_status_id = $request->mtb_event_status_id;
         $event->title = $request->title;

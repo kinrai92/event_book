@@ -27,13 +27,16 @@ Route::get("cooperation_register", "CooperationController@create")->name("get_co
 Route::post("cooperation_register", "CooperationController@register")->name("post_cooperation_register");
 
 //jin
-//Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware("auth::users");
-Route::get("event/all/{status?}", "EventController@events")->name("get_events");
+//Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware("auth:users");
+Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware('auth:user');
 Route::get("event/find/{id}", "EventController@get_one_event")->name("get_one_event")->middleware('auth:user');
+Route::get("event/myevents/{status?}", "EventController@events_cooperation")->name("get_events_cooperation")->middleware('auth:cooperation');
+Route::post("event/myevents/{status?}", "EventController@search_event_coop")->name("search_event_coop")->middleware('auth:cooperation');
 
 // tao
-Route::get("register_event", "EventController@create")->name("get_event_create");
-Route::post("register_event","EventController@create")->name("post_event_create");
+Route::get("register_event", "EventController@create")->name("make_event_create");
+// Route::get("register_event", "EventController@create")->name("make_event_create")->middleware('auth:cooperation');
+Route::post("register_event","EventController@create")->name("post_event_create")->middleware('auth:cooperation');
 // Route::any('upload',"EventController@upload");
 
 // liang
@@ -47,17 +50,7 @@ Route::post('ticket_creat','TicketController@create')->name('post_ticket_create'
 
 
 
-//是否登陆，如果没有重定向回登陆页面
-Route::get("user_create", "UserController@create");
-Route::group(['middleware' => ['web','admin.login']],function(){
-  Route::get("index",'EventController@event0');
 
-});
-//根据时间不同，跳转不同页面
-Route::get('event0','EventController@event0');
-Route::group(['middleware' =>['event']],function(){
-  Route::get('event1',"EventController@event1");
-});
 
 Auth::routes();
 

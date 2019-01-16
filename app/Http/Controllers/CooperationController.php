@@ -59,7 +59,7 @@ class CooperationController extends Controller
       "password" => $request->password,
     ];
 
-     if(Auth::attempt($arr)){
+     if(Auth::guard('cooperation')->attempt($arr)){
        return redirect(route("get_after_cooperlogin"));
      } else {
        return redirect(route('get_cooperation_login'))->withInput()->withErrors($validator);
@@ -201,8 +201,8 @@ class CooperationController extends Controller
     return view('welcome_coop');
   }
 
-  public function index(Request $request)
+  public function homepage(Request $request)
   {
-    return view('welcome_coop');
+    return view('others.cooperationindex');
   }
 }

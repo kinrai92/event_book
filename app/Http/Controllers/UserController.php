@@ -159,8 +159,7 @@ class UserController extends Controller
   public function go_to_register(Request $request,$token)
   {
 
-    $user = User::query()->where("token", $token)->whereIn("mtb_user_status_id",[MtbUserStatus::MAIL_NOT_CONFIRMED,
-                                                                                 MtbUserStatus::DETAIL_NOT_INPUT])->first();
+    $user = User::query()->where("token", $token)->whereIn("mtb_user_status_id",[MtbUserStatus::MAIL_NOT_CONFIRMED, MtbUserStatus::DETAIL_NOT_INPUT])->first();
     if($user){
       $user->mtb_user_status_id = MtbUserStatus::DETAIL_NOT_INPUT;
       $user->save();
@@ -169,17 +168,10 @@ class UserController extends Controller
         "user_id" => $user->id,
         'token'=>$token
       ]);
-   }
-   //Validactionを通過しなかった場合の処理。
-    $logged_in = Auth::guard('user')->user();
-    if($logged_in){
-      return view("user.register", [
-        "mtb_areas" => MtbArea::all(),
-        "user_id" => $logged_in->id,
-        'token'=>$token
-      ]);
-   }
-}
+    } else {
+      return view("welcome");
+    }
+  }
 
   /**
    *
@@ -219,9 +211,9 @@ class UserController extends Controller
 
     ];
 
-    $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
+    $validator = Validator::make($request->all(), $validator_rules, $validator_messages);
     if($validator->fails()){
-      return redirect(route('get_mail_confirm',['token'=>$request->user_token]))->withInput()->withErrors($validator);
+      return redirect()->back()->withInput()->withErrors($validator);
     }
 
     $user_detail = new UserDetail;
@@ -236,12 +228,12 @@ class UserController extends Controller
     $user_detail->gender_flg = $request->gender_flg;
     $user_detail->birthday = $request->birthday;
     $user_detail->nickname = $request->nickname;
+    $user_detail->save();
 
-    if($user_detail->save()){
-      $user_detail->user->mtb_user_status_id=MtbUserStatus::REAL_USER;
-      $user_detail->user->save();
-    }
-     return view("user.register_successed");
+    $user_detail->user->mtb_user_status_id = MtbUserStatus::REAL_USER;
+    $user_detail->user->save();
+
+     return view("user.registerSuccessed");
   }
 
   /**
