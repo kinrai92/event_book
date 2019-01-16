@@ -201,8 +201,8 @@ class CooperationController extends Controller
     return view('welcome_coop');
   }
 
-  public function index(Request $request)
+  public function homepage(Request $request)
   {
-    return view('welcome_coop');
+    return view('others.cooperationindex');
   }
 }

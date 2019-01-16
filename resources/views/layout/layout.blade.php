@@ -14,6 +14,12 @@
     <link rel="stylesheet" href="{{asset('/css/div.css')}}">
 
     <title>@yield('title')</title>
+    <style>
+    .margin{
+      margin-left: 650px;
+    }
+
+    </style>
 
   </head>
 
