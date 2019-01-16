@@ -19,7 +19,7 @@ class CooperationController extends Controller
    *ホームページ画面。
    *
    */
-  public function index(Request $request)
+  public function show(Request $request)
   {
     return view('others.index.cooperationindex');
   }

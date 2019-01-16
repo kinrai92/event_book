@@ -19,9 +19,7 @@ class TicketController extends Controller
       $ticket->mtb_ticket_status_id=1;
       $ticket->save();
       return view('others.tmp_blade.successed');
-
     }
-
 
     public function show_user_tickets_page(Request $request,$status=null)
   {
@@ -29,8 +27,8 @@ class TicketController extends Controller
     $current_page = "all";
     if(!$status) {
       $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
-                                                                MtbTicketStatus::USED,
-                                                                MtbTicketStatus::CANCELLED])->get();
+                                                                   MtbTicketStatus::USED,
+                                                                   MtbTicketStatus::CANCELLED])->get();
 
     } elseif($status == "not_used") {
       $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::NOT_USED)->get();
@@ -42,7 +40,7 @@ class TicketController extends Controller
       $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->get();
       $current_page = "cancelled";
     }
-    return view("others.tmp_blade.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
+    return view("user.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
   }
 
 }

@@ -12,6 +12,7 @@ use App\Model\Master\MtbTicketStatus;
 use App\Model\User\UserDetail;
 use App\Model\Ticket\Ticket;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Validator;
 
 class UserController extends Controller
@@ -70,7 +71,7 @@ class UserController extends Controller
      "mtb_user_status_id" => MtbUserStatus::REAL_USER
    ];
 
-    if (Auth::guard("user")->attempt($arr)){
+    if (Auth::guard("user")->attempt($arr,$request->remember_me)){
       return redirect(route("get_after_login"));
     } else {
       return redirect(route('get_user_login'))->withInput()->withErrors($validator);
@@ -253,11 +254,11 @@ class UserController extends Controller
 
   }
 
-  /**
-   *
-   *チケット一覧画面。
-   *
-   */
+  public function test(Request $request)
+  {
+    $png=QrCode::format('png')->size(100)->generate('QrCode as PNG image!');
+    $qrcode=base64_encode($png);
 
-
+    return view('others.tmp_blade.tmp_qrcode',['qrcode' => $qrcode]);
+  }
 }

@@ -38,6 +38,14 @@
                     <input id="width" type="password" name="password" value="{{ old('password') }}" style="width:180px">
                   </div>
                 </div>
+
+                <div class="row top6">
+                  <div class="col-sm-6"></div>
+                  <div class="col-sm-6">
+                    <input type="checkbox" name="remember_me" value="true">Remember Me
+                  </div>
+                </div>
+
                 <div class="row top36 bottom36">
                   <div class="col-sm-4"></div>
                   <div class="col-sm-4 text-center">
