@@ -86,7 +86,7 @@ class UserController extends Controller
    public function logout(Request $request)
    {
      Auth::guard('user')->logout();
-     return view('user.login');
+     return redirect(route('get_event_book'));
    }
 
   /**
@@ -231,7 +231,7 @@ class UserController extends Controller
     $user_detail->user->mtb_user_status_id = MtbUserStatus::REAL_USER;
     $user_detail->user->save();
 
-     return view("user.registerSuccessed");
+     return view("user.register_successed");
   }
 
   /**

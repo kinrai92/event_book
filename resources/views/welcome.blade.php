@@ -67,7 +67,7 @@
         <div class="flex-center position-ref full-height">
                 <div class="top-right links">
                     @auth('user')
-                        <a href="{{ url('/after_login') }}">{{auth('user')->user()->user_detail->nickname}}</a>
+                        <a href="{{ url('/event_book') }}">{{auth('user')->user()->user_detail->nickname}}</a>
                         <a href="{{ route('get_events') }}">Events</a>
                         <a href="{{ route('show_user_tickets_page') }}">ticktets</a>
                         <a href="{{ route('get_user_logout') }}">Logout</a>
