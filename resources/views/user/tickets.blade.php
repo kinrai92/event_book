@@ -59,7 +59,7 @@ div.current {
           </div>
           <div class="row top6">
             <div class="col-sm-4 text-left">user:</div>
-            <div class="col-sm-8 text-right">{{$ticket->user->nickname}}</div>
+            <div class="col-sm-8 text-right">{{$ticket->user_detail->nickname}}</div>
           </div>
           <div class="row top6 bottom36">
             <div class="col-sm-4 text-left"></div>
