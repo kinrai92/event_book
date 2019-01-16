@@ -94,7 +94,6 @@ class EventController extends Controller
       $event = null;
       $event = Event::find($id);
       $tickets = Ticket::query()->where("event_id", $id)->paginate(2);
-      $user=
       $num_tickets = $tickets->count();
       return view("event.event_detail_of_cooperation", ["event" => $event, "num_tickets" => $num_tickets,"tickets" => $tickets]);
     }
