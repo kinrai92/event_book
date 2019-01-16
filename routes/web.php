@@ -23,10 +23,6 @@ Route::get('user_logout','UserController@logout')->name('get_user_logout');
 Route::get('user_tickets/{status?}','TicketController@show_user_tickets_page')->name('show_user_tickets_page')->middleware('auth:user');
 Route::get("cooperation_register", "CooperationController@create")->name("get_cooperation_register");
 Route::post("cooperation_register", "CooperationController@register")->name("post_cooperation_register");
-<<<<<<< HEAD
-=======
-
->>>>>>> ff3c0a41a90ace7a03833b92c2f340970236e63c
 
 //jin
 //Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware("auth::users");
