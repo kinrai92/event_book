@@ -65,7 +65,7 @@ class EventController extends Controller
       $mtb_municipalities = MtbMunicipality::all();
       return view("event.event_all_cooperation", ["events" => $events, "current_page" => $current_page, "mtb_municipalities" => $mtb_municipalities]);
     }
-
+ 
     public function search_event_coop(Request $request)
     {
       $mtb_municipalities = MtbMunicipality::all();

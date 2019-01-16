@@ -16,7 +16,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Validator;
 
 class UserController extends Controller
-{
+{ 
   /**
    *
    *ホームページ画面。
