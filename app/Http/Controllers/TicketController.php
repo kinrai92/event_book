@@ -15,6 +15,7 @@ class TicketController extends Controller
     {
       $validator_rules = [
         "user_id" => "required|unique:user_details,user_id",
+      
       ];
       $validator_messages = [
         "user_id.unique" => "お客様はすでに注文しました。二回目の申し込みはできません",
