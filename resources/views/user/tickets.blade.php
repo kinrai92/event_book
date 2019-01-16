@@ -49,8 +49,8 @@ div.current {
           </div>
           <div class="row top36">
             <div class="col-sm-4 text-left">QRコード:</div>
-            <div  class="col-sm-8 text-right margin">
-            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(100)->generate('{{$ticket->code}}')) !!} ">
+            <div  class="col-sm-8 margin" style="padding-left:250px">
+            <a href="/show_qrcode/{{($ticket->code)}}">こちらをクリック</a>
             </div>
           </div>
           <div class="row top6">
@@ -65,7 +65,7 @@ div.current {
           </div>
           <div class="row top6">
             <div class="col-sm-4 text-left">user:</div>
-            <div class="col-sm-8 text-right">{{$ticket->user->nickname}}</div>
+            <div class="col-sm-8 text-right">{{$ticket->user_detail->nickname}}</div>
           </div>
           <div class="row top6 bottom36">
             <div class="col-sm-4 text-left"></div>

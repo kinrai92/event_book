@@ -69,7 +69,7 @@ class CooperationController extends Controller
    public function logout(Request $request)
    {
      Auth::guard('cooperation')->logout();
-     return view('');
+     return view('cooperation.login');
    }
   /**
    *

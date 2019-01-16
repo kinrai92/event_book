@@ -14,7 +14,7 @@ class Ticket extends Model
       return $this->belongsTo("App\Model\Event\Event", "event_id");
     }
 
-    public function user()
+    public function user_detail()
     {
       return $this->belongsTo("App\Model\User\UserDetail", "user_id");
     }
