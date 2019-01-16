@@ -3,6 +3,7 @@
 namespace App\Model\Ticket;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ticket extends Model
 {
@@ -10,11 +11,17 @@ class Ticket extends Model
 
     public function event()
     {
-      $this->belongsTo("App\Model\Event\Event", "event_id");
+      return $this->belongsTo("App\Model\Event\Event", "event_id");
     }
 
     public function user()
     {
-      $this->belongsTo("App\Model\User\User", "user_id");
+      return $this->belongsTo("App\Model\User\UserDetail", "user_id");
     }
+
+    public function mtb_ticket_status()
+    {
+      return $this->belongsTo("App\Model\Master\MtbTicketStatus", "mtb_ticket_status_id");
+    }
+
 }
