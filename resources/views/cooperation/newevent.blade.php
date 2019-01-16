@@ -25,7 +25,7 @@
                 <div class="row top100">
                   <div id="row1" class="col-sm-6">
                     開催地域
-                  </div>
+                  </div> 
                   <div class="col-sm-6">
                     <select type="text" name="mtb_municipality_id">
                       <option>開催地域を選択してください。</option>

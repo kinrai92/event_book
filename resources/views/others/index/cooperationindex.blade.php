@@ -54,7 +54,7 @@
         </button>
         <div class="top-right links">
           @auth('cooperation')
-          <a href="{{ route('get_after_cooperlogin') }}">{{auth('cooperation')->cooperation()->name}}</a>
+          <a href="{{ route('get_after_cooperlogin') }}">{{auth('cooperation')->user()->name}}</a>
           <a href="{{ route('get_cooperation_logout') }}">Logout</a>
           @else
             <a href="{{ route('get_after_cooperlogin') }}">Login</a>
@@ -142,7 +142,7 @@
             <h5 class="card-header">イベントの開催</h5>
             <div class="card-body">
               <p>イベントを開催したいなら、下のボタンをクリックしてください</p>
-              <a class="btn btn-primary" href="#">イベントを開催</a>
+              <a class="btn btn-primary" href="{{ route('make_event_create') }}">イベントを開催</a>
             </div>
           </div>
 
