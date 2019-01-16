@@ -16,14 +16,14 @@ use Validator;
 
 class UserController extends Controller
 {
-  /**
+  /** 
    *
    *ホームページ画面。
    *
    */
   public function index(Request $request)
   {
-    return view('welcome');
+    return view('others.index.index');
   }
 
   /**
@@ -85,7 +85,7 @@ class UserController extends Controller
    public function logout(Request $request)
    {
      Auth::guard('user')->logout();
-     return view('welcome');
+     return view('user.login');
    }
 
   /**
@@ -258,6 +258,10 @@ class UserController extends Controller
    *チケット一覧画面。
    *
    */
+<<<<<<< HEAD
+
+
+=======
   public function show_user_tickets_page(Request $request,$status=null)
   {
     $tickets = null;
@@ -280,4 +284,5 @@ class UserController extends Controller
 
     return view("user.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
   }
+>>>>>>> ff3c0a41a90ace7a03833b92c2f340970236e63c
 }

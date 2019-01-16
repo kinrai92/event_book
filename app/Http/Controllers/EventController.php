@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
 use App\Model\Cooperation\Cooperation;
@@ -12,17 +10,12 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\EventNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-
 use Validator;
-
-
 class EventController extends Controller
 {
     public function events(Request $requests, $status = null) {
-
       $events = null;
       $current_page = "all";
-
       if(!$status) {
         $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH, MtbEventStatus::CANCEL])->get();
       } elseif($status == "opening") {
@@ -35,7 +28,6 @@ class EventController extends Controller
         $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::CANCEL)->get();
         $current_page = "canceled";
       }
-
       return view("event.event_all", ["events" => $events,"current_page" => $current_page]);
     }
 
@@ -44,15 +36,12 @@ class EventController extends Controller
       $event = Event::find($id);
       $tickets = Event::find($id)->tickets;
       $num_tickets = $tickets->count();
-
       return view("event.event_detail", ["event" => $event, "num_tickets" => $num_tickets]);
     }
-
 
     public function create(Request $request)
     {
       if($request->isMethod("POST")){
-
         $validator_rules = [
           "mtb_municipality_id" => "required|integer",
           "mtb_event_status_id" => "required|integer",
@@ -73,12 +62,10 @@ class EventController extends Controller
           "cost.required" => "参加費を入力してください。",
           "detail.required" => "内容の詳細を入力してください。",
         ];
-
         $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
         if($validator->fails()){
           return redirect(route("get_event_create"))->withInput()->withErrors($validator);
         }
-
         $event = new Event;
         $event->cooperation_id = "1";//$request->cooperation_id;
         $event->mtb_municipality_id = $request->mtb_municipality_id;
@@ -91,42 +78,47 @@ class EventController extends Controller
         $event->detail = $request->detail;
         $picture1 = $request->file('picture1');
         if($picture1) {
-
           $realPath = $picture1->getRealPath();
           $ext = $picture1->getClientOriginalExtension();
           $filename = date('YmdHis') . '-' . uniqid(). '.' . $ext;
           Storage::disk('public')->put($filename, file_get_contents($realPath));
           $event->picture1 = $filename;
         }
-
         $picture2 = $request->file('picture2');
         if($picture2) {
-
           $realPath = $picture2->getRealPath();
           $ext = $picture2->getClientOriginalExtension();
           $filename = date('YmdHis') . '-' . uniqid(). '.' . $ext;
           Storage::disk('public')->put($filename, file_get_contents($realPath));
           $event->picture2 = $filename;
         }
-
         $picture3 = $request->file('picture3');
         if($picture3) {
-
           $realPath = $picture3->getRealPath();
           $ext = $picture3->getClientOriginalExtension();
           $filename = date('YmdHis') . '-' . uniqid(). '.' . $ext;
           Storage::disk('public')->put($filename, file_get_contents($realPath));
           $event->picture3 = $filename;
         }
-
+        // foreach ($picture as $key => $value) {
+        //   if (!empty($value)) {
+        //     if($value->isValid()) {
+        //     $originaName = $value->getClientOriginalName();
+        //     $ext = $value->getClientOriginalExtension();
+        //     $type = $value->getClientMimeType();
+        //     $realPath = $value->getRealPath();
+        //     $filename = md5(date('YmdHis') . '-' . uniqid()). '.' . $ext;
+        //     Storage::disk('public')->put($filename, file_get_contents($realPath));
+        //     $obj = 'picture'.($key+1);
+        //     $event->$obj = $filename;
+        //     }
+        //   }
+        // }
         $event->save();
-
         $event_id = $event->id;
         $event_title = $event->title;
         $event_sup = $event->cooperation->name;
-
         Mail::to($event->cooperation->mail)->send(new EventNotification($event_id, $event_title, $event_sup));
-
         return view("event.register_event_finish");
       }
       return view("cooperation.newevent", ["mtb_event_statuses" => MtbEventStatus::get_create_statuses(), "mtb_municipalities" =>MtbMunicipality::all(),]);
@@ -148,9 +140,7 @@ class EventController extends Controller
 
     public function update(Request $request)
     {
-
      $event = Event::find($request->id);
-
      $event->cooperation_id = $request->cooperation_id;
      $event->mtb_event_status_id = $request->mtb_event_status_id;
      $event->mtb_municipality_id = $request->mtb_municipality_id;
@@ -163,20 +153,16 @@ class EventController extends Controller
      $event->picture1 = $request->file('picture1');
      $event->picture2 = $request->file('picture2');
      $event->picture3 = $request->file('picture3');
-
      $event->save();
      return view('tmp_blade.successed');
     }
-
     public function updateevent(Request $request, $id)
     {
       $event=Event::find($id);
-
      return view('cooperation.updateevent', [
        'data' => $event,
        "mtb_event_status" =>MtbEventStatus::all(),
        "mtb_municipality" =>Mtbmunicipality::all()
       ]);
-
     }
   }

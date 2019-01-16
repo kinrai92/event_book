@@ -100,8 +100,11 @@ div.current {
           <div class="row top36">
             <div class="col-sm text-center">
               @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now() && $num_tickets < $event->maximum)
-                <form action="" method="post">
+                <form action="{{ route('post_ticket_create') }}" method="post">
+                  @csrf
                   <input type="submit" value="申し込み">
+                  <input type="hidden" name="event_id" value="{{ $event->id }}">
+                  <input type="hidden" name="user_id" value="{{auth('user')->user()->user_detail->user_id}}">
                 </form>
               @else
                 申し込み不可
