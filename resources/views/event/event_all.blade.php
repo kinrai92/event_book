@@ -16,6 +16,15 @@ div.current {
     <div class="col-sm-2"></div>
 
     <div class="col-sm-8">
+      @if ($errors->any())
+        　<div class="alert alert-danger">
+            　<ul>
+            　    @foreach ($errors->all() as $error)
+                　    <li>{{ $error }}</li>
+              　  @endforeach
+          　  </ul>
+        　</div>
+    　  @endif
 
       <div class="row text-center">
         <!-- 三元运算 -->

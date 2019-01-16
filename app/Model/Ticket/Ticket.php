@@ -19,6 +19,11 @@ class Ticket extends Model
       return $this->belongsTo("App\Model\User\UserDetail", "user_id");
     }
 
+    public function usermail()
+    {
+      return $this->belongsTo("App\Model\User\User","user_id");
+    }
+
     public function mtb_ticket_status()
     {
       return $this->belongsTo("App\Model\Master\MtbTicketStatus", "mtb_ticket_status_id");

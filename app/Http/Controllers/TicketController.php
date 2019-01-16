@@ -7,11 +7,24 @@ use App\Model\Ticket\Ticket;
 use App\Model\Master\MtbTicketStatus;
 use App\Model\User\User;
 use App\Model\Event\Event;
+use Validator;
 
 class TicketController extends Controller
 {
     public function create(Request $request)
     {
+      $validator_rules = [
+        "user_id" => "required|unique:user_details,user_id",
+      ];
+      $validator_messages = [
+        "user_id.unique" => "お客様はすでに注文しました。二回目の申し込みはできません",
+      ];
+
+      $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
+      if($validator->fails()){
+        return redirect(route("get_events"))->withInput()->withErrors($validator);
+      }
+
       $ticket=new Ticket;
       $ticket->code=substr(md5(uniqid(rand(), true)),8,16);
       $ticket->user_id=$request->user_id;
