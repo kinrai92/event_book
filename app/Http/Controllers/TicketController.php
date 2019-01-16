@@ -43,6 +43,7 @@ class TicketController extends Controller
       $current_page = "cancelled";
     }
     return view("others.tmp_blade.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
+    return view("user.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
   }
 
 }
