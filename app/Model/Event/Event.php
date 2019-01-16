@@ -32,4 +32,5 @@ class Event extends Model
     {
       return $this->hasMany("App\Model\Ticket\Ticket", "event_id");
     }
+
 }

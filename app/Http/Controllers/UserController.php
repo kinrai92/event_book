@@ -142,13 +142,11 @@ class UserController extends Controller
     $text = "下のリンクをクリックして、メール承認してください。";
     $token = $user->token;
     $to = $user->mail;
-    $login = ['mail' => $user->mail,'password' => $request->password];
 
-    if(Auth::guard('user')->attempt($login)){
 
-      Mail::to($to)->send(new MailConfirm($text, $token));
-      return view("user.isCreateSuccessed");
-    }
+    Mail::to($to)->send(new MailConfirm($text, $token));
+    return view("user.create_successed");
+
 
   }
 
@@ -160,7 +158,8 @@ class UserController extends Controller
   public function go_to_register(Request $request,$token)
   {
 
-    $user = User::query()->where("token", $token)->where("mtb_user_status_id",MtbUserStatus::MAIL_NOT_CONFIRMED)->first();
+    $user = User::query()->where("token", $token)->whereIn("mtb_user_status_id",[MtbUserStatus::MAIL_NOT_CONFIRMED,
+                                                                                 MtbUserStatus::DETAIL_NOT_INPUT])->first();
     if($user){
       $user->mtb_user_status_id = MtbUserStatus::DETAIL_NOT_INPUT;
       $user->save();
@@ -241,7 +240,7 @@ class UserController extends Controller
       $user_detail->user->mtb_user_status_id=MtbUserStatus::REAL_USER;
       $user_detail->user->save();
     }
-     return view("user.registerSuccessed");
+     return view("user.register_successed");
   }
 
   /**
