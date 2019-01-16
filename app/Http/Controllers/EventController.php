@@ -208,7 +208,7 @@ class EventController extends Controller
      $event->save();
      return view('tmp_blade.successed');
     }
-    public function updateevent(Request $request, $id)
+    public function update_event(Request $request, $id)
     {
       $event=Event::find($id);
      return view('cooperation.updateevent', [

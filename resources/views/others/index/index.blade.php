@@ -50,7 +50,9 @@
   </head>
 
   <body>
+  @auth('user')
   <p>{{auth('user')->user()->user_detail->user_id}}</p>
+  @endauth
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">

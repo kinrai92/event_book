@@ -47,10 +47,10 @@ div.current {
             <div class="col-sm-4 text-left">チケットの番号:</div>
             <div class="col-sm-8 text-right">{{$ticket->code}}</div>
           </div>
-          <div class="row top36">
+          <div class="row" >
             <div class="col-sm-4 text-left">QRコード:</div>
-            <div  class="col-sm-8 margin" style="padding-left:250px">
-            <a href="/show_qrcode/{{($ticket->code)}}">こちらをクリック</a>
+            <div  class="col-sm-8" style="padding-left:290px">
+            <a href="/show_qrcode/{{$ticket->code}}">こちらをクリック</a>
             </div>
           </div>
           <div class="row top6">

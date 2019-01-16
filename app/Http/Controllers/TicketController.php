@@ -43,4 +43,9 @@ class TicketController extends Controller
     return view("user.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
   }
 
+  public function show_qrcode(Request $request,$qrcode=null)
+  {
+    return view('user.ticket_qrcode',['qrcode' => $qrcode]);
+  }
+
 }

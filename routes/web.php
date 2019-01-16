@@ -11,7 +11,7 @@
 |
 */
 // huang
-Route::get('after_login','UserController@index')->name('get_after_login');
+Route::get('event_book','UserController@index')->name('get_after_login');
 Route::get("user_create", "UserController@create")->name("get_user_create");
 Route::post("user_create", "UserController@send_verify_mail")->name("post_user_create");
 Route::get("mail_confirm/{token}", "UserController@go_to_register")->name("get_mail_confirm");
@@ -19,7 +19,7 @@ Route::post('user_register',"UserController@register")->name("post_user_register
 Route::get('user_login','UserController@ready_to_login')->name('get_user_login');
 Route::post('user_login','UserController@do_login')->name('post_user_login');
 Route::get('user_logout','UserController@logout')->name('get_user_logout');
-Route::get('show_qrcode/{qrcode}',function($qrcode){return view('user.ticket_qrcode',['qrcode' => $qrcode]);});
+Route::get('show_qrcode/{qrcode?}',"TicketController@show_qrcode")->name('get_qrcode');
 
 Route::get('user_tickets/{status?}','TicketController@show_user_tickets_page')->name('show_user_tickets_page')->middleware('auth:user');
 Route::get("cooperation_register", "CooperationController@create")->name("get_cooperation_register");
@@ -39,8 +39,8 @@ Route::post("register_event","EventController@create")->name("post_event_create"
 // Route::any('upload',"EventController@upload");
 
 // liang
-Route::get('updateevent/{id}', "EventController@updateevent")->name("get_event_update");
-Route::post('updateevent', "EventController@update")->name("post_event_update");
+Route::get('update_event/{id}', "EventController@updateevent")->name("get_event_update");
+Route::post('update_event', "EventController@update")->name("post_event_update");
 Route::get('cooper_login','CooperationController@ready_to_login')->name('get_cooperation_login');
 Route::post('cooper_login','CooperationController@cooper_login')->name('post_cooperation_login');
 Route::get('after_cooperlogin','CooperationController@show')->name('get_after_cooperlogin');

@@ -147,8 +147,6 @@ class UserController extends Controller
 
     Mail::to($to)->send(new MailConfirm($text, $token));
     return view("user.create_successed");
-
-
   }
 
   /**
