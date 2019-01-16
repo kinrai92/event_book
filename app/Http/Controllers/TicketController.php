@@ -42,7 +42,7 @@ class TicketController extends Controller
       $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->get();
       $current_page = "cancelled";
     }
-    return view("others.tmp_blade.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
+    return view("user.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
   }
 
 }
