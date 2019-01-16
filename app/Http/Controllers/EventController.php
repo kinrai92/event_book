@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Validator;
 class EventController extends Controller
 {
-    public function events(Request $requests, $status = null) {
+    public function events(Request $request, $status = null) {
       $events = null;
       $current_page = "all";
       if(!$status) {
@@ -41,7 +41,7 @@ class EventController extends Controller
       return view("event.event_detail", ["event" => $event, "num_tickets" => $num_tickets]);
     }
 
-    public function events_cooperation(Request $requests, $status = null) {
+    public function events_cooperation(Request $request, $status = null) {
 
       $events = null;
       $current_page = "all";
@@ -65,7 +65,7 @@ class EventController extends Controller
       $mtb_municipalities = MtbMunicipality::all();
       return view("event.event_all_cooperation", ["events" => $events, "current_page" => $current_page, "mtb_municipalities" => $mtb_municipalities]);
     }
- 
+
     public function search_event_coop(Request $request)
     {
       $mtb_municipalities = MtbMunicipality::all();
