@@ -72,19 +72,22 @@ class EventController extends Controller
 
       $events = [];
 
-      if ($request->event_title && $request->mtb_municipality_id == 'none')
+      $event_title = $request->event_title;
+      $event_area_id = $request->mtb_municipality_id;
+
+      if ($event_title && $event_area_id == 'none')
       {
-        $events = Event::query()->where("title", "like", "%$request->event_title%")->where("cooperation_id", auth('cooperation')->user()->id)->get();
+        $events = Event::query()->where("title", "like", "%$event_title%")->where("cooperation_id", auth('cooperation')->user()->id)->get();
       }
-      elseif ($request->event_title  && $request->mtb_municipality_id != 'none')
+      elseif ($event_title  && $event_area_id != 'none')
       {
-        $events = Event::query()->where("title", "like", "%$request->event_title%")->where("mtb_municipality_id", $request->mtb_municipality_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
+        $events = Event::query()->where("title", "like", "%$event_title%")->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
       }
-      elseif (empty($request->event_title) && $request->mtb_municipality_id != 'none')
+      elseif (empty($event_title) && $event_area_id != 'none')
       {
-        $events = Event::query()->where("mtb_municipality_id", $request->mtb_municipality_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
+        $events = Event::query()->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
       }
-        return view("event.event_all_cooperation", ["events" => $events, "mtb_municipalities" => $mtb_municipalities, "current_page" => null, "input_info" => $request]);
+    return view("event.event_all_cooperation", ["events" => $events, "mtb_municipalities" => $mtb_municipalities, "current_page" => null, /*"search_title" => $event_title*/]);
     }
 
 
