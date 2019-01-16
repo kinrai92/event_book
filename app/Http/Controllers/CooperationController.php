@@ -19,7 +19,7 @@ class CooperationController extends Controller
    *ホームページ画面。
    *
    */
-  public function index(Request $request)
+  public function show(Request $request)
   {
     return view('others.index.cooperationindex');
   }
@@ -69,7 +69,7 @@ class CooperationController extends Controller
    public function logout(Request $request)
    {
      Auth::guard('cooperation')->logout();
-     return view('');
+     return view('cooperation.login');
    }
   /**
    *

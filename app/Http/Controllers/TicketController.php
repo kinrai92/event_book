@@ -19,9 +19,7 @@ class TicketController extends Controller
       $ticket->mtb_ticket_status_id=1;
       $ticket->save();
       return view('others.tmp_blade.successed');
-
     }
-
 
     public function show_user_tickets_page(Request $request,$status=null)
   {

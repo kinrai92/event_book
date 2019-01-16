@@ -7,6 +7,12 @@ div.current {
 }
 </style>
 
+<style>
+div.current {
+  background: gray;
+}
+</style>
+
   <div class="col-sm text-center top36 bottom36">
     <p>チケット一覧</p>
   </div>
@@ -43,8 +49,8 @@ div.current {
           </div>
           <div class="row top36">
             <div class="col-sm-4 text-left">QRコード:</div>
-            <div  class="col-sm-8 text-right margin">
-            <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(100)->generate('{{$ticket->code}}')) !!} ">
+            <div  class="col-sm-8 margin" style="padding-left:250px">
+            <a href="/show_qrcode/{{($ticket->code)}}">こちらをクリック</a>
             </div>
           </div>
           <div class="row top6">
