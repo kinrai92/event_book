@@ -12,4 +12,9 @@ class UserDetail extends Model
     {
       return $this->belongsTo("App\Model\User\User", "user_id");
     }
+
+    public function tickets()
+    {
+      return $this->hasMany("App\Model\Ticket\Ticket", "user_id");
+    }
 }
