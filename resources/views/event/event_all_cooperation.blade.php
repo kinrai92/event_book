@@ -13,11 +13,10 @@ div.current {
   </div>
 
   <div class="col-sm text-center top36 bottom36">
-    <form action="{{ route('search_event_coop') }}" method="post">
-      @csrf
-      イベント名<input type="text" name="event_title">
+    <form action="{{ route('get_events_cooperation', ['status' => $status]) }}" method="get">
+      イベント名<input type="text" name="event_title" value="{{ Request::query('event_title') }}">
       地域別<select type="text" name="mtb_municipality_id">
-        <option value="none"></option>
+        <option value=""></option>
         @foreach ($mtb_municipalities as $mtb_municipality)
         <option value="{{ $mtb_municipality->id }}">{{ $mtb_municipality->value }}</option>
         @endforeach
@@ -93,7 +92,7 @@ div.current {
               <div class="col-sm-8 text-right">{{ $event->cooperation->name }}</div>
             </div>
             <div class="col-sm text-right top6 bottom36">
-              <a href="">詳しくはこちら</a>
+              <a href="{{ route('get_one_event',['id' => $event->id]) }}">詳しくはこちら</a>
             </div>
           </div>
         </div>

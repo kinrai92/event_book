@@ -36,7 +36,7 @@ class UserController extends Controller
   {
     if(Auth::guard('user')->check()){
 
-      return redirect(route('get_after_login'));
+      return redirect(route('get_event_book'));
     }
     return view('user.login');
   }
@@ -72,7 +72,7 @@ class UserController extends Controller
    ];
 
     if (Auth::guard("user")->attempt($arr,$request->remember_me)){
-      return redirect(route("get_after_login"));
+      return redirect(route("get_event_book"));
     } else {
       return redirect(route('get_user_login'))->withInput()->withErrors($validator);
     }
@@ -98,7 +98,7 @@ class UserController extends Controller
   {
     if(Auth::guard('user')->check()){
 
-      return redirect(route('get_after_login'));
+      return redirect(route('get_event_book'));
     }
     return view("user.create");
   }
