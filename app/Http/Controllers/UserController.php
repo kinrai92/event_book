@@ -33,7 +33,7 @@ class UserController extends Controller
   {
     if(Auth::guard('user')->check()){
 
-      return redirect(route('get_after_login'));
+      return redirect(route('get_event_book'));
     }
     return view('user.login');
   }
@@ -69,7 +69,7 @@ class UserController extends Controller
    ];
 
     if (Auth::guard("user")->attempt($arr,$request->remember_me)){
-      return redirect(route("get_after_login"));
+      return redirect(route("get_event_book"));
     } else {
       return redirect(route('get_user_login'))->withInput()->withErrors($validator);
     }
@@ -83,7 +83,7 @@ class UserController extends Controller
    public function logout(Request $request)
    {
      Auth::guard('user')->logout();
-     return view('user.login');
+     return redirect(route('get_event_book'));
    }
 
   /**
@@ -95,7 +95,7 @@ class UserController extends Controller
   {
     if(Auth::guard('user')->check()){
 
-      return redirect(route('get_after_login'));
+      return redirect(route('get_event_book'));
     }
     return view("user.create");
   }
@@ -144,8 +144,6 @@ class UserController extends Controller
 
     Mail::to($to)->send(new MailConfirm($text, $token));
     return view("user.create_successed");
-
-
   }
 
   /**
@@ -230,7 +228,7 @@ class UserController extends Controller
     $user_detail->user->mtb_user_status_id = MtbUserStatus::REAL_USER;
     $user_detail->user->save();
 
-     return view("user.registerSuccessed");
+     return view("user.register_successed");
   }
 
   /**
@@ -243,11 +241,4 @@ class UserController extends Controller
 
   }
 
-  public function test(Request $request)
-  {
-    $png=QrCode::format('png')->size(100)->generate('QrCode as PNG image!');
-    $qrcode=base64_encode($png);
-
-    return view('others.tmp_blade.tmp_qrcode',['qrcode' => $qrcode]);
-  }
 }

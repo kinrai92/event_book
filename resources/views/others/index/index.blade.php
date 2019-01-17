@@ -50,7 +50,6 @@
   </head>
 
   <body>
-  <p>{{auth('user')->user()->user_detail->user_id}}</p>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
@@ -60,7 +59,7 @@
         </button>
         <div class="top-right links">
             @auth('user')
-                <a href="{{ url('/after_login') }}">{{auth('user')->user()->user_detail->nickname}}</a>
+                <a href="{{ url('/event_book') }}">{{auth('user')->user()->user_detail->nickname}}</a>
                 <a href="{{ route('get_user_logout') }}">Logout</a>
             @else
                 <a href="{{ route('get_user_login') }}">Login</a>

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ticket extends Model
 {
+    use SoftDeletes;
+    
     protected $table = "tickets";
 
     public function event()
@@ -22,6 +24,11 @@ class Ticket extends Model
     public function user_detail()
     {
       return $this->belongsTo("App\Model\User\UserDetail", "user_id");
+    }
+
+    public function usermail()
+    {
+      return $this->belongsTo("App\Model\User\User","user_id");
     }
 
     public function mtb_ticket_status()

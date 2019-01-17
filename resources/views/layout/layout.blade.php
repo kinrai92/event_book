@@ -18,6 +18,9 @@
     .margin{
       margin-left: 270px;
     }
+    body{
+      overflow: scroll;
+    }
 
     </style>
 

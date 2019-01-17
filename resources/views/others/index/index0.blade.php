@@ -39,12 +39,17 @@
     .row2{
       margin:0 auto;
     }
+
+    .top1{
+      margin-left: 100px;
+      margin-bottom: 20px;
+      margin-top: 15px;
+    }
 	</style>
 
   </head>
 
   <body>
-
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
@@ -53,12 +58,13 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="top-right links">
-          @auth('cooperation')
-          <a href="{{ route('get_after_cooperlogin') }}">{{auth('cooperation')->user()->name}}</a>
-          <a href="{{ route('get_cooperation_logout') }}">Logout</a>
-          @else
-            <a href="{{ route('get_after_cooperlogin') }}">Login</a>
-          @endauth
+            @auth('user')
+                <a href="{{ url('/event_book') }}">{{auth('user')->user()->user_detail->nickname}}</a>
+                <a href="{{ route('get_user_logout') }}">Logout</a>
+            @else
+                <a href="{{ route('get_user_login') }}">Login</a>
+                <a href="{{ url('/user_create') }}">Register</a>
+            @endauth
         </div>
       </div>
     </nav>
@@ -100,7 +106,7 @@
             <div class="card-body">
               <h2 class="card-title">東京上空150mの夜景と冬の幻想的な雰囲気が楽しめる</h2>
               <p class="card-text">“White Night Story”をテーマにした東京タワーの冬のプロジェクションマッピングイベント。東京上空150mの夜景と、冬の夜景を飛び交う氷の蝶をイメージした投映で幻想的な雰囲気が楽しめる。また今年は、東京タワー開業60周年記念ソング「東京は夜の七時」をBGMに使用し、軽快な楽曲にあわせた特別コラボレーション映像を18:30から30分ごとに投影、しっとりとした映像と明るく楽しい映像の2種類が楽しめる。</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
+              <a href="#" class="btn btn-primary">もっと見る &rarr;</a>
             </div>
             <div class="card-footer text-muted">
               Posted on January 1, 2017 by
@@ -114,7 +120,7 @@
             <div class="card-body">
               <h2 class="card-title">「擬態」に焦点を当てさまざまな生き物を紹介</h2>
               <p class="card-text">擬態する、成長すると色や模様が変わる、といった“化ける”生き物たちをテーマにした特別展。何かに化ける「擬態」に焦点を当て、敵から身を守る際に体を細くし木の枝にカモフラージュするフクロウのアフリカオオコノハズクや、目と鼻の先が尖っており全身茶褐色で木の葉のように見えるミツヅノコノハガエルなどを展示する。会場内には、実際に擬態する生き物探しができるコーナーも設置。また、期間中はサンシャイン水族館内のカナロア カフェやショップ アクアポケットで関連メニューやグッズも販売する。</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
+              <a href="#" class="btn btn-primary">もっと見る &rarr;</a>
             </div>
             <div class="card-footer text-muted">
               Posted on January 1, 2017 by
@@ -139,11 +145,28 @@
 
           <!-- Search Widget -->
           <div class="card my-4">
-            <h5 class="card-header">イベントの開催</h5>
+            <h5 class="card-header">予約済みのチケット</h5>
             <div class="card-body">
-              <p>イベントを開催したいなら、下のボタンをクリックしてください</p>
-              <a class="btn btn-primary" href="{{ route('make_event_create') }}">イベントを開催</a>
+              <div class="clear"></div>
+                <dl id="new">
+                <dt><a href="https://www.kyoai.ac.jp/?p=20107" id="post-20107">11月29日（木）公開授業「人間を考える」開催のお知らせ</a></dt><dd>【掲載日：2018年11月16日】</dd>
+                <dt><a href="https://www.kyoai.ac.jp/?p=20087" id="post-20087">水戸市『姉妹・親善都市と交流都市の観光と物産展』に出展します！</a></dt><dd>【掲載日：2018年11月14日】</dd>
+                <dt><a href="https://www.kyoai.ac.jp/?p=19997" id="post-19997">事務局専任職員募集のお知らせ</a></dt><dd>【掲載日：2018年11月04日】</dd>
+                <dt><a href="https://www.kyoai.ac.jp/?p=20007" id="post-20007">第22回群馬現代史研究会開催のお知らせ</a></dt><dd>【掲載日：2018年11月02日】</dd>
+                <dt><a href="https://www.kyoai.ac.jp/?p=19593" id="post-19593">2018年11月17日（土）共愛学園文化講演会を開催します</a></dt><dd>【掲載日：2018年11月01日】</dd>
+                <dt><a href="https://www.kyoai.ac.jp/?p=19989" id="post-19989">ぐんま方言カルタ大会開催のご案内！</a></dt><dd>【掲載日：2018年11月01日】</dd>
+                </dl>
             </div>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button">Go!</button>
+              </span>
+            </div>
+            <div class="top_list top1">
+              <a href="{{ route('show_user_tickets_page') }}">&raquo; 一覧ページへ</a>
+            </div>
+
           </div>
 
           <!-- Categories Widget -->
@@ -182,7 +205,12 @@
           </div>
 
           <!-- Side Widget -->
-
+          <div class="card my-4">
+            <h5 class="card-header">Side Widget</h5>
+            <div class="card-body">
+              You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+            </div>
+          </div>
 
         </div>
 

@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="row1">
-      <a href="index.html">戻る</a>
+      <a href="{{url('/event_book')}}">戻る</a>
     </div>
   </div>
 
@@ -37,4 +37,4 @@
     <p>Copyright@2019 Event</p>
   </div>
 </div>
-@endsection  
+@endsection
