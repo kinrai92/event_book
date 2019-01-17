@@ -16,7 +16,7 @@
                 </div>
               </div>
               <div class="row1 col-sm-12">
-                <a href="index.html">戻る</a>
+                <a href="{{ route('get_event_book') }}">戻る</a>
               </div>
             </div>
 

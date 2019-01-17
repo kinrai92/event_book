@@ -96,30 +96,19 @@ class EventController extends Controller
       ]);
     }
 
-    // public function search_event_coop(Request $request)
-    // {
-    //   $mtb_municipalities = MtbMunicipality::all();
-    //
-    //   $events = [];
-    //
-    //   $event_title = $request->event_title;
-    //   $event_area_id = $request->mtb_municipality_id;
-    //
-    //   if ($event_title && $event_area_id == 'none')
-    //   {
-    //     $events = Event::query()->where("title", "like", "%$event_title%")->where("cooperation_id", auth('cooperation')->user()->id)->get();
-    //   }
-    //   elseif ($event_title  && $event_area_id != 'none')
-    //   {
-    //     $events = Event::query()->where("title", "like", "%$event_title%")->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
-    //   }
-    //   elseif (empty($event_title) && $event_area_id != 'none')
-    //   {
-    //     $events = Event::query()->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
-    //   }
-    // return view("event.event_all_cooperation", ["events" => $events, "mtb_municipalities" => $mtb_municipalities, "current_page" => null, /*"search_title" => $event_title*/]);
-    // }
-
+    /**
+     *
+     *イベントの詳細ページ及び申し込みユーザー数の表示。
+     *
+     */
+    public function get_one_event_of_cooperation(Request $request,$id)
+    {
+      $event = null;
+      $event = Event::find($id);
+      $tickets = Ticket::query()->where("event_id", $id)->paginate(2);
+      $num_tickets = $tickets->count();
+      return view("event.event_detail_of_cooperation", ["event" => $event, "num_tickets" => $num_tickets,"tickets" => $tickets]);
+    }
 
     public function create(Request $request)
     {
@@ -238,7 +227,7 @@ class EventController extends Controller
      $event->save();
      return view('tmp_blade.successed');
     }
-    public function updateevent(Request $request, $id)
+    public function update_event(Request $request, $id)
     {
       $event=Event::find($id);
      return view('cooperation.updateevent', [

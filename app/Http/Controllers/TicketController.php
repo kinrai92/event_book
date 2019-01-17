@@ -15,7 +15,7 @@ class TicketController extends Controller
     {
       $validator_rules = [
         "user_id" => "required|unique:user_details,user_id",
-      
+
       ];
       $validator_messages = [
         "user_id.unique" => "お客様はすでに注文しました。二回目の申し込みはできません",
@@ -57,4 +57,19 @@ class TicketController extends Controller
     return view("user.tickets", ["tickets" => $tickets,"current_page" => $current_page]);
   }
 
+  public function show_qrcode(Request $request,$qrcode=null)
+  {
+    return view('user.ticket_qrcode',['qrcode' => $qrcode]);
+  }
+
+  /**
+   *
+   *チケットの削除及び注文の取り消し。
+   *
+   */
+   public function delete(Request $request,$id)
+   {
+     Ticket::find($id)->delete();
+     return redirect()->back();
+   }
 }

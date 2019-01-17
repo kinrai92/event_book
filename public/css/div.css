@@ -72,3 +72,14 @@ font{
   display:block;width:600px;
   border:2px solid silver;
 }
+
+.entry_users{
+
+  margin-left:80px;
+  margin-top:20px;
+  border:1px solid black;
+}
+.paginate{
+  margin-left:100px;
+  margin-top:20px;
+}
