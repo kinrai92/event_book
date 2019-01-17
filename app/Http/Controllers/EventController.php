@@ -3,14 +3,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
 use App\Model\Cooperation\Cooperation;
+use App\Model\User\UserDetail;
 use App\Model\Ticket\Ticket;
 use App\Model\Master\MtbMunicipality;
+use App\Model\Master\MtbTicketStatus;
 use App\Model\Master\MtbEventStatus;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EventNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
 use Validator;
 class EventController extends Controller
 {
@@ -93,10 +96,27 @@ class EventController extends Controller
     {
       $event = null;
       $event = Event::find($id);
-      $tickets = Ticket::query()->where("event_id", $id)->paginate(2);
+      $tickets = null;
+      $current_page = "all";
+      $ticket_status = null;
+
+      $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
+                                                                   MtbTicketStatus::USED,
+                                                                   MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->get();
+
+     if($request->ticket_status== "cancelled") {
+        $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->get();
+        $current_page = "cancelled";
+        $ticket_status = MtbTicketStatus::CANCELLED;
+      }
       $num_tickets = $tickets->count();
-      return view("event.event_detail_of_cooperation", ["event" => $event, "num_tickets" => $num_tickets,"tickets" => $tickets]);
-    }
+
+      return view("event.event_detail_of_cooperation", ["event" => $event,
+                                                        "num_tickets" => $num_tickets,
+                                                        "items" => $tickets,
+                                                        'current_page' => $current_page,
+                                                       ]);
+     }
 
     public function search_event_coop(Request $request)
     {
@@ -242,8 +262,8 @@ class EventController extends Controller
     }
     public function update_event(Request $request, $id)
     {
-      $event=Event::find($id);
-     return view('cooperation.updateevent', [
+       $event=Event::find($id);
+       return view('cooperation.updateevent', [
        'data' => $event,
        "mtb_event_status" =>MtbEventStatus::all(),
        "mtb_municipality" =>Mtbmunicipality::all()

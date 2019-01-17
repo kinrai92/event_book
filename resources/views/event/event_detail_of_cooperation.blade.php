@@ -109,6 +109,16 @@ div.current {
 
     <div class="col-sm-2"></div>
 
+    <div class="row" style="width:500px;margin-left:280px;margin-top:20px">
+      <!-- 三元运算 -->
+      <div class="col-sm-6 {{ ($current_page=='all') ? 'current' : '' }}">
+        <a href="?all">すべて</a>
+      </div>
+      <div class="col-sm-6 {{ ($current_page=='cancelled') ? 'current' : '' }}">
+        <a name="tag" href="?ticket_status=cancelled">キャンセル済</a>
+      </div>
+    </div>
+
     <div class="entry_users" style="overflow: scroll">
       <table class="table" style="width:1000px">
         <tr>
@@ -119,10 +129,10 @@ div.current {
           <td>申し込み時間</td>
           <td>キャンセル</td>
        </tr>
-       @each('components.entry_users',$tickets,'ticket')
+       @each('components.entry_users',$items,'ticket')
       </table>
   </div>
-  <div class="paginate">{{$tickets->links()}}</div>
+  <div class="paginate"></div>
   </div>
 
 @endsection

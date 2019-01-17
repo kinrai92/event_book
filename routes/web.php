@@ -24,7 +24,7 @@ Route::get('show_qrcode/{qrcode?}',"TicketController@show_qrcode")->name('get_qr
 Route::get('user_tickets/{status?}','TicketController@show_user_tickets_page')->name('show_user_tickets_page')->middleware('auth:user');
 Route::get("cooperation_register", "CooperationController@create")->name("get_cooperation_register");
 Route::post("cooperation_register", "CooperationController@register")->name("post_cooperation_register");
-Route::get("delete_ticket/{id}","TicketController@delete")->name("delete_ticket");
+Route::get("cancell_ticket/{id}","TicketController@cancell")->name("cancell_ticket");
 
 //jin
 //Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware("auth:users");
