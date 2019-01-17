@@ -109,13 +109,13 @@ div.current {
 
     <div class="col-sm-2"></div>
 
-    <div class="row" style="width:500px;margin-left:280px;margin-top:20px">
+    <div class="row" style="width:500px;margin-left:200px;margin-top:20px">
       <!-- 三元运算 -->
-      <div class="col-sm-6 {{ ($current_page=='all') ? 'current' : '' }}">
-        <a href="?all">すべて</a>
+      <div class="col-sm-6 {{ ($current_page=='all') ? 'current' : '' }}" style="padding-left:100px">
+        <a href="?all" style="text-center">すべて</a>
       </div>
-      <div class="col-sm-6 {{ ($current_page=='cancelled') ? 'current' : '' }}">
-        <a name="tag" href="?ticket_status=cancelled">キャンセル済</a>
+      <div class="col-sm-6 {{ ($current_page=='cancelled') ? 'current' : '' }}" style="padding-left:80px">
+        <a  name="tag" href="?ticket_status=cancelled">キャンセル済</a>
       </div>
     </div>
 
