@@ -43,14 +43,12 @@ class EventController extends Controller
       }
 
       if($request->cooperation_name) {
-        $cooperations = Cooperation::query()->where("name", "LIKE", "%" . $request->cooperation_name . "%")->get();
-        $cooperations_id = [];
 
-        if($cooperations) {
-          foreach($cooperations as $cooperation) {
-            $cooperations_id[] = $cooperation->id;
-          }}
-        $events->whereIn("cooperation_id", $cooperations_id);
+        $cooperation_name = $request->cooperation_name;
+
+        $events->whereHas("cooperation", function ($query) use($cooperation_name) {
+            $query->where('name', 'like', '%' . $cooperation_name . '%');
+        });
       }
 
       $events = $events->get();

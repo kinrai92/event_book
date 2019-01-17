@@ -14,28 +14,12 @@ class TicketController extends Controller
 {
     public function create(Request $request)
     {
-<<<<<<< HEAD
     $ticketCount = Ticket::where('user_id',$request->user_id)
                         ->where('event_id',$request->event_id)
                         ->count();
     if($ticketCount){
         echo "お客様はすでに注文しました。二回目の申し込みはできません";
       }else{
-=======
-      $validator_rules = [
-        "user_id" => "required|unique:user_details,user_id",
-
-      ];
-      $validator_messages = [
-        "user_id.unique" => "お客様はすでに注文しました。二回目の申し込みはできません",
-      ];
-
-      $validator=Validator::make($request->all(),$validator_rules,$validator_messages);
-      if($validator->fails()){
-        return redirect(route("get_events"))->withInput()->withErrors($validator);
-      }
-
->>>>>>> 40eaba161bd7812e58c92a65f6177eae6b48f219
       $ticket=new Ticket;
       $ticket->code=substr(md5(uniqid(rand(), true)),8,16);
       $ticket->user_id=$request->user_id;

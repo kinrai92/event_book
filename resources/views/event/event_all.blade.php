@@ -41,7 +41,7 @@ div.current {
           <a href="{{ route('get_events') }}">すべて</a>
         </div>
         <div class="col-sm-3 {{ ($current_page=='opening') ? 'current' : '' }}">
-          <a href="{{ route('get_events', [$status = 'opening']) }}">未開催</a>
+          <a href="{{ route('get_events', [$status = 'opening', 'event_title' => Request::query('event_title') ]) }}">未開催</a>
         </div>
         <div class="col-sm-3 {{ ($current_page=='held') ? 'current' : '' }}">
           <a href="{{ route('get_events', [$status = 'held']) }}">開催済み</a>
