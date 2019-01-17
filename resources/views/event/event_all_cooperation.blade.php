@@ -81,7 +81,7 @@ div.current {
               <div class="col-sm-8 text-right">{{ $event->cooperation->name }}</div>
             </div>
             <div class="col-sm text-right top6 bottom36">
-              <a href="{{ route('get_one_event',['id' => $event->id]) }}">詳しくはこちら</a>
+              <a href="{{ route('get_one_event_of_cooperation',['id' => $event->id]) }}">詳しくはこちら</a>
             </div>
           </div>
         </div>

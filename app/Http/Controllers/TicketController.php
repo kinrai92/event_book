@@ -59,12 +59,14 @@ class TicketController extends Controller
 
   /**
    *
-   *チケットの削除及び注文の取り消し。
+   *チケットの取り消し。
    *
    */
-   public function delete(Request $request,$id)
+   public function cancell(Request $request,$id)
    {
-     Ticket::find($id)->delete();
+     $ticket = Ticket::find($id);
+     $ticket->mtb_ticket_status_id = 3;
+     $ticket->save();
      return redirect()->back();
    }
 
