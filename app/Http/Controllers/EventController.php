@@ -57,10 +57,11 @@ class EventController extends Controller
 
     public function get_one_event(Request $request, $id) {
       $event = null;
-      $event = Event::find($id);
-      $tickets = Event::find($id)->tickets;
+      $event = Event::find($request->id);
+      $tickets = Event::find($request->id)->tickets;
       $stock = $event->maximum - $tickets->count();
-      return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock]);
+      $check_user = $tickets->where('user_id', auth('user')->user()->id)->first();
+      return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock,  "check_user" => $check_user]);
     }
 
     public function events_cooperation(Request $request, $status = null) {
@@ -106,7 +107,7 @@ class EventController extends Controller
       $event = Event::find($id);
       $tickets = Ticket::query()->where("event_id", $id)->paginate(2);
       $num_tickets = $tickets->count();
-      return view("event.event_detail_of_cooperation", ["event" => $event, "num_tickets" => $num_tickets,"tickets" => $tickets]);
+      return view("event.event_detail_of_cooperation", ["event" => $event, "num_tickets" => $num_tickets, "tickets" => $tickets]);
     }
 
     public function create(Request $request)
