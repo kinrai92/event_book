@@ -15,11 +15,7 @@
                 </div>
               </div>
               <div class="row1 col-sm-12">
-<<<<<<< HEAD
-                <a href="/user_tickets">戻る</a>
-=======
                 <a href='/user_tickets'>戻る</a>
->>>>>>> 55ec4c129e62212ff21a31d24a90792e352d73dc
               </div>
             </div>
 

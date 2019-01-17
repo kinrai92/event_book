@@ -11,11 +11,7 @@
 |
 */
 // huang
-<<<<<<< HEAD
 Route::get('after_login','EventController@show_index')->name('get_after_login');
-=======
-Route::get('event_book','UserController@index')->name('get_event_book');
->>>>>>> 55ec4c129e62212ff21a31d24a90792e352d73dc
 Route::get("user_create", "UserController@create")->name("get_user_create");
 Route::post("user_create", "UserController@send_verify_mail")->name("post_user_create");
 Route::get("mail_confirm/{token}", "UserController@go_to_register")->name("get_mail_confirm");
