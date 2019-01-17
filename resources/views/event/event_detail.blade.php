@@ -94,6 +94,11 @@ div.current {
               <div class="col-sm-4 text-left">現在の参加人数</div>
               <div class="col-sm-8 text-right">{{ $num_tickets }}人</div>
             </div>
+
+            <div class="row top6">
+              <div class="col-sm-4 text-left">在庫</div>
+              <div class="col-sm-8 text-right">{{ $stock }}人</div>
+            </div>
           @endif
 
           <!-- 申し込みボタン -->
