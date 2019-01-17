@@ -38,16 +38,16 @@ div.current {
       <div class="row text-center">
         <!-- 三元运算 -->
         <div class="col-sm-3 {{ ($current_page=='all') ? 'current' : '' }}">
-          <a href="{{ route('get_events') }}">すべて</a>
+          <a href="{{ route('get_events', ['event_title' => Request::query('event_title'), 'mtb_municipality_id' => Request::query('mtb_municipality_id') , 'cooperation_name' => Request::query('cooperation_name')]) }}">すべて</a>
         </div>
         <div class="col-sm-3 {{ ($current_page=='opening') ? 'current' : '' }}">
-          <a href="{{ route('get_events', [$status = 'opening']) }}">未開催</a>
+          <a href="{{ route('get_events', ['status' => 'opening', 'event_title' => Request::query('event_title'), 'mtb_municipality_id' => Request::query('mtb_municipality_id') , 'cooperation_name' => Request::query('cooperation_name')]) }}">未開催</a>
         </div>
         <div class="col-sm-3 {{ ($current_page=='held') ? 'current' : '' }}">
-          <a href="{{ route('get_events', [$status = 'held']) }}">開催済み</a>
+          <a href="{{ route('get_events', ['status' => 'held', 'event_title' => Request::query('event_title'), 'mtb_municipality_id' => Request::query('mtb_municipality_id') , 'cooperation_name' => Request::query('cooperation_name')]) }}">開催済み</a>
         </div>
         <div class="col-sm-3 {{ ($current_page=='canceled') ? 'current' : '' }}">
-          <a href="{{ route('get_events', [$status = 'canceled']) }}">キャンセル済み</a>
+          <a href="{{ route('get_events', ['status' => 'canceled', 'event_title' => Request::query('event_title'), 'mtb_municipality_id' => Request::query('mtb_municipality_id') , 'cooperation_name' => Request::query('cooperation_name')]) }}">キャンセル済み</a>
         </div>
       </div>
 

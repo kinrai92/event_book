@@ -43,14 +43,12 @@ class EventController extends Controller
       }
 
       if($request->cooperation_name) {
-        $cooperations = Cooperation::query()->where("name", "LIKE", "%" . $request->cooperation_name . "%")->get();
-        $cooperations_id = [];
 
-        if($cooperations) {
-          foreach($cooperations as $cooperation) {
-            $cooperations_id[] = $cooperation->id;
-          }}
-        $events->whereIn("cooperation_id", $cooperations_id);
+        $cooperation_name = $request->cooperation_name;
+
+        $events->whereHas("cooperation", function ($query) use($cooperation_name) {
+            $query->where('name', 'like', '%' . $cooperation_name . '%');
+        });
       }
 
       $events = $events->get();
@@ -61,9 +59,8 @@ class EventController extends Controller
       $event = null;
       $event = Event::find($id);
       $tickets = Event::find($id)->tickets;
-      $num_tickets = $tickets->count();
-      $stock = ($event->maximum - $num_tickets);
-      return view("event.event_detail", ["event" => $event, "num_tickets" => $num_tickets, "stock" => $stock]);
+      $stock = $event->maximum - $tickets->count();
+      return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock]);
     }
 
     public function events_cooperation(Request $request, $status = null) {
