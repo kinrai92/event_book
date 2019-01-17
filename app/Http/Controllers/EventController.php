@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
+use App\Model\User\User;
 use App\Model\Cooperation\Cooperation;
 use App\Model\Ticket\Ticket;
 use App\Model\Master\MtbMunicipality;
@@ -205,4 +206,12 @@ class EventController extends Controller
        "mtb_municipality" =>Mtbmunicipality::all()
       ]);
     }
+
+    public function show_index(Request $request)
+    {
+      $tickets = Ticket::orderBy('created_at','desc')->simplePaginate(2);
+      $events = Event::orderBy('start_at','desc')->simplePaginate(2);
+      return view('others.index.index',["events"=>$events,"tickets"=>$tickets]);
+    }
+
   }
