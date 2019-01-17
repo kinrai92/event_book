@@ -94,37 +94,7 @@ div.current {
               <div class="col-sm-4 text-left">現在の参加人数</div>
               <div class="col-sm-8 text-right">{{ $num_tickets }}人</div>
             </div>
-
-            <div class="row top6">
-              <div class="col-sm-4 text-left">在庫</div>
-              <div class="col-sm-8 text-right">{{ $stock }}人</div>
-            </div>
           @endif
-
-          <!-- 申し込みボタン -->
-          <div class="row top36">
-            <div class="col-sm text-center">
-              @if ($errors->any())
-                　<div class="alert alert-danger">
-                    　<ul>
-                    　    @foreach ($errors->all() as $error)
-                        　    <li>{{ $error }}</li>
-                      　  @endforeach
-                  　  </ul>
-                　</div>
-            　  @endif
-              @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now() && $num_tickets < $event->maximum)
-                <form action="{{ route('post_ticket_create') }}" method="post">
-                  @csrf
-                  <input type="submit" value="申し込み">
-                  <input type="hidden" name="event_id" value="{{ $event->id }}">
-                  <input type="hidden" name="user_id" value="{{auth('user')->user()->user_detail->user_id}}">
-                </form>
-              @else
-                申し込み不可
-              @endif
-            </div>
-          </div>
 
           <div class="row top6 bottom36">
             <div class="col-sm text-center">
@@ -138,6 +108,21 @@ div.current {
     </div>
 
     <div class="col-sm-2"></div>
+
+    <div class="entry_users" style="overflow: scroll">
+      <table class="table" style="width:1000px">
+        <tr>
+          <td>ユーザーの名前</td>
+          <td>メールアドレス</td>
+          <td>年齢</td>
+          <td>住所</td>
+          <td>申し込み時間</td>
+          <td>キャンセル</td>
+       </tr>
+       @each('components.entry_users',$tickets,'ticket')
+      </table>
+  </div>
+  <div class="paginate">{{$tickets->links()}}</div>
   </div>
 
 @endsection
