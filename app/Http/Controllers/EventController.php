@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
+use App\Model\User\User;
 use App\Model\Cooperation\Cooperation;
 use App\Model\Ticket\Ticket;
 use App\Model\Master\MtbMunicipality;
@@ -148,6 +149,7 @@ class EventController extends Controller
         $event->minimum = $request->minimum;
         $event->cost = $request->cost;
         $event->detail = $request->detail;
+
         $picture1 = $request->file('picture1');
         if($picture1) {
           $realPath = $picture1->getRealPath();
@@ -197,19 +199,6 @@ class EventController extends Controller
     }
 
 
-
-
-
-    //   // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
-    //   $cooperation = Cooperation::find(1);
-    //
-    //   return view('cooperation.newevent', [
-    //     "cooperation"=>$cooperation,
-    //     "mtbmuncipality"=>MtbMunicipality::all(),
-    //     "mtbeventstatu"=>MtbEventStatus::get_create_statuses(),
-    //   ]);
-    // }
-
     public function update(Request $request)
     {
      $event = Event::find($request->id);
@@ -237,4 +226,12 @@ class EventController extends Controller
        "mtb_municipality" =>Mtbmunicipality::all()
       ]);
     }
+
+    public function show_index(Request $request)
+    {
+      $tickets = Ticket::orderBy('created_at','desc')->simplePaginate(2);
+      $events = Event::orderBy('start_at','desc')->simplePaginate(2);
+      return view('others.index.index',["events"=>$events,"tickets"=>$tickets]);
+    }
+
   }

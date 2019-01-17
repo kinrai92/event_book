@@ -11,7 +11,7 @@
 |
 */
 // huang
-Route::get('event_book','UserController@index')->name('get_event_book');
+Route::get('after_login','EventController@show_index')->name('get_after_login');
 Route::get("user_create", "UserController@create")->name("get_user_create");
 Route::post("user_create", "UserController@send_verify_mail")->name("post_user_create");
 Route::get("mail_confirm/{token}", "UserController@go_to_register")->name("get_mail_confirm");
@@ -37,6 +37,8 @@ Route::get("register_event", "EventController@create")->name("make_event_create"
 // Route::get("register_event", "EventController@create")->name("make_event_create")->middleware('auth:cooperation');
 Route::post("register_event","EventController@create")->name("post_event_create")->middleware('auth:cooperation');
 // Route::any('upload',"EventController@upload");
+Route::get("show_index","EventController@show_index")->name("get_show_index")->middleware("auth:user");
+
 
 // liang
 Route::get('update_event/{id}', "EventController@updateevent")->name("get_event_update");
