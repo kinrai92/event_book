@@ -36,8 +36,8 @@ class TicketController extends Controller
     $current_page = "all";
     if(!$status) {
       $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
-                                                                MtbTicketStatus::USED,
-                                                                MtbTicketStatus::CANCELLED])->where("user_id", auth('user')->user()->id)->get();
+                                                                   MtbTicketStatus::USED,
+                                                                   MtbTicketStatus::CANCELLED])->where("user_id", auth('user')->user()->id)->get();
 
     } elseif($status == "not_used") {
       $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::NOT_USED)->where("user_id", auth('user')->user()->id)->get();
@@ -59,13 +59,13 @@ class TicketController extends Controller
 
   /**
    *
-   *チケットの取り消し。
+   *企業側チケットの取り消し機能。
    *
    */
    public function cancell(Request $request,$id)
    {
      $ticket = Ticket::find($id);
-     $ticket->mtb_ticket_status_id = 3;
+     $ticket->mtb_ticket_status_id = MtbTicketStatus::CANCELLED;
      $ticket->save();
      return redirect()->back();
    }
