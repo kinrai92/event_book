@@ -15,22 +15,45 @@ use Validator;
 class EventController extends Controller
 {
     public function events(Request $request, $status = null) {
+
+      $mtb_municipalities = MtbMunicipality::all();
+
       $events = null;
       $current_page = "all";
       if(!$status) {
-        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH, MtbEventStatus::CANCEL])->get();
+        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH, MtbEventStatus::CANCEL]);
       } elseif($status == "opening") {
-        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now())->get();
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now());
         $current_page = "opening";
       } elseif($status == "held") {
-        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", "<", Carbon::now())->get();
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", "<", Carbon::now());
         $current_page = "held";
       } elseif($status == "canceled") {
-        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::CANCEL)->get();
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::CANCEL);
         $current_page = "canceled";
       }
 
-      return view("event.event_all", ["events" => $events, "current_page" => $current_page,]);
+      if($request->event_title) {
+        $events->where("title", "LIKE", "%" . $request->event_title . "%");
+      }
+
+      if($request->mtb_municipality_id) {
+        $events->where("mtb_municipality_id", $request->mtb_municipality_id);
+      }
+
+      if($request->cooperation_name) {
+        $cooperations = Cooperation::query()->where("name", "LIKE", "%" . $request->cooperation_name . "%")->get();
+        $cooperations_id = [];
+
+        if($cooperations) {
+          foreach($cooperations as $cooperation) {
+            $cooperations_id[] = $cooperation->id;
+          }}
+        $events->whereIn("cooperation_id", $cooperations_id);
+      }
+
+      $events = $events->get();
+      return view("event.event_all", ["events" => $events, "current_page" => $current_page, "mtb_municipalities" => $mtb_municipalities, "status" => $status]);
     }
 
     public function get_one_event(Request $request, $id) {
@@ -62,18 +85,7 @@ class EventController extends Controller
         $current_page = "canceled";
       }
 
-      if($requests->event_title) {
-        $events->where("title", "LIKE", "%". $requests->event_title . "%");
-      }
-
-      if($requests->mtb_municipality_id) {
-        $events->where("mtb_municipality_id", $requests->mtb_municipality_id);
-      }
-
-
       $events = $events->get();
-
-
 
       $mtb_municipalities = MtbMunicipality::all();
       return view("event.event_all_cooperation", [
@@ -84,29 +96,29 @@ class EventController extends Controller
       ]);
     }
 
-    public function search_event_coop(Request $request)
-    {
-      $mtb_municipalities = MtbMunicipality::all();
-
-      $events = [];
-
-      $event_title = $request->event_title;
-      $event_area_id = $request->mtb_municipality_id;
-
-      if ($event_title && $event_area_id == 'none')
-      {
-        $events = Event::query()->where("title", "like", "%$event_title%")->where("cooperation_id", auth('cooperation')->user()->id)->get();
-      }
-      elseif ($event_title  && $event_area_id != 'none')
-      {
-        $events = Event::query()->where("title", "like", "%$event_title%")->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
-      }
-      elseif (empty($event_title) && $event_area_id != 'none')
-      {
-        $events = Event::query()->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
-      }
-    return view("event.event_all_cooperation", ["events" => $events, "mtb_municipalities" => $mtb_municipalities, "current_page" => null, /*"search_title" => $event_title*/]);
-    }
+    // public function search_event_coop(Request $request)
+    // {
+    //   $mtb_municipalities = MtbMunicipality::all();
+    //
+    //   $events = [];
+    //
+    //   $event_title = $request->event_title;
+    //   $event_area_id = $request->mtb_municipality_id;
+    //
+    //   if ($event_title && $event_area_id == 'none')
+    //   {
+    //     $events = Event::query()->where("title", "like", "%$event_title%")->where("cooperation_id", auth('cooperation')->user()->id)->get();
+    //   }
+    //   elseif ($event_title  && $event_area_id != 'none')
+    //   {
+    //     $events = Event::query()->where("title", "like", "%$event_title%")->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
+    //   }
+    //   elseif (empty($event_title) && $event_area_id != 'none')
+    //   {
+    //     $events = Event::query()->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
+    //   }
+    // return view("event.event_all_cooperation", ["events" => $events, "mtb_municipalities" => $mtb_municipalities, "current_page" => null, /*"search_title" => $event_title*/]);
+    // }
 
 
     public function create(Request $request)

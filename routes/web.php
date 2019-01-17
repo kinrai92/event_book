@@ -30,8 +30,6 @@ Route::post("cooperation_register", "CooperationController@register")->name("pos
 Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware('auth:user');
 Route::get("event/find/{id}", "EventController@get_one_event")->name("get_one_event")->middleware('auth:user');
 Route::get("event/myevents/{status?}", "EventController@events_cooperation")->name("get_events_cooperation")->middleware('auth:cooperation');
-Route::post("event/myevents/{status?}", "EventController@search_event_coop")->name("search_event_coop")->middleware('auth:cooperation');
-
 // tao
 Route::get("register_event", "EventController@create")->name("make_event_create");
 // Route::get("register_event", "EventController@create")->name("make_event_create")->middleware('auth:cooperation');
