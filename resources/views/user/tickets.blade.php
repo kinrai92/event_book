@@ -70,7 +70,7 @@ div.current {
           <div class="row top6 bottom36">
             <div class="col-sm-4 text-left"></div>
             <div class="col-sm-8 text-right">
-            <a href="#">キャンセル</a>
+            <a href="{{ route('get_ticket_cancel', ['id' => $ticket->id]) }}">キャンセル</a>
             </div>
           </div>
         </div>

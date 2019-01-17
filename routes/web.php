@@ -38,7 +38,7 @@ Route::get("register_event", "EventController@create")->name("make_event_create"
 Route::post("register_event","EventController@create")->name("post_event_create")->middleware('auth:cooperation');
 // Route::any('upload',"EventController@upload");
 Route::get("show_index","EventController@show_index")->name("get_show_index")->middleware("auth:user");
-
+Route::get("ticket_cancel/{id}","TicketController@ticket_cancel")->name("get_ticket_cancel")->middleware("auth:user");
 
 // liang
 Route::get('update_event/{id}', "EventController@updateevent")->name("get_event_update");
