@@ -92,7 +92,12 @@ div.current {
           @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now())
             <div class="row top6">
               <div class="col-sm-4 text-left">現在の参加人数</div>
-              <div class="col-sm-8 text-right">{{ $num_tickets }}人</div>
+              <div class="col-sm-8 text-right">{{ $tickets->count() }}人</div>
+            </div>
+
+            <div class="row top6">
+              <div class="col-sm-4 text-left">在庫</div>
+              <div class="col-sm-8 text-right">{{ $stock }}人</div>
             </div>
           @endif
 
@@ -108,7 +113,7 @@ div.current {
                   　  </ul>
                 　</div>
             　  @endif
-              @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now() && $num_tickets < $event->maximum)
+              @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now() && $tickets->count() < $event->maximum)
                 <form action="{{ route('post_ticket_create') }}" method="post">
                   @csrf
                   <input type="submit" value="申し込み">

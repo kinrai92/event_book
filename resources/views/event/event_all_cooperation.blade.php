@@ -13,17 +13,6 @@ div.current {
   </div>
 
   <div class="col-sm text-center top36 bottom36">
-    <form action="{{ route('get_events_cooperation', ['status' => $status]) }}" method="get">
-      イベント名<input type="text" name="event_title" value="{{ Request::query('event_title') }}">
-      地域別<select type="text" name="mtb_municipality_id">
-        <option value=""></option>
-        @foreach ($mtb_municipalities as $mtb_municipality)
-        <option value="{{ $mtb_municipality->id }}">{{ $mtb_municipality->value }}</option>
-        @endforeach
-      </select>
-      <input type="submit" value="検索">
-    </form>
-  </div>
 
   <div class="media row top36 bottom36">
     <div class="col-sm-2"></div>

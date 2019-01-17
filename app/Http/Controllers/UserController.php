@@ -22,10 +22,7 @@ class UserController extends Controller
    *ホームページ画面。
    *
    */
-  public function index(Request $request)
-  {
-    return view('others.index.index');
-  }
+
 
   /**
    *

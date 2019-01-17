@@ -11,7 +11,7 @@
 |
 */
 // huang
-Route::get('event_book','UserController@index')->name('get_event_book');
+Route::get('after_login','EventController@show_index')->name('get_after_login');
 Route::get("user_create", "UserController@create")->name("get_user_create");
 Route::post("user_create", "UserController@send_verify_mail")->name("post_user_create");
 Route::get("mail_confirm/{token}", "UserController@go_to_register")->name("get_mail_confirm");
@@ -32,13 +32,13 @@ Route::get("event/all/{status?}", "EventController@events")->name("get_events")-
 Route::get("event/find/{id}", "EventController@get_one_event")->name("get_one_event")->middleware('auth:user');
 Route::get("coop_event/find/{id}", "EventController@get_one_event_of_cooperation")->name("get_one_event_of_cooperation")->middleware('auth:cooperation');
 Route::get("event/myevents/{status?}", "EventController@events_cooperation")->name("get_events_cooperation")->middleware('auth:cooperation');
-Route::post("event/myevents/{status?}", "EventController@search_event_coop")->name("search_event_coop")->middleware('auth:cooperation');
-
 // tao
 Route::get("register_event", "EventController@create")->name("make_event_create");
 // Route::get("register_event", "EventController@create")->name("make_event_create")->middleware('auth:cooperation');
 Route::post("register_event","EventController@create")->name("post_event_create")->middleware('auth:cooperation');
 // Route::any('upload',"EventController@upload");
+Route::get("show_index","EventController@show_index")->name("get_show_index")->middleware("auth:user");
+Route::get("ticket_cancel/{id}","TicketController@ticket_cancel")->name("get_ticket_cancel")->middleware("auth:user");
 
 // liang
 Route::get('update_event/{id}', "EventController@updateevent")->name("get_event_update");

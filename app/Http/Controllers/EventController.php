@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\Event\Event;
+use App\Model\User\User;
 use App\Model\Cooperation\Cooperation;
 use App\Model\User\UserDetail;
 use App\Model\Ticket\Ticket;
@@ -17,34 +18,55 @@ use Illuminate\Support\Collection;
 use Validator;
 class EventController extends Controller
 {
-    public function events(Request $requests, $status = null) {
+    public function events(Request $request, $status = null) {
+
+      $mtb_municipalities = MtbMunicipality::all();
+
       $events = null;
       $current_page = "all";
       if(!$status) {
-        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH, MtbEventStatus::CANCEL])->get();
+        $events = Event::query()->whereIn("mtb_event_status_id", [MtbEventStatus::PUBLISH, MtbEventStatus::CANCEL]);
       } elseif($status == "opening") {
-        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now())->get();
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", ">=", Carbon::now());
         $current_page = "opening";
       } elseif($status == "held") {
-        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", "<", Carbon::now())->get();
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::PUBLISH)->where("start_at", "<", Carbon::now());
         $current_page = "held";
       } elseif($status == "canceled") {
-        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::CANCEL)->get();
+        $events = Event::query()->where("mtb_event_status_id", MtbEventStatus::CANCEL);
         $current_page = "canceled";
       }
 
-      return view("event.event_all", ["events" => $events, "current_page" => $current_page,]);
+      if($request->event_title) {
+        $events->where("title", "LIKE", "%" . $request->event_title . "%");
+      }
+
+      if($request->mtb_municipality_id) {
+        $events->where("mtb_municipality_id", $request->mtb_municipality_id);
+      }
+
+      if($request->cooperation_name) {
+
+        $cooperation_name = $request->cooperation_name;
+
+        $events->whereHas("cooperation", function ($query) use($cooperation_name) {
+            $query->where('name', 'like', '%' . $cooperation_name . '%');
+        });
+      }
+
+      $events = $events->get();
+      return view("event.event_all", ["events" => $events, "current_page" => $current_page, "mtb_municipalities" => $mtb_municipalities, "status" => $status]);
     }
 
     public function get_one_event(Request $request, $id) {
       $event = null;
       $event = Event::find($id);
       $tickets = Event::find($id)->tickets;
-      $num_tickets = $tickets->count();
-      return view("event.event_detail", ["event" => $event, "num_tickets" => $num_tickets]);
+      $stock = $event->maximum - $tickets->count();
+      return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock]);
     }
 
-    public function events_cooperation(Request $requests, $status = null) {
+    public function events_cooperation(Request $request, $status = null) {
 
       $events = null;
       $current_page = "all";
@@ -65,18 +87,7 @@ class EventController extends Controller
         $current_page = "canceled";
       }
 
-      if($requests->event_title) {
-        $events->where("title", "LIKE", "%". $requests->event_title . "%");
-      }
-
-      if($requests->mtb_municipality_id) {
-        $events->where("mtb_municipality_id", $requests->mtb_municipality_id);
-      }
-
-
       $events = $events->get();
-
-
 
       $mtb_municipalities = MtbMunicipality::all();
       return view("event.event_all_cooperation", [
@@ -118,31 +129,6 @@ class EventController extends Controller
                                                        ]);
      }
 
-    public function search_event_coop(Request $request)
-    {
-      $mtb_municipalities = MtbMunicipality::all();
-
-      $events = [];
-
-      $event_title = $request->event_title;
-      $event_area_id = $request->mtb_municipality_id;
-
-      if ($event_title && $event_area_id == 'none')
-      {
-        $events = Event::query()->where("title", "like", "%$event_title%")->where("cooperation_id", auth('cooperation')->user()->id)->get();
-      }
-      elseif ($event_title  && $event_area_id != 'none')
-      {
-        $events = Event::query()->where("title", "like", "%$event_title%")->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
-      }
-      elseif (empty($event_title) && $event_area_id != 'none')
-      {
-        $events = Event::query()->where("mtb_municipality_id", $event_area_id)->where("cooperation_id", auth('cooperation')->user()->id)->get();
-      }
-    return view("event.event_all_cooperation", ["events" => $events, "mtb_municipalities" => $mtb_municipalities, "current_page" => null, /*"search_title" => $event_title*/]);
-    }
-
-
     public function create(Request $request)
     {
       if($request->isMethod("POST")){
@@ -180,6 +166,7 @@ class EventController extends Controller
         $event->minimum = $request->minimum;
         $event->cost = $request->cost;
         $event->detail = $request->detail;
+
         $picture1 = $request->file('picture1');
         if($picture1) {
           $realPath = $picture1->getRealPath();
@@ -229,19 +216,6 @@ class EventController extends Controller
     }
 
 
-
-
-
-    //   // TODO ログインロジックを実装したあとに、該当法人IDはセッションから取得するように変更する。
-    //   $cooperation = Cooperation::find(1);
-    //
-    //   return view('cooperation.newevent', [
-    //     "cooperation"=>$cooperation,
-    //     "mtbmuncipality"=>MtbMunicipality::all(),
-    //     "mtbeventstatu"=>MtbEventStatus::get_create_statuses(),
-    //   ]);
-    // }
-
     public function update(Request $request)
     {
      $event = Event::find($request->id);
@@ -269,4 +243,12 @@ class EventController extends Controller
        "mtb_municipality" =>Mtbmunicipality::all()
       ]);
     }
+
+    public function show_index(Request $request)
+    {
+      $tickets = Ticket::orderBy('created_at','desc')->simplePaginate(2);
+      $events = Event::orderBy('start_at','desc')->simplePaginate(2);
+      return view('others.index.index',["events"=>$events,"tickets"=>$tickets]);
+    }
+
   }

@@ -84,49 +84,17 @@
           <div class="row1">
             <a class="btn btn-primary" href="{{ route('get_events') }}">イベントを全て見る</a>
           </div>
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-              <h2 class="card-title">【新宿★毎日開催】買ってはいけない物件！初めて投資用マンションを買うあなたでもポイントがわかる</h2>
-              <p class="card-text">当社には税理士やFPなど有資格者が多数所属！マンション投資の経験豊富なアセットコンサルタントが講師を務めます。【セクションチーフ：有野広一】CFPの知識を最大限に活かした資産形成スキームと緻密な資金計画で数多くの顧客を救ってきたトータルプランニングを得手とする資産形成の専門家。
-								【税理士：島崎悟】当時、史上最年少で税理士試験に合格した業界の逸材。当社へ所属することで、資産形成に特化した税金プランニングを実現。今、業界内外から熱い視線を集めている。</p>
-              <a href="#" class="btn btn-primary">もっと見る &rarr;</a>
-            </div>
-
-            <div class="card-footer text-muted">
-              Posted on January 1, 2017 by
-              <a href="#">Start Bootstrap</a>
-            </div>
-          </div>
 
           <!-- Blog Post -->
+          @foreach($events as $event)
           <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+            <img class="card-img-top" src="{{ asset('/storage/' . $event->picture1) }}" alt="Card image cap">
             <div class="card-body">
-              <h2 class="card-title">東京上空150mの夜景と冬の幻想的な雰囲気が楽しめる</h2>
-              <p class="card-text">“White Night Story”をテーマにした東京タワーの冬のプロジェクションマッピングイベント。東京上空150mの夜景と、冬の夜景を飛び交う氷の蝶をイメージした投映で幻想的な雰囲気が楽しめる。また今年は、東京タワー開業60周年記念ソング「東京は夜の七時」をBGMに使用し、軽快な楽曲にあわせた特別コラボレーション映像を18:30から30分ごとに投影、しっとりとした映像と明るく楽しい映像の2種類が楽しめる。</p>
-              <a href="#" class="btn btn-primary">もっと見る &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2017 by
-              <a href="#">もっと見る &rarr;</a>
+              <h2 class="card-title">{{ $event->title }}</h2>
+              <p class="card-text">{{ $event->detail }}</p>
             </div>
           </div>
-
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-              <h2 class="card-title">「擬態」に焦点を当てさまざまな生き物を紹介</h2>
-              <p class="card-text">擬態する、成長すると色や模様が変わる、といった“化ける”生き物たちをテーマにした特別展。何かに化ける「擬態」に焦点を当て、敵から身を守る際に体を細くし木の枝にカモフラージュするフクロウのアフリカオオコノハズクや、目と鼻の先が尖っており全身茶褐色で木の葉のように見えるミツヅノコノハガエルなどを展示する。会場内には、実際に擬態する生き物探しができるコーナーも設置。また、期間中はサンシャイン水族館内のカナロア カフェやショップ アクアポケットで関連メニューやグッズも販売する。</p>
-              <a href="#" class="btn btn-primary">もっと見る &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2017 by
-              <a href="#">もっと見る &rarr;</a>
-            </div>
-          </div>
+          @endforeach
 
           <!-- Pagination -->
           <ul class="pagination justify-content-center mb-4">
@@ -146,17 +114,18 @@
           <!-- Search Widget -->
           <div class="card my-4">
             <h5 class="card-header">予約済みのチケット</h5>
+
+            @foreach($tickets as $ticket)
             <div class="card-body">
               <div class="clear"></div>
                 <dl id="new">
-                <dt><a href="https://www.kyoai.ac.jp/?p=20107" id="post-20107">11月29日（木）公開授業「人間を考える」開催のお知らせ</a></dt><dd>【掲載日：2018年11月16日】</dd>
-                <dt><a href="https://www.kyoai.ac.jp/?p=20087" id="post-20087">水戸市『姉妹・親善都市と交流都市の観光と物産展』に出展します！</a></dt><dd>【掲載日：2018年11月14日】</dd>
-                <dt><a href="https://www.kyoai.ac.jp/?p=19997" id="post-19997">事務局専任職員募集のお知らせ</a></dt><dd>【掲載日：2018年11月04日】</dd>
-                <dt><a href="https://www.kyoai.ac.jp/?p=20007" id="post-20007">第22回群馬現代史研究会開催のお知らせ</a></dt><dd>【掲載日：2018年11月02日】</dd>
-                <dt><a href="https://www.kyoai.ac.jp/?p=19593" id="post-19593">2018年11月17日（土）共愛学園文化講演会を開催します</a></dt><dd>【掲載日：2018年11月01日】</dd>
-                <dt><a href="https://www.kyoai.ac.jp/?p=19989" id="post-19989">ぐんま方言カルタ大会開催のご案内！</a></dt><dd>【掲載日：2018年11月01日】</dd>
+                <dt>チケットの番号:</a></dt><dd>{{ $ticket->code }}</dd>
+                <dt>イベント:</a></dt><dd>{{ $ticket->event->title }}</dd>
+                <dt>user:</a></dt><dd>{{ $ticket->user_detail->nickname }}</dd>
                 </dl>
             </div>
+            @endforeach
+
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Search for...">
               <span class="input-group-btn">
