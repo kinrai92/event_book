@@ -122,10 +122,6 @@ class EventController extends Controller
         $ticket_status = MtbTicketStatus::CANCELLED;
       }
       $num_tickets = $tickets->count();
-<<<<<<< HEAD
-      return view("event.event_detail_of_cooperation", ["event" => $event, "num_tickets" => $num_tickets, "tickets" => $tickets]);
-    }
-=======
 
       return view("event.event_detail_of_cooperation", ["event" => $event,
                                                         "num_tickets" => $num_tickets,
@@ -133,7 +129,6 @@ class EventController extends Controller
                                                         'current_page' => $current_page,
                                                        ]);
      }
->>>>>>> a6408d23438247cea5c1a2a8b0f980e920fb5b9f
 
     public function create(Request $request)
     {
