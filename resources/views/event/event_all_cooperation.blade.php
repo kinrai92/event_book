@@ -2,6 +2,7 @@
 
 @section("content")
 
+
 <style>
 div.current {
   background: gray;
@@ -37,13 +38,24 @@ div.current {
           <a href="/event/myevents/canceled">キャンセル済</a>
         </div>
       </div>
-
+      @php
+      {{$p_count=1;$div_count=10;}}
+      @endphp
       @foreach($events as $event)
-        <div class="row top36 div01 bg-light">
+      <p id="{{++$p_count}}">{{ $event->title }}</p>
+        <div id="{{++$div_count}}" class="row top36 div01 bg-light">
+          <script>
+          $(document).ready(function(){
+            $('#{{$p_count}}').click(function(){
+              $("#{{$div_count}}").slideToggle("slow");
+            });
+          });
+          </script>
           <div class="col-sm-4 top24 text-center">
             <img src="{{ asset('/storage/' . $event->picture1) }}" class="media-object" style="width:100px">
           </div>
           <div class="col-sm-8">
+
             <div class="row top36">
               <div class="col-sm-4 text-left">イベント名</div>
               <div class="col-sm-8 text-right">{{ $event->title }}</div>
@@ -81,7 +93,7 @@ div.current {
               <div class="col-sm-8 text-right">{{ $event->cooperation->name }}</div>
             </div>
             <div class="col-sm text-right top6 bottom36">
-              <a href="{{ route('get_one_event',['id' => $event->id]) }}">詳しくはこちら</a>
+              <a href="{{ route('get_one_event_of_cooperation',['id' => $event->id]) }}">詳しくはこちら</a>
             </div>
           </div>
         </div>

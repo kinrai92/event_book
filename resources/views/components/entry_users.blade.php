@@ -9,5 +9,9 @@
   <td>{{ $ticket->user->user_detail->get_age() }}</td>
   <td>{{ $ticket->user->user_detail->mtb_area->value }}</td>
   <td>{{ $ticket->created_at }}</td>
-  <td><a href='/delete_ticket/{{ $ticket->id }}'>キャンセル</a></td>
+  @if($ticket->mtb_ticket_status_id == "3")
+    <td>キャンセル済み</td>
+   @else
+  <td><a href='/cancell_ticket/{{ $ticket->id }}'>キャンセル</a></td>
+  @endif
 </tr>
