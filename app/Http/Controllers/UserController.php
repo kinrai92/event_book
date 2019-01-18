@@ -33,7 +33,7 @@ class UserController extends Controller
   {
     if(Auth::guard('user')->check()){
 
-      return redirect(route('get_event_book'));
+      return redirect(route('get_after_login'));
     }
     return view('user.login');
   }
