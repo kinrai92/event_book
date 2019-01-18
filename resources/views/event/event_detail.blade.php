@@ -113,7 +113,7 @@ div.current {
                   　  </ul>
                 　</div>
             　  @endif
-              @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now() && $tickets->count() < $event->maximum)
+              @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now() && $tickets->count() < $event->maximum && $ticketCount < 1)
                 <form action="{{ route('post_ticket_create') }}" method="post">
                   @csrf
                   <input type="submit" value="申し込み">

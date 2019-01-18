@@ -60,7 +60,10 @@ class EventController extends Controller
       $event = Event::find($id);
       $tickets = Event::find($id)->tickets;
       $stock = $event->maximum - $tickets->count();
-      return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock]);
+      $ticketCount = Ticket::where("event_id",$id)
+                            ->where("user_id",auth('user')->user()->id)
+                            ->count();
+      return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock, "ticketCount" => $ticketCount]);
     }
 
     public function events_cooperation(Request $request, $status = null) {
