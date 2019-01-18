@@ -6,14 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
-		<script src="http://startbootstrap.com/template-overviews/blog-home"></script>
-		<script src="https://startbootstrap.com/template-overviews/blog-home"></script>
-		<script src="https://github.com/BlackrockDigital/startbootstrap-blog-home/blob/master/LICENSE"></script>
     <title>Eventbook homepage</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
     <!-- Custom styles for this template -->
   <style>
@@ -47,6 +45,19 @@
     }
 	</style>
 
+
+
+
+  <script>
+  $(document).ready(function(){
+    $.get("{{ route('api_get_events_number') }}",function(data,status){
+      if(status == "success") {
+        $("#number_of_events").text(data.number + "件");
+      }
+    });
+  });
+  </script>
+
   </head>
 
   <body>
@@ -79,6 +90,7 @@
 
           <h1 class="my-4">Event	Book
             <small>イベントを検索</small>
+            <small id="number_of_events">件数を取得中</small>
           </h1>
 
           <div class="row1">
@@ -197,9 +209,7 @@
       <!-- /.container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
   </body>
 
