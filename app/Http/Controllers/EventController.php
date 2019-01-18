@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
 use Validator;
 class EventController extends Controller
 {
+  //user イベント一覧表
     public function events(Request $request, $status = null) {
 
       $mtb_municipalities = MtbMunicipality::all();
@@ -57,7 +58,7 @@ class EventController extends Controller
       $events = $events->get();
       return view("event.event_all", ["events" => $events, "current_page" => $current_page, "mtb_municipalities" => $mtb_municipalities, "status" => $status]);
     }
-
+//user イベント詳細
     public function get_one_event(Request $request, $id) {
       $event = null;
       $event = Event::find($request->id);
@@ -66,7 +67,7 @@ class EventController extends Controller
       $check_user = $tickets->where('user_id', auth('user')->user()->id)->first();
       return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock,  "check_user" => $check_user]);
     }
-
+//cooperation イベント一覧表
     public function events_cooperation(Request $request, $status = null) {
 
       $events = null;
@@ -104,6 +105,7 @@ class EventController extends Controller
      *イベントの詳細ページ及び申し込みユーザー数の表示。
      *
      */
+     //cooperation イベント詳細
     public function get_one_event_of_cooperation(Request $request,$id)
     {
       $event = null;

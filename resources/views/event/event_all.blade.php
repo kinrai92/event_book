@@ -6,6 +6,9 @@
 div.current {
   background: gray;
 }
+p{
+    text-align: center;
+}
 </style>
 
   <div class="col-sm text-center top36 bottom36">
@@ -50,8 +53,19 @@ div.current {
           <a href="{{ route('get_events', ['status' => 'canceled', 'event_title' => Request::query('event_title'), 'mtb_municipality_id' => Request::query('mtb_municipality_id') , 'cooperation_name' => Request::query('cooperation_name')]) }}">キャンセル済み</a>
         </div>
       </div>
-
+      @php
+      {{$p_count=1;$div_count=10;}}
+      @endphp
       @foreach($events as $event)
+      <p id="{{++$p_count}}">{{ $event->title }}</p>
+        <div id="{{++$div_count}}">
+          <script>
+          $(document).ready(function(){
+            $('#{{$p_count}}').click(function(event){
+              $("#{{$div_count}}").slideToggle("slow");
+            });
+          });
+          </script>
         <div class="row top36 div01 bg-light">
           <div class="col-sm-4 top24 text-center">
             <img src="{{ asset('/storage/' . $event->picture1) }}" class="media-object" style="width:300px">
@@ -96,6 +110,7 @@ div.current {
             </div>
           </div>
         </div>
+      </div>
       @endforeach
     </div>
 
