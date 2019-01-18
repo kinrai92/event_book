@@ -1,6 +1,6 @@
 <html>
 
 <body>
-  <img src="data:image/png;base64,{{$qrcode}}" >
+  {!!$qrcode!!}
 </body>
 </html>
