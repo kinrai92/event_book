@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\UrlWindow;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
 class EventController extends Controller
 {
@@ -106,28 +108,29 @@ class EventController extends Controller
      *
      */
      //cooperation イベント詳細
-    public function get_one_event_of_cooperation(Request $request,$id)
+    public function get_one_event_of_cooperation(Request $request,$id,$status=null)
     {
       $event = null;
       $event = Event::find($id);
       $tickets = null;
       $current_page = "all";
-      $ticket_status = null;
 
-      $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
-                                                                   MtbTicketStatus::USED,
-                                                                   MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->get();
+     if($status == "all"){
+        $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
+                                                                     MtbTicketStatus::USED,
+                                                                     MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->paginate(2);
+      }
 
-     if($request->ticket_status== "cancelled") {
-        $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->get();
+     if($status == "cancelled") {
+        $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->paginate(2);
         $current_page = "cancelled";
-        $ticket_status = MtbTicketStatus::CANCELLED;
       }
       $num_tickets = $tickets->count();
 
       return view("event.event_detail_of_cooperation", ["event" => $event,
                                                         "num_tickets" => $num_tickets,
                                                         "items" => $tickets,
+                                                        'id' => $id,
                                                         'current_page' => $current_page,
                                                        ]);
      }

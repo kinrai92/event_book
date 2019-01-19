@@ -112,10 +112,10 @@ div.current {
     <div class="row" style="width:500px;margin-left:200px;margin-top:20px">
       <!-- 三元运算 -->
       <div class="col-sm-6 {{ ($current_page=='all') ? 'current' : '' }}" style="padding-left:100px">
-        <a href="?all" style="text-center">すべて</a>
+        <a href="all" style="text-center">すべて</a>
       </div>
       <div class="col-sm-6 {{ ($current_page=='cancelled') ? 'current' : '' }}" style="padding-left:80px">
-        <a  name="tag" href="?ticket_status=cancelled">キャンセル済</a>
+        <a  name="tag" href="cancelled">キャンセル済</a>
       </div>
     </div>
 
@@ -132,7 +132,7 @@ div.current {
        @each('components.entry_users',$items,'ticket')
       </table>
   </div>
-  <div class="paginate"></div>
+  <div class="paginate">{{$items->links('pagination.custom_pagination')}}</div>
   </div>
 
 @endsection
