@@ -10,36 +10,17 @@
                 <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
             </li>
         @endif
-        {{-- Sort Pages --}}
-        @php $parent_pages=array(array()); $child_pages=array(); $count=0; $i=0; $j=0; @endphp
-        @foreach ($elements as $element)
-           @foreach ($element as $page => $url)
-              $child_pages[$i] = $page;
-              $count++;
-              @if($count%3==0)
-              $parent_pages[$i] = $child_pages;
-              $i++;
-              @endif
-           @endforeach
-           @php dd($parent_pages); exit(); @endphp
         {{-- Pagination Elements --}}
-        @foreach ($elements as $element)
             {{-- Array Of Links --}}
-            @if (is_array($element))
-                @foreach ($element as $page => $url)
+                @for($page =1; $page <= $paginator->lastPage(); $page++)
                     @if ($page == $paginator->currentPage())
                         <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
                     @else
-                        <li class="page-item" {{($paginator->currentPage()%3==0 && !in_array($page-$paginator->currentPage(),[-1,-2]))||
-                                                (($paginator->currentPage()+1)%3==0 && !in_array($page-$paginator->currentPage(),[1,-1]))||
-                                                (($paginator->currentPage()+2)%3==0 && !in_array($page-$paginator->currentPage(),[1,2]))
-                                                 ? 'hidden':''}}>
-                                                <a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                        <li class="page-item" {{in_array($page,$parent_pages[floor(($paginator->currentPage()-1)/$per_block)])
+                                                 ? '':'hidden'}}>
+                                                <a class="page-link" href="{{ $paginator->url($page) }}">{{ $page }}</a></li>
                     @endif
-                @endforeach
-            @endif
-        @endforeach
-
+                @endfor
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
             <li class="page-item">

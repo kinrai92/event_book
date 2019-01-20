@@ -115,7 +115,7 @@ class EventController extends Controller
       $tickets = null;
       $current_page = "all";
 
-     if($status == "all"){
+     if(!$status || $status=='all'){
         $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
                                                                      MtbTicketStatus::USED,
                                                                      MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->paginate(2);
@@ -127,10 +127,25 @@ class EventController extends Controller
       }
       $num_tickets = $tickets->count();
 
+      //Pagination:Sort Pages
+      $per_block = 7;
+      $parent_pages = array(array()); $child_pages = array();
+      for($i = 0,$j = 0, $page = 1; $page <= $tickets->lastPage(); $page++){
+         $child_pages[$j] = $page;
+         $j++;
+         if($page % $per_block == 0 || $page == $tickets->lastPage()){
+           $j = 0;
+           $parent_pages[$i] = $child_pages;
+           $i++;
+           unset($child_pages);
+         }
+      }
       return view("event.event_detail_of_cooperation", ["event" => $event,
                                                         "num_tickets" => $num_tickets,
                                                         "items" => $tickets,
                                                         'id' => $id,
+                                                        'parent_pages' => $parent_pages,
+                                                        'per_block' => $per_block,
                                                         'current_page' => $current_page,
                                                        ]);
      }
