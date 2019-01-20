@@ -4,9 +4,8 @@
 
 <script>
 $(document).ready(function(){
-  $('#event_title').click(function(event){
-     var event_title= $('#event_title').text();
-     $('#event_content').slideToggle('slow');
+  $('p').on('click',function(){
+    $(this).next().slideToggle('slow');
   });
 });
 </script>
@@ -46,9 +45,8 @@ div.current {
         </div>
       </div>
       @foreach($events as $event)
-      <p id="event_title">{{ $event->title }}</p>
-        <div id="event_content" class="row top36 div01 bg-light">
-
+      <p class="event_title">{{ $event->title }}</p>
+        <div class="event_content row top36 div01 bg-light">
           <div class="col-sm-4 top24 text-center">
             <img src="{{ asset('/storage/' . $event->picture1) }}" class="media-object" style="width:100px">
           </div>
