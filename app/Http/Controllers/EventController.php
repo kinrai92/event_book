@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\UrlWindow;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
 class EventController extends Controller
 {
@@ -116,18 +118,18 @@ class EventController extends Controller
 
       $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
                                                                    MtbTicketStatus::USED,
-                                                                   MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->get();
-
+                                                                   MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->paginate(1);
+      $num_tickets = $tickets->count();
      if($request->ticket_status== "cancelled") {
-        $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->get();
+        $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->paginate(1);
         $current_page = "cancelled";
         $ticket_status = MtbTicketStatus::CANCELLED;
       }
-      $num_tickets = $tickets->count();
+
 
       return view("event.event_detail_of_cooperation", ["event" => $event,
                                                         "num_tickets" => $num_tickets,
-                                                        "items" => $tickets,
+                                                        "tickets" => $tickets,
                                                         'current_page' => $current_page,
                                                        ]);
      }

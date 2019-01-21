@@ -129,10 +129,10 @@ div.current {
           <td>申し込み時間</td>
           <td>キャンセル</td>
        </tr>
-       @each('components.entry_users',$items,'ticket')
+       @each('components.entry_users',$tickets,'ticket')
       </table>
   </div>
-  <div class="paginate"></div>
+  <div class="paginate">{{$tickets->render()}}</div>
   </div>
 
 @endsection
