@@ -245,8 +245,8 @@ class UserController extends Controller
 
   public function test(Request $request)
   {
-    $url = "www.baidu.com";
-    $qrcode=QrCode::size(500)->generate('http://'.$url);
+    $qrcode=QrCode::size(500)->generate('http://localhost:8000/confirm/code');
+
     return view('others.tmp_blade.tmp_qrcode',['qrcode' => $qrcode]);
   }
 }
