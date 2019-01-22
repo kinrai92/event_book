@@ -15,7 +15,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('get_event_book');
+            return route('get_cooperation_login');
         }
     }
 }

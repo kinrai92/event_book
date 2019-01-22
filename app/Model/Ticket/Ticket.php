@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Ticket extends Model
 {
     use SoftDeletes;
-    
+
     protected $table = "tickets";
+
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     public function event()
     {

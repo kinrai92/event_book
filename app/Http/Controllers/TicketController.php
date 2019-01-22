@@ -76,4 +76,106 @@ class TicketController extends Controller
      $ticket->save();
      return view("welcome");
    }
+
+
+//2019/01/22 Jin
+   public function confirm_QRcode(Request $request, $code) {
+
+     //検証step2
+     if (!$code) {
+       $message = "QRコードが間違っています。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+
+     $ticket = Ticket::query()->where("code", $code)->first();
+
+      //検証step3
+     if (!$ticket) {
+       $message = "チケットが存在しません。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+
+      //検証step4
+     if ($ticket->event->cooperation->id != auth('cooperation')->user()->id) {
+       $message = "チケットが存在しません。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+
+     //検証step5
+     if ($ticket->mtb_ticket_status_id == MtbTicketStatus::NOT_USED) {
+       return view('show_ticket_detail', ['ticket' => $ticket]);
+     }
+     elseif ($ticket->mtb_ticket_status_id == MtbTicketStatus::USED) {
+       $message = "チケットがすでに使用されました。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+     elseif ($ticket->mtb_ticket_status_id == MtbTicketStatus::CANCELLED) {
+       $message = "チケットがすでにキャンセルされました。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+
+   }
+
+   public function ticket_check_in(Request $request) {
+     $ticket = Ticket::query()->where('code', $request->ticket_code)->first();
+
+     //確認step2
+     if (!$ticket) {
+       $message = "チケットが存在しません。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+
+     //確認step3
+     if ($ticket->event->cooperation->id != auth('cooperation')->user()->id) {
+       $message = "チケットが存在しません。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+
+     //確認step4
+     if ($ticket->mtb_ticket_status_id == MtbTicketStatus::NOT_USED) {
+       $ticket->mtb_ticket_status_id = MtbTicketStatus::USED;
+       $ticket->save();
+       return view('check_in_succeed');
+     }
+     elseif ($ticket->mtb_ticket_status_id == MtbTicketStatus::USED) {
+       $message = "チケットがすでに使用されました。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+     elseif ($ticket->mtb_ticket_status_id == MtbTicketStatus::CANCELLED) {
+       $message = "チケットがすでにキャンセルされました。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+   }
+
+   public function ticket_cancel_by_cooperation(Request $request) {
+     $ticket = Ticket::query()->where('code', $request->ticket_code)->first();
+
+     //キャンセルstep2
+     if (!$ticket) {
+       $message = "チケットが存在しません。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+
+     //キャンセルstep3
+     if ($ticket->event->cooperation->id != auth('cooperation')->user()->id) {
+       $message = "チケットが存在しません。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+
+     //キャンセルstep4
+     if ($ticket->mtb_ticket_status_id == MtbTicketStatus::NOT_USED) {
+       $ticket->mtb_ticket_status_id = MtbTicketStatus::CANCELLED;
+       $ticket->save();
+       return view('cancel_succeed');
+     }
+     elseif ($ticket->mtb_ticket_status_id == MtbTicketStatus::USED) {
+       $message = "チケットがすでに使用されました。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+     elseif ($ticket->mtb_ticket_status_id == MtbTicketStatus::CANCELLED) {
+       $message = "チケットがすでにキャンセルされました。";
+       return view('check_in_failed', ['message' => $message]);
+     }
+   }
+
  }
