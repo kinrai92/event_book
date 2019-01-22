@@ -2,7 +2,13 @@
 
 @section("content")
 
-
+<script>
+$(document).ready(function(){
+  $('p').on('click',function(){
+    $(this).next().slideToggle('slow');
+  });
+});
+</script>
 <style>
 div.current {
   background: gray;
@@ -38,19 +44,9 @@ div.current {
           <a href="/event/myevents/canceled">キャンセル済</a>
         </div>
       </div>
-
       @foreach($events as $event)
-      <p id="pid{{ $event->id }}">{{ $event->title }}</p>
-        <div id="divid{{ $event->id }}" class="row top36 div01 bg-light">
-
-          <script>
-          $(document).ready(function(){
-            $('#pid{{ $event->id }}').click(function(){
-              $("#divid{{ $event->id }}").slideToggle("slow");
-            });
-          });
-          </script>
-
+      <p class="event_title">{{ $event->title }}</p>
+        <div class="event_content row top36 div01 bg-light">
           <div class="col-sm-4 top24 text-center">
             <img src="{{ asset('/storage/' . $event->picture1) }}" class="media-object" style="width:100px">
           </div>

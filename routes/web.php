@@ -30,7 +30,7 @@ Route::get("cancell_ticket/{id}","TicketController@cancell")->name("cancell_tick
 //Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware("auth:users");
 Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware('auth:user');
 Route::get("event/find/{id}", "EventController@get_one_event")->name("get_one_event")->middleware('auth:user');
-Route::get("coop_event/find/{id}", "EventController@get_one_event_of_cooperation")->name("get_one_event_of_cooperation")->middleware('auth:cooperation');
+Route::get("coop_event/find/{id}/{status?}", "EventController@get_one_event_of_cooperation")->name("get_one_event_of_cooperation")->middleware('auth:cooperation');
 Route::get("event/myevents/{status?}", "EventController@events_cooperation")->name("get_events_cooperation")->middleware('auth:cooperation');
 // tao
 Route::get("register_event", "EventController@create")->name("make_event_create");

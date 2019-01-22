@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\UrlWindow;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
 class EventController extends Controller
 {
@@ -106,28 +108,43 @@ class EventController extends Controller
      *
      */
      //cooperation イベント詳細
-    public function get_one_event_of_cooperation(Request $request,$id)
+    public function get_one_event_of_cooperation(Request $request,$id,$status=null)
     {
       $event = null;
       $event = Event::find($id);
       $tickets = null;
       $current_page = "all";
-      $ticket_status = null;
 
-      $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
-                                                                   MtbTicketStatus::USED,
-                                                                   MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->get();
+     if(!$status || $status=='all'){
+        $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
+                                                                     MtbTicketStatus::USED,
+                                                                     MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->paginate(2);
+      }
 
-     if($request->ticket_status== "cancelled") {
-        $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->get();
+     if($status == "cancelled") {
+        $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->paginate(2);
         $current_page = "cancelled";
-        $ticket_status = MtbTicketStatus::CANCELLED;
       }
       $num_tickets = $tickets->count();
 
+      //Pagination:Sort Pages
+      $per_block = 3;
+      /*$parent_pages = array(array()); $child_pages = array();
+      for($i = 0,$j = 0, $page = 1; $page <= $tickets->lastPage(); $page++){
+         $child_pages[$j] = $page;
+         $j++;
+         if($page % $per_block == 0 || $page == $tickets->lastPage()){
+           $j = 0;
+           $parent_pages[$i] = $child_pages;
+           $i++;
+           unset($child_pages);
+         }
+      }*/
       return view("event.event_detail_of_cooperation", ["event" => $event,
                                                         "num_tickets" => $num_tickets,
                                                         "items" => $tickets,
+                                                        'id' => $id,
+                                                        'per_block' => $per_block,
                                                         'current_page' => $current_page,
                                                        ]);
      }
