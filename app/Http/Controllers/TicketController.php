@@ -122,7 +122,7 @@ class TicketController extends Controller
 
 
   //2019/01/22 Jin
-     public function confirm_QRcode(Request $request, $code) {
+     public function confirm_QRcode(Request $request, $code = null) {
 
        //検証step2
        if (!$code) {

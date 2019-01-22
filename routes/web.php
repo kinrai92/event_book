@@ -63,6 +63,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //2019/01/22 Jin
-Route::get('kensyou/{code}', 'TicketController@confirm_QRcode')->name('confirm_QRcode')->middleware('auth:cooperation');//検証step1
+Route::get('kensyou/{code?}', 'TicketController@confirm_QRcode')->name('confirm_QRcode')->middleware('auth:cooperation');//検証step1
 Route::post('kensyou/checkin', 'TicketController@ticket_check_in')->name('ticket_check_in')->middleware('auth:cooperation');//確認step1
 Route::post('kensyou/cancel', 'TicketController@ticket_cancel_by_cooperation')->name('ticket_cancel_by_cooperation')->middleware('auth:cooperation');//キャンセルstep1
