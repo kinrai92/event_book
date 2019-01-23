@@ -1,6 +1,6 @@
 <html>
 
 <body>
-  <img src="data:image/png;base64,{{$qrcode}}" >
+  <img src="http://qr.liantu.com/api.php?text=http://www.baidu.com/">
 </body>
 </html>
