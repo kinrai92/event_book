@@ -132,7 +132,9 @@ div.current {
        @each('components.entry_users',$tickets,'ticket')
       </table>
   </div>
+
   <div class="paginate">{{$tickets->render('pagination.custom_pagination',['per_block' => $per_block])}}</div>
-  </div>
+
+</div>
 
 @endsection

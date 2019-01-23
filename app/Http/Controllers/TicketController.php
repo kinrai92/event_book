@@ -92,18 +92,12 @@ class TicketController extends Controller
         return redirect()->back()->with(['one_message' => $error_message]);
       }
       if(!$ticket){
-        $code = str_random(16);
-        $ticket = Ticket::query()->where('code',$code)->first();
-        while($ticket){
-          $code = str_random(16);
-          $ticket = Ticket::query()->where('code',$code)->first();
-        }
-        $one_ticket = new Ticket;
-        $one_ticket->code = $code;
-        $one_ticket->user_id = auth('user')->user()->id;
-        $one_ticket->event_id = $request->event_id;
-        $one_ticket->mtb_ticket_status_id = MtbTicketStatus::NOT_USED;
-        $one_ticket->save();
+        
+        $ticket = Ticket::create_ticket([
+          "user_id" => auth()->user()->id,
+          "event_id" => $request->event_id
+        ]);
+
         $successed_message = '申し込み成功';
         return redirect()->back()->with(['one_message' => $successed_message]);
       }
