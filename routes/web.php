@@ -23,8 +23,8 @@ Route::get('show_my_qrcode/{code}',"TicketController@show_qrcode")->name('show_q
 Route::get('test',"UserController@test")->name("test_qrcode");
 
 //仕様書:huang
-Route::post('create_ticket','TicketController@create_ticket')->name('post_create_ticket');
-Route::get('show_my_qrcode/{code}','TicketController@show_QRcode')->name('get_show_QRcode');
+Route::post('create_ticket','TicketController@create_ticket')->name('post_create_ticket')->middleware('auth:user');
+Route::get('show_my_qrcode/{code}','TicketController@show_QRcode')->name('show_QRcode')->middleware('auth:user');
 
 Route::get('user_tickets/{status?}','TicketController@show_user_tickets_page')->name('show_user_tickets_page')->middleware('auth:user');
 Route::get("cooperation_register", "CooperationController@create")->name("get_cooperation_register");
@@ -63,6 +63,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //2019/01/22 Jin
-Route::get('kensyou/{code}', 'TicketController@confirm_QRcode')->name('confirm_QRcode')->middleware('auth:cooperation');//検証step1
+Route::get('kensyou/{code?}', 'TicketController@confirm_QRcode')->name('confirm_QRcode')->middleware('auth:cooperation');//検証step1
 Route::post('kensyou/checkin', 'TicketController@ticket_check_in')->name('ticket_check_in')->middleware('auth:cooperation');//確認step1
 Route::post('kensyou/cancel', 'TicketController@ticket_cancel_by_cooperation')->name('ticket_cancel_by_cooperation')->middleware('auth:cooperation');//キャンセルstep1

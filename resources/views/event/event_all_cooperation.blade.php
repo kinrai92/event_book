@@ -45,7 +45,7 @@ div.current {
         </div>
       </div>
       @foreach($events as $event)
-      <p class="event_title">{{ $event->title }}</p>
+        <p class="event_title">{{ $event->title }}</p>
         <div class="event_content row top36 div01 bg-light">
           <div class="col-sm-4 top24 text-center">
             <img src="{{ asset('/storage/' . $event->picture1) }}" class="media-object" style="width:100px">

@@ -116,13 +116,13 @@ class TicketController extends Controller
      public function show_QRcode(Request $request,$code)
      {
        $ticket = Ticket::query()->where('code',$code)->first();
-       $text = 'http://localhost:8000/kensyou/'.$code;
+       $text = 'http://192.168.1.60:8000/kensyou/'.$code;
        return view('others.tmp_blade.show_my_QRticket',['ticket' => $ticket,'text' => $text]);
      }
 
 
   //2019/01/22 Jin
-     public function confirm_QRcode(Request $request, $code) {
+     public function confirm_QRcode(Request $request, $code = null) {
 
        //検証step2
        if (!$code) {

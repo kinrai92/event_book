@@ -16,13 +16,8 @@
                     @if ($page == $paginator->currentPage())
                         <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
                     @else
-<<<<<<< HEAD
-                        <li class="page-item" {{($paginator->currentPage() < ($per_block+1)/2 && $page <= $per_block)||
-                                                ($paginator->currentPage() >= ($per_block+1)/2 &&  $page >= $paginator->currentPage()-($per_block-1)/2 && $page <= $paginator->currentPage()+($per_block-1)/2)
-=======
                         <li class="page-item" {{($paginator->currentPage() < ($per_block+1)/2 && $page <= $per_block) ||
                                                 ($paginator->currentPage() >= ($per_block+1)/2 && $page >= $paginator->currentPage()-($per_block-1)/2 && $page <= $paginator->currentPage()+($per_block-1)/2)
->>>>>>> 3d5369988a5b9751556c420f804135cfc180cb6d
                                                  ? '':'hidden'}}>
                                                 <a class="page-link" href="{{ $paginator->url($page) }}">{{ $page }}</a></li>
                     @endif

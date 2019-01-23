@@ -4,12 +4,12 @@
 @section('content')
 
 <div class="row">
-  <div class='col-md'>
+  <div class='col-md-12'>
     <img src = 'http://qr.liantu.com/api.php?text={{$text}}'>
   </div>
 </div>
 <div class="row">
-  <div class='col-md'>
+  <div class='col-md-12'>
       <table class='table'>
         <tr>
           <td>イベント名</td>
