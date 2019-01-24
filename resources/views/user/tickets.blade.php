@@ -50,7 +50,7 @@ div.current {
           <div class="row" >
             <div class="col-sm-4 text-left">QRコード:</div>
             <div  class="col-sm-8" style="padding-left:290px">
-            <a href="/show_qrcode/{{'www.baidu.com'}}">こちらをクリック</a>
+            <a href="/show_my_qrcode/{{$ticket->code}}">こちらをクリック</a>
             </div>
           </div>
           <div class="row top6">
