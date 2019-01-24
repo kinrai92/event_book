@@ -67,7 +67,7 @@ class EventController extends Controller
       $tickets = Event::find($request->id)->tickets;
       $stock = $event->maximum - $tickets->count();
       $check_user = $tickets->where('user_id', auth('user')->user()->id)->first();
-      return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock,  "check_user" => $check_user]);
+      return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock, "check_user" => $check_user]);
     }
 //cooperation イベント一覧表
     public function events_cooperation(Request $request, $status = null) {
@@ -125,10 +125,9 @@ class EventController extends Controller
         $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->paginate(2);
         $current_page = "cancelled";
       }
-      $num_tickets = $tickets->count();
-
+       $num_tickets = $tickets->count();
       //Pagination:Sort Pages
-      $per_block = 7;
+      $per_block = 5;
       /*$parent_pages = array(array()); $child_pages = array();
       for($i = 0,$j = 0, $page = 1; $page <= $tickets->lastPage(); $page++){
          $child_pages[$j] = $page;
@@ -142,7 +141,7 @@ class EventController extends Controller
       }*/
       return view("event.event_detail_of_cooperation", ["event" => $event,
                                                         "num_tickets" => $num_tickets,
-                                                        "items" => $tickets,
+                                                        "tickets" => $tickets,
                                                         'id' => $id,
                                                         'per_block' => $per_block,
                                                         'current_page' => $current_page,

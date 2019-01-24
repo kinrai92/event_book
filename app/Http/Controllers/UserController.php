@@ -69,10 +69,12 @@ class UserController extends Controller
    ];
 
     if (Auth::guard("user")->attempt($arr,$request->remember_me)){
-      return redirect(route("get_event_book"));
+      return redirect(route("get_after_login"));
     } else {
       return redirect(route('get_user_login'))->withInput()->withErrors($validator);
     }
+
+
   }
 
   /**
@@ -241,4 +243,10 @@ class UserController extends Controller
 
   }
 
+  public function test(Request $request)
+  {
+
+
+    return view('others.tmp_blade.tmp_qrcode');
+  }
 }
