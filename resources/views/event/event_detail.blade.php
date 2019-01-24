@@ -102,6 +102,12 @@ div.current {
               <div class="col-sm-4 text-left">在庫</div>
               <div class="col-sm-8 text-right">{{ $stock }}人</div>
             </div>
+
+            <div class="row top6">
+              <div class="col-sm-4 text-left">お問い合わせ</div>
+              <div class="col-sm-8 text-right">
+              　<a href="/show_comments/{{ $event->id }}">お問い合わせ</a></div>
+            </div>
           @endif
 
           <!-- 申し込みボタン -->
