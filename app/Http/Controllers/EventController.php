@@ -128,7 +128,7 @@ class EventController extends Controller
       $num_tickets = $tickets->count();
 
       //Pagination:Sort Pages
-      $per_block = 3;
+      $per_block = 7;
       /*$parent_pages = array(array()); $child_pages = array();
       for($i = 0,$j = 0, $page = 1; $page <= $tickets->lastPage(); $page++){
          $child_pages[$j] = $page;
