@@ -45,27 +45,13 @@ div.current {
         <div class="col-sm-9">
           <div class="row top36">
             <div class="col-sm-4 text-left">チケットの番号:</div>
-            <div class="col-sm-8 text-right">{{$ticket->code}}</div>
+            <div class="col-sm-8 text-right">{{ $ticket->code }}</div>
           </div>
           <div class="row" >
-            <div class="col-sm-4 text-left">QRコード:</div>
-            <div  class="col-sm-8" style="padding-left:290px">
-            <a href="/show_my_qrcode/{{$ticket->code}}">こちらをクリック</a>
+            <div class="col-sm-4 text-left">詳細:</div>
+            <div  class="col-sm-8" style="padding-left:300px">
+            <a href="{{ route('show_QRcode',['code' => $ticket->code]) }}">詳しくはこちら</a>
             </div>
-          </div>
-          <div class="row top6">
-            <div class="col-sm-4 text-left">イベント:</div>
-            <div class="col-sm-8 text-right">
-              {{$ticket->event->title}}
-            </div>
-          </div>
-          <div class="row top6">
-            <div class="col-sm-4 text-left">チケット状態:</div>
-            <div class="col-sm-8 text-right">{{$ticket->mtb_ticket_status->value}}</div>
-          </div>
-          <div class="row top6">
-            <div class="col-sm-4 text-left">user:</div>
-            <div class="col-sm-8 text-right">{{$ticket->user_detail->nickname}}</div>
           </div>
           <div class="row top6 bottom36">
             <div class="col-sm-4 text-left"></div>

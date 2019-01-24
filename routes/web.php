@@ -23,8 +23,8 @@ Route::get('show_my_qrcode/{code}',"TicketController@show_qrcode")->name('show_q
 Route::get('test',"UserController@test")->name("test_qrcode");
 
 //仕様書:huang
-Route::post('create_ticket','TicketController@create_ticket')->name('post_create_ticket');
-Route::get('show_my_qrcode/{code}','TicketController@show_QRcode')->name('get_show_QRcode');
+Route::post('create_ticket','TicketController@create_ticket')->name('post_create_ticket')->middleware('auth:user');
+Route::get('show_my_qrcode/{code}','TicketController@show_QRcode')->name('show_QRcode')->middleware('auth:user');
 
 Route::get('user_tickets/{status?}','TicketController@show_user_tickets_page')->name('show_user_tickets_page')->middleware('auth:user');
 Route::get("cooperation_register", "CooperationController@create")->name("get_cooperation_register");

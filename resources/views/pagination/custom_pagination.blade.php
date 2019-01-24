@@ -16,11 +16,8 @@
                     @if ($page == $paginator->currentPage())
                         <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
                     @else
-
-
                         <li class="page-item" {{($paginator->currentPage() < ($per_block+1)/2 && $page <= $per_block) ||
                                                 ($paginator->currentPage() >= ($per_block+1)/2 && $page >= $paginator->currentPage()-($per_block-1)/2 && $page <= $paginator->currentPage()+($per_block-1)/2)
-
                                                  ? '':'hidden'}}>
                                                 <a class="page-link" href="{{ $paginator->url($page) }}">{{ $page }}</a></li>
                     @endif

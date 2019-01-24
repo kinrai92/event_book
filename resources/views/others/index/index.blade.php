@@ -145,7 +145,7 @@
               </span>
             </div>
             <div class="top_list top1">
-              <a href="{{ route('show_user_tickets_page') }}">&raquo; 一覧ページへ</a>
+              <a href="{{ route('show_user_tickets_page') }}">&raquo; マイチケット</a>
             </div>
 
           </div>

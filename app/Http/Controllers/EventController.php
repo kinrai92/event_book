@@ -126,9 +126,8 @@ class EventController extends Controller
         $current_page = "cancelled";
       }
        $num_tickets = $tickets->count();
-       $per_block = 3;
       //Pagination:Sort Pages
-      $per_block = 3;
+      $per_block = 5;
       /*$parent_pages = array(array()); $child_pages = array();
       for($i = 0,$j = 0, $page = 1; $page <= $tickets->lastPage(); $page++){
          $child_pages[$j] = $page;
