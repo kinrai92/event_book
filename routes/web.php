@@ -19,12 +19,7 @@ Route::post('user_register',"UserController@register")->name("post_user_register
 Route::get('user_login','UserController@ready_to_login')->name('get_user_login');
 Route::post('user_login','UserController@do_login')->name('post_user_login');
 Route::get('user_logout','UserController@logout')->name('get_user_logout');
-Route::get('show_my_qrcode/{code}',"TicketController@show_qrcode")->name('show_qrcode');
-Route::get('test',"UserController@test")->name("test_qrcode");
-
-//仕様書:huang
-Route::post('create_ticket','TicketController@create_ticket')->name('post_create_ticket')->middleware('auth:user');
-Route::get('show_my_qrcode/{code}','TicketController@show_QRcode')->name('show_QRcode')->middleware('auth:user');
+Route::get('show_qrcode/{qrcode?}',"TicketController@show_qrcode")->name('get_qrcode');
 
 Route::get('user_tickets/{status?}','TicketController@show_user_tickets_page')->name('show_user_tickets_page')->middleware('auth:user');
 Route::get("cooperation_register", "CooperationController@create")->name("get_cooperation_register");
@@ -35,7 +30,7 @@ Route::get("cancell_ticket/{id}","TicketController@cancell")->name("cancell_tick
 //Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware("auth:users");
 Route::get("event/all/{status?}", "EventController@events")->name("get_events")->middleware('auth:user');
 Route::get("event/find/{id}", "EventController@get_one_event")->name("get_one_event")->middleware('auth:user');
-Route::get("coop_event/find/{id}/{status?}", "EventController@get_one_event_of_cooperation")->name("get_one_event_of_cooperation")->middleware('auth:cooperation');
+Route::get("coop_event/find/{id}", "EventController@get_one_event_of_cooperation")->name("get_one_event_of_cooperation")->middleware('auth:cooperation');
 Route::get("event/myevents/{status?}", "EventController@events_cooperation")->name("get_events_cooperation")->middleware('auth:cooperation');
 // tao
 Route::get("register_event", "EventController@create")->name("make_event_create");
@@ -61,8 +56,3 @@ Route::post('ticket_creat','TicketController@create')->name('post_ticket_create'
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-//2019/01/22 Jin
-Route::get('kensyou/{code?}', 'TicketController@confirm_QRcode')->name('confirm_QRcode')->middleware('auth:cooperation');//検証step1
-Route::post('kensyou/checkin', 'TicketController@ticket_check_in')->name('ticket_check_in')->middleware('auth:cooperation');//確認step1
-Route::post('kensyou/cancel', 'TicketController@ticket_cancel_by_cooperation')->name('ticket_cancel_by_cooperation')->middleware('auth:cooperation');//キャンセルstep1

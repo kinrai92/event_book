@@ -118,16 +118,16 @@ class EventController extends Controller
      if(!$status || $status=='all'){
         $tickets = Ticket::query()->whereIn("mtb_ticket_status_id", [MtbTicketStatus::NOT_USED,
                                                                      MtbTicketStatus::USED,
-                                                                     MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->paginate(2);
+                                                                     MtbTicketStatus::CANCELLED])->where("event_id", $event->id)->paginate(3);
       }
 
      if($status == "cancelled") {
-        $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->paginate(2);
+        $tickets = Ticket::query()->where("mtb_ticket_status_id", MtbTicketStatus::CANCELLED)->where("event_id", $event->id)->paginate(3);
         $current_page = "cancelled";
       }
        $num_tickets = $tickets->count();
       //Pagination:Sort Pages
-      $per_block = 5;
+      $per_block = 3;
       /*$parent_pages = array(array()); $child_pages = array();
       for($i = 0,$j = 0, $page = 1; $page <= $tickets->lastPage(); $page++){
          $child_pages[$j] = $page;
