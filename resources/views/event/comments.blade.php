@@ -7,9 +7,9 @@
   @each('components.comments',$comments,'comment')
 
 <div>
-  <form action="{{ route('post_user_comment') }}" method='post'>
+  <form action="{{ route('post_comment') }}" method='post'>
     @csrf
-    <textarea name="comment" style="overflow:scroll"></textarea>
+    <textarea name="comment" rows="10" cols="20"></textarea>
     <input type="hidden" name="event_id" value="{{ $event_id }}">
     <div style="margin-left:287px">
     <input type="submit" value="コメントする">

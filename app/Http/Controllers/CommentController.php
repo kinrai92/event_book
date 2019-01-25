@@ -34,5 +34,5 @@ class CommentController extends Controller
   {
     return view('event.comments');
   }
-  
+
 }
