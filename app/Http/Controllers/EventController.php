@@ -234,19 +234,19 @@ class EventController extends Controller
         $event_sup = $event->cooperation->name;
         Mail::to($event->cooperation->mail)->send(new EventNotification($event_id, $event_title, $event_sup));
 
+        //AD MAIL PART
         if ($event->mtb_event_status_id == 2) {
+
+          $mail = [];
 
           $users_01 = User::query()->whereHas('user_detail', function ($query) {
             $query->where("mtb_area_id", 13);
           })->get();
 
           if ($users_01){
-            $mail01 = null;
             foreach ($users_01 as $user_01) {
-              $mail01[] = $user_01->mail;
+              $mail[] = $user_01->mail;
             }
-          } else {
-            $mail01 = [];
           }
 
           $area_id = $event->mtb_municipality_id;
@@ -255,25 +255,13 @@ class EventController extends Controller
           })->get();
 
           if ($tickets) {
-
             $users_id = [];
             foreach ($tickets as $ticket) {
-              $users_id[] = $ticket->user_id;
+              if(!in_array($ticket->user->mail, $mail)) {
+                $mail[] = $ticket->user->mail;
+              }
             }
-
-            $users_02 = User::query()->whereIn("id", $users_id)->whereHas('user_detail', function ($query) {
-              $query->where("mtb_area_id", "<>" ,13);
-            })->get();
-
-            $mail02 = [];
-            foreach ($users_02 as $user_02) {
-              $mail02[] = $user_02->mail;
-            }
-          } else {
-            $mail02 = [];
           }
-
-          $mail = array_merge($mail01, $mail02);
 
           Mail::to($mail)->send(New EventInfoToUsers($event));
         }
