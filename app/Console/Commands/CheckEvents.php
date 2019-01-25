@@ -13,7 +13,7 @@ class CheckEvents extends Command
      *
      * @var string
      */
-    protected $signature = 'check:event {event}';
+    protected $signature = 'check:event';
 
     /**
      * The console command description.
