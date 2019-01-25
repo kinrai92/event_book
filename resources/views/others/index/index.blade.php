@@ -81,6 +81,16 @@
           //console.log(data);
         }
       });
+
+      $.get("{{ route('api_get_events_by_pv') }}", (data, status) => {
+        if (status == 'success') {
+          data.events.forEach(value => {
+            let urlbase = 'event/find/';
+            let linkTag = $('<a></a>').text(value.title).attr('href', urlbase + value.id).attr('title', value.title);
+            $("#titles_of_events_pv").append($('<li></li>').append(linkTag));
+          });
+        }
+      });
     });
   </script>
 
@@ -118,57 +128,6 @@
             <small>イベントを検索</small>
             <small id="number_of_events">件数を取得中</small>
           </h1>
-          <script language="JavaScript">
-            <!--
-            var caution = false
-            function setCookie(name, value, expires, path, domain, secure) {
-              var curCookie = name + "=" + escape(value) +
-              ((expires) ? "; expires=" + expires.toGMTString() : "") +
-              ((path) ? "; path=" + path : "") +
-              ((domain) ? "; domain=" + domain : "") +
-              ((secure) ? "; secure" : "")
-              if (!caution || (name + "=" + escape(value)).length <= 4000)
-              document.cookie = curCookie
-              else
-              if (confirm("Cookie exceeds 4KB and will be cut!"))
-              document.cookie = curCookie
-            }
-            function getCookie(name) {
-              var prefix = name + "="
-              var cookieStartIndex = document.cookie.indexOf(prefix)
-              if (cookieStartIndex == -1)
-              return null
-              var cookieEndIndex = document.cookie.indexOf(";", cookieStartIndex + prefix.length)
-              if (cookieEndIndex == -1)
-              cookieEndIndex = document.cookie.length
-              return unescape(document.cookie.substring(cookieStartIndex + prefix.length, cookieEndIndex))
-            }
-            function deleteCookie(name, path, domain) {
-              if (getCookie(name)) {
-                document.cookie = name + "=" +
-                ((path) ? "; path=" + path : "") +
-                ((domain) ? "; domain=" + domain : "") +
-                "; expires=Thu, 01-Jan-70 00:00:01 GMT"
-              }
-            }
-            function fixDate(date) {
-              var base = new Date(0)
-              var skew = base.getTime()
-              if (skew > 0)
-              date.setTime(date.getTime() - skew)
-            }
-            var now = new Date()
-            fixDate(now)
-            now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000)
-            var visits = getCookie("counter")
-            if (!visits)
-            visits = 1
-            else
-            visits = parseInt(visits) + 1
-            setCookie("counter", visits, now)
-            document.write("您是第" + visits + "访客！")
-            // -->
-          </script>
 
           <div class="row1">
             <a class="btn btn-primary" href="{{ route('get_events') }}">イベントを全て見る</a>
@@ -273,6 +232,20 @@
               </div>
             </div>
           </div>
+
+          <div class="card my-4">
+            <h5 class="card-header">PV TOP３</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <ul id="titles_of_events_pv" class="list-unstyled mb-0">
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
 
           <!-- Side Widget -->
           <div class="card my-4">

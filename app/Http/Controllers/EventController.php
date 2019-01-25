@@ -11,6 +11,7 @@ use App\Model\Master\MtbTicketStatus;
 use App\Model\Master\MtbEventStatus;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EventNotification;
+use App\Mail\EventInfoToUsers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -186,6 +187,7 @@ class EventController extends Controller
         $event->maximum = $request->maximum;
         $event->minimum = $request->minimum;
         $event->cost = $request->cost;
+        $event->page_view = 0;
         $event->detail = $request->detail;
 
         $picture1 = $request->file('picture1');
@@ -231,11 +233,44 @@ class EventController extends Controller
         $event_title = $event->title;
         $event_sup = $event->cooperation->name;
         Mail::to($event->cooperation->mail)->send(new EventNotification($event_id, $event_title, $event_sup));
+
+        if ($event->mtb_event_status_id == 2) {
+
+          $users_01 = User::query()->whereHas('user_detail', function ($query) {
+            $query->where("mtb_area_id", 13);
+          })->get();
+
+          $mail01 = null;
+          foreach ($users_01 as $user_01) {
+            $mail01[] = $user_01->mail;
+          }
+
+          $area_id = $event->mtb_municipality_id;
+          $tickets = Ticket::query()->whereHas("event", function ($query) use($area_id){
+            $query->where("mtb_municipality_id", $area_id);
+          })->get();
+
+          $users_id = null;
+          foreach ($tickets as $ticket) {
+            $users_id[] = $ticket->user_id;
+          }
+
+          $users_02 = User::query()->whereIn("id", $users_id)->whereHas('user_detail', function ($query) {
+            $query->where("mtb_area_id", "<>" ,13);
+          })->get();
+
+          $mail02 = null;
+          foreach ($users_02 as $user_02) {
+            $mail02[] = $user_02->mail;
+          }
+
+          Mail::to($mail01, $mail02)->send(New EventInfoToUsers($event));
+        }
+        
         return view("event.register_event_finish");
       }
       return view("cooperation.newevent", ["mtb_event_statuses" => MtbEventStatus::get_create_statuses(), "mtb_municipalities" =>MtbMunicipality::all(),]);
     }
-
 
     public function update(Request $request)
     {
@@ -255,6 +290,7 @@ class EventController extends Controller
      $event->save();
      return view('tmp_blade.successed');
     }
+
     public function update_event(Request $request, $id)
     {
        $event=Event::find($id);
