@@ -17,13 +17,24 @@ class ApiController extends Controller
       ];
 
     }
+
+public function get_events_by_pv(Request $request)
+{
+  $events = Event::orderBy('page_view', 'desc')->take(3)->get();
+
+  return [
+    "events" => $events
+    ] ;
+
+}
+
 //人気イベント
     public function get_events_title(Request $request)
     {
       $events = Ticket::selectRaw('count(*) as top,event_id')
                   ->groupBy('event_id')
                   ->orderBy('top','desc')
-                  ->limit(3)             
+                  ->limit(3)
                   ->get()
                   ->pluck('event_id')
                   ->toArray();
@@ -32,6 +43,5 @@ class ApiController extends Controller
         return response()->json($events_top);
 
     }
-
 
 }

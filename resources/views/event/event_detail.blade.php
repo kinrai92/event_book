@@ -54,7 +54,7 @@ div.current {
           <div class="row top6">
             <div class="col-sm-4 text-left">開催時間</div>
             <div class="col-sm-8 text-right">
-              {{ $event->start_at->format("Y年n月j日 H時s分") }}
+              {{ $event->start_at->format("Y年n月j日 H時i分") }}
             </div>
           </div>
           <div class="row top6">
@@ -90,17 +90,21 @@ div.current {
             <div class="col-sm-4 text-left">参加最大人数</div>
             <div class="col-sm-8 text-right">{{ $event->maximum }}人</div>
           </div>
+          <div class="row top6">
+            <div class="col-sm-4 text-left">EVENT VIEW</div>
+            <div class="col-sm-8 text-right">{{ $event->page_view }}人</div>
+          </div>
 
           <!-- 現在の参加人数 -->
           @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now())
             <div class="row top6">
               <div class="col-sm-4 text-left">現在の参加人数</div>
-              <div class="col-sm-8 text-right">{{ $tickets->count() }}人</div>
+              <div class="col-sm-8 text-right">{{ $event->tickets->count() }}人</div>
             </div>
 
             <div class="row top6">
               <div class="col-sm-4 text-left">在庫</div>
-              <div class="col-sm-8 text-right">{{ $stock }}人</div>
+              <div class="col-sm-8 text-right">{{ $event->maximum - $event->tickets->count() }}人</div>
             </div>
 
             <div class="row top6">
@@ -122,7 +126,7 @@ div.current {
                   　  </ul>
                 　</div>
             　  @endif
-              @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now() && $tickets->count() < $event->maximum && $check_user == null)
+              @if ($event->mtb_event_status_id == 2 && $event->start_at >= \Carbon\Carbon::now() && $event->tickets->count() < $event->maximum && $check_user == null)
                 <form action="{{ route('post_create_ticket') }}" method="post">
                   @csrf
                   <input type="submit" value="申し込み">

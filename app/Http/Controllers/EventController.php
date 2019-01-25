@@ -64,10 +64,12 @@ class EventController extends Controller
     public function get_one_event(Request $request, $id) {
       $event = null;
       $event = Event::find($request->id);
-      $tickets = Event::find($request->id)->tickets;
-      $stock = $event->maximum - $tickets->count();
-      $check_user = $tickets->where('user_id', auth('user')->user()->id)->first();
-      return view("event.event_detail", ["event" => $event, "tickets" => $tickets, "stock" => $stock, "check_user" => $check_user]);
+      $check_user = $event->tickets->where('user_id', auth('user')->user()->id)->first();
+
+      $event->page_view += 1;
+      $event->save();
+
+      return view("event.event_detail", ["event" => $event, "check_user" => $check_user]);
     }
 //cooperation イベント一覧表
     public function events_cooperation(Request $request, $status = null) {

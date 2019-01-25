@@ -19,5 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/events_number', "Api\ApiController@get_events_number")->name("api_get_events_number");
+
+Route::get('/top_pv_events', "Api\ApiController@get_events_by_pv")->name("api_get_events_by_pv");
 //人気イベント
 Route::get('/events_title',"Api\ApiController@get_events_title")->name("api_get_events_title");
