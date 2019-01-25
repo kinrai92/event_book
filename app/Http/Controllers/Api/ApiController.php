@@ -17,4 +17,14 @@ class ApiController extends Controller
       ];
 
     }
+
+    public function get_events_by_pv(Request $request)
+    {
+      $events = Event::orderBy('page_view', 'desc')->take(3)->get();
+
+      return [
+        "events" => $events
+        ] ;
+
+    }
 }
