@@ -19,8 +19,7 @@ Route::post('user_register',"UserController@register")->name("post_user_register
 Route::get('user_login','UserController@ready_to_login')->name('get_user_login');
 Route::post('user_login','UserController@do_login')->name('post_user_login');
 Route::get('user_logout','UserController@logout')->name('get_user_logout');
-Route::get('show_my_qrcode/{code}',"TicketController@show_qrcode")->name('show_qrcode');
-Route::get('test',"CommentController@test")->name("test_comments");
+
 
 //仕様書:huang
 Route::post('create_ticket','TicketController@create_ticket')->name('post_create_ticket')->middleware('auth:user');

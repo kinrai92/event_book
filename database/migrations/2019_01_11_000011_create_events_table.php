@@ -26,7 +26,7 @@ class CreateEventsTable extends Migration
             $table->foreign('mtb_event_status_id')->references('id')->on('mtb_event_statuses');
 
             $table->string('title', 80);
-            $table->timestamp('start_at');
+            $table->datatime('start_at');
             $table->integer('maximum');
             $table->integer('minimum');
             $table->integer('cost');
