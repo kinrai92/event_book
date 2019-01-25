@@ -240,9 +240,13 @@ class EventController extends Controller
             $query->where("mtb_area_id", 13);
           })->get();
 
-          $mail01 = null;
-          foreach ($users_01 as $user_01) {
-            $mail01[] = $user_01->mail;
+          if ($users_01){
+            $mail01 = null;
+            foreach ($users_01 as $user_01) {
+              $mail01[] = $user_01->mail;
+            }
+          } else {
+            $mail01 = [];
           }
 
           $area_id = $event->mtb_municipality_id;
@@ -250,23 +254,30 @@ class EventController extends Controller
             $query->where("mtb_municipality_id", $area_id);
           })->get();
 
-          $users_id = null;
-          foreach ($tickets as $ticket) {
-            $users_id[] = $ticket->user_id;
+          if ($tickets) {
+
+            $users_id = [];
+            foreach ($tickets as $ticket) {
+              $users_id[] = $ticket->user_id;
+            }
+
+            $users_02 = User::query()->whereIn("id", $users_id)->whereHas('user_detail', function ($query) {
+              $query->where("mtb_area_id", "<>" ,13);
+            })->get();
+
+            $mail02 = [];
+            foreach ($users_02 as $user_02) {
+              $mail02[] = $user_02->mail;
+            }
+          } else {
+            $mail02 = [];
           }
 
-          $users_02 = User::query()->whereIn("id", $users_id)->whereHas('user_detail', function ($query) {
-            $query->where("mtb_area_id", "<>" ,13);
-          })->get();
+          $mail = array_merge($mail01, $mail02);
 
-          $mail02 = null;
-          foreach ($users_02 as $user_02) {
-            $mail02[] = $user_02->mail;
-          }
-
-          Mail::to($mail01, $mail02)->send(New EventInfoToUsers($event));
+          Mail::to($mail)->send(New EventInfoToUsers($event));
         }
-        
+
         return view("event.register_event_finish");
       }
       return view("cooperation.newevent", ["mtb_event_statuses" => MtbEventStatus::get_create_statuses(), "mtb_municipalities" =>MtbMunicipality::all(),]);
