@@ -1,11 +1,9 @@
-<table>
-  <tr>
-    <td>{{ $comment->user ? $comment->user->nickname : '主催者' }}</td>
-  </tr>
-  <tr>
-    <td>{{ $comment->content }}</td>
-  </tr>
-  <tr>
-    <td>{{ $comment->created_at }}</td>
-  </tr>
-</table>
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-9">
+     <p>{{ $comment->user_id ? $comment->user->user_detail->nickname : '主催者' }}</p>
+     <p>{{ $comment->contents }}</p>
+     <p style="text-align:right">{{ $comment->created_at }}</p>
+  </div>
+  <div class="col-md-2"></div>
+</div>

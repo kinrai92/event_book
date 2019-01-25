@@ -42,5 +42,9 @@ class User extends AuthenticationUser
       return $this->hasMany("App\Model\Ticket\Ticket", "user_id");
     }
 
+   public function comments()
+   {
+     return $this->hasMany("App\Model\Comment\Comment","user_id");
+   }
 
 }

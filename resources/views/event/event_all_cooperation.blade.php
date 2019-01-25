@@ -88,6 +88,9 @@ div.current {
               <div class="col-sm-4 text-left">主催者</div>
               <div class="col-sm-8 text-right">{{ $event->cooperation->name }}</div>
             </div>
+            <div class="col-sm text-right top６6">
+              <a href="/show_comments_cooper/{{ $event->id }}">問い合わせを見る</a>
+            </div>
             <div class="col-sm text-right top6 bottom36">
               <a href="{{ route('get_one_event_of_cooperation',['id' => $event->id]) }}">詳しくはこちら</a>
             </div>
@@ -95,7 +98,6 @@ div.current {
         </div>
       @endforeach
     </div>
-
 
     <div class="col-sm-2"></div>
   </div>
