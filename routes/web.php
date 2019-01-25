@@ -28,6 +28,7 @@ Route::get('show_my_qrcode/{code}','TicketController@show_QRcode')->name('show_Q
 Route::get('show_comments/{event_id}','CommentController@show_comments')->name('show_comments')->middleware('auth:user');
 Route::post('post_comment','CommentController@create_comment')->name('post_comment')->middleware('auth:user');
 
+
 Route::get('user_tickets/{status?}','TicketController@show_user_tickets_page')->name('show_user_tickets_page')->middleware('auth:user');
 Route::get("cooperation_register", "CooperationController@create")->name("get_cooperation_register");
 Route::post("cooperation_register", "CooperationController@register")->name("post_cooperation_register");

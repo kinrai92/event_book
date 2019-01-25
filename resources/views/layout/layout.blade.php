@@ -9,7 +9,7 @@
     <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-  
+
 
     <!-- 自分のcss -->
     <link rel="stylesheet" href="{{asset('/css/layout.css')}}">
