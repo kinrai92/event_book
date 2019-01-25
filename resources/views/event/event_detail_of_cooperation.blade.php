@@ -133,7 +133,7 @@ div.current {
       </table>
   </div>
 
-  <div class="paginate">{{$tickets->render('pagination.custom_pagination',['per_block' => $per_block])}}</div>
+  <div class="paginate">{{$tickets->links('pagination.custom_pagination',['per_block' => $per_block])}}</div>
 
 </div>
 

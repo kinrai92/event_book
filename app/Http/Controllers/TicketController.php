@@ -82,6 +82,7 @@ class TicketController extends Controller
     *チケットの生成。
     *
     */
+    //huangzong
     public function create_ticket(Request $request)
     {
       $ticket = Ticket::query()->where('user_id',auth('user')->user()->id)
@@ -102,6 +103,7 @@ class TicketController extends Controller
         return redirect()->back()->with(['one_message' => $successed_message]);
       }
     }
+
     /**
      *
      *QRコードの生成
@@ -110,9 +112,11 @@ class TicketController extends Controller
      public function show_QRcode(Request $request,$code)
      {
        $ticket = Ticket::query()->where('code',$code)->first();
-       $text = 'http://localhost:8000/kensyou/'.$code;
+       $text = 'http://192.168.1.60:8000/kensyou/'.$code;
        return view('others.tmp_blade.show_my_QRticket',['ticket' => $ticket,'text' => $text]);
      }
+
+
 
 
   //2019/01/22 Jin
@@ -153,6 +157,8 @@ class TicketController extends Controller
 
      }
 
+
+
      public function ticket_check_in(Request $request) {
        $ticket = Ticket::query()->where('code', $request->ticket_code)->first();
 
@@ -183,6 +189,8 @@ class TicketController extends Controller
          return view('check_in_failed', ['message' => $message]);
        }
      }
+
+
 
      public function ticket_cancel_by_cooperation(Request $request) {
        $ticket = Ticket::query()->where('code', $request->ticket_code)->first();

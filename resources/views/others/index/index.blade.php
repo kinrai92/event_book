@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <title>Eventbook homepage</title>
 
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">>
   <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -49,13 +49,39 @@
 
 
   <script>
+    $(document).ready(function(){
+      $.get("{{ route('api_get_events_number') }}",function(data,status){
+        if(status == "success") {
+          $("#number_of_events").text(data.number + "件");
+        }
+      });
+    });
+  </script>
+  <!-- <script>
   $(document).ready(function(){
-    $.get("{{ route('api_get_events_number') }}",function(data,status){
-      if(status == "success") {
-        $("#number_of_events").text(data.number + "件");
+    $.get("{{ route('api_get_events_title') }}",function(data,status){
+        if(status == "success") {
+           data.forEach(value =>{
+              $("#titles_of_events").append('<li>'+ value.title+ '</li>');
+          });
+
       }
     });
   });
+  </script> -->
+  <script>
+    $(document).ready(function(){
+      $.get("{{ route('api_get_events_title') }}",(data,status) => {
+        if (status === 'success') {
+          data.forEach(value => {
+            let urlbase = '/event/find/';//路由地址
+            let linkTag = $('<a></a>').text(value.title).attr('href', urlbase + value.id).attr('title',value.title);
+            $("#titles_of_events").append($('<li></li>').append(linkTag));
+          });
+          //console.log(data);
+        }
+      });
+    });
   </script>
 
   </head>
@@ -92,6 +118,57 @@
             <small>イベントを検索</small>
             <small id="number_of_events">件数を取得中</small>
           </h1>
+          <script language="JavaScript">
+            <!--
+            var caution = false
+            function setCookie(name, value, expires, path, domain, secure) {
+              var curCookie = name + "=" + escape(value) +
+              ((expires) ? "; expires=" + expires.toGMTString() : "") +
+              ((path) ? "; path=" + path : "") +
+              ((domain) ? "; domain=" + domain : "") +
+              ((secure) ? "; secure" : "")
+              if (!caution || (name + "=" + escape(value)).length <= 4000)
+              document.cookie = curCookie
+              else
+              if (confirm("Cookie exceeds 4KB and will be cut!"))
+              document.cookie = curCookie
+            }
+            function getCookie(name) {
+              var prefix = name + "="
+              var cookieStartIndex = document.cookie.indexOf(prefix)
+              if (cookieStartIndex == -1)
+              return null
+              var cookieEndIndex = document.cookie.indexOf(";", cookieStartIndex + prefix.length)
+              if (cookieEndIndex == -1)
+              cookieEndIndex = document.cookie.length
+              return unescape(document.cookie.substring(cookieStartIndex + prefix.length, cookieEndIndex))
+            }
+            function deleteCookie(name, path, domain) {
+              if (getCookie(name)) {
+                document.cookie = name + "=" +
+                ((path) ? "; path=" + path : "") +
+                ((domain) ? "; domain=" + domain : "") +
+                "; expires=Thu, 01-Jan-70 00:00:01 GMT"
+              }
+            }
+            function fixDate(date) {
+              var base = new Date(0)
+              var skew = base.getTime()
+              if (skew > 0)
+              date.setTime(date.getTime() - skew)
+            }
+            var now = new Date()
+            fixDate(now)
+            now.setTime(now.getTime() + 365 * 24 * 60 * 60 * 1000)
+            var visits = getCookie("counter")
+            if (!visits)
+            visits = 1
+            else
+            visits = parseInt(visits) + 1
+            setCookie("counter", visits, now)
+            document.write("您是第" + visits + "访客！")
+            // -->
+          </script>
 
           <div class="row1">
             <a class="btn btn-primary" href="{{ route('get_events') }}">イベントを全て見る</a>
@@ -179,6 +256,18 @@
                     <li>
                       <a href="#">Tutorials</a>
                     </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card my-4">
+            <h5 class="card-header">人気のイベントランキングTOP３</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <ul id="titles_of_events" class="list-unstyled mb-0">
                   </ul>
                 </div>
               </div>
