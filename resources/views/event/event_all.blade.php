@@ -2,6 +2,14 @@
 
 @section("content")
 
+<script>
+$(document).ready(function(){
+  $('p').on('click',function(){
+    $(this).next().slideToggle('slow');
+  });
+});
+</script>
+</script>
 <style>
 div.current {
   background: gray;
@@ -57,17 +65,8 @@ p{
       {{$p_count=1;$div_count=10;}}
       @endphp
       @foreach($events as $event)
-      <p id="{{++$p_count}}">{{ $event->title }}</p>
-        <div id="{{++$div_count}}">
-          <script>
-          $(document).ready(function(){
-
-            $('#{{$p_count}}').click(function(event){
-
-              $("#{{$div_count}}").slideToggle("slow");
-            });
-          });
-          </script>
+      <p>{{ $event->title }}</p>
+        <div>
         <div class="row top36 div01 bg-light">
           <div class="col-sm-4 top24 text-center">
             <img src="{{ asset('/storage/' . $event->picture1) }}" class="media-object" style="width:300px">
