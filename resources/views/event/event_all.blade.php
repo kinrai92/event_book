@@ -7,11 +7,7 @@ div.current {
   background: gray;
 }
 p{
-<<<<<<< HEAD
   text-align: center;
-=======
-    text-align: center;
->>>>>>> a1cb354f86a4cde47f8d43a4562d828a9b22746d
 }
 </style>
 
