@@ -44,10 +44,6 @@
       margin-top: 15px;
     }
 	</style>
-
-
-
-
   <script>
   $(document).ready(function(){
     $.get("{{ route('api_get_events_number') }}",function(data,status){
