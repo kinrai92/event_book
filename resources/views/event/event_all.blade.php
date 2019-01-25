@@ -65,11 +65,9 @@ p{
         <div id="{{++$div_count}}">
           <script>
           $(document).ready(function(){
-<<<<<<< HEAD
-            $('#{{$p_count}}').click(function(){
-=======
+
             $('#{{$p_count}}').click(function(event){
->>>>>>> a1cb354f86a4cde47f8d43a4562d828a9b22746d
+
               $("#{{$div_count}}").slideToggle("slow");
             });
           });
