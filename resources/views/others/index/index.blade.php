@@ -49,13 +49,13 @@
 
 
   <script>
-  $(document).ready(function(){
-    $.get("{{ route('api_get_events_number') }}",function(data,status){
-      if(status == "success") {
-        $("#number_of_events").text(data.number + "件");
-      }
+    $(document).ready(function(){
+      $.get("{{ route('api_get_events_number') }}",function(data,status){
+        if(status == "success") {
+          $("#number_of_events").text(data.number + "件");
+        }
+      });
     });
-  });
   </script>
   <!-- <script>
   $(document).ready(function(){
@@ -75,7 +75,7 @@
         if (status === 'success') {
           data.forEach(value => {
             let urlbase = '/event/find/';//路由地址
-            let linkTag = $('<a></a>').text(value.title).attr('href', urlbase + value.id);
+            let linkTag = $('<a></a>').text(value.title).attr('href', urlbase + value.id).attr('title',value.title);
             $("#titles_of_events").append($('<li></li>').append(linkTag));
           });
           //console.log(data);
